@@ -1,0 +1,19 @@
+{
+  "prettier.vueIndentScriptAndStyle": true,
+  "[javascript]": {
+    "editor.formatOnSave": true,
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true,
+  },
+  "[html]": {
+    "editor.formatOnSave": true,
+  },
+  "[css]": {
+    "editor.formatOnSave": true,
+  },
+  "[vue]": {
+    "editor.formatOnSave": true,
+  },
+  "editor.tabSize": 4
+}

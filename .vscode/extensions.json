@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "Vue.volar", 
+    "ms-vscode.vscode-typescript-next",
+    "esbenp.prettier-vscode"
+  ]
+}
