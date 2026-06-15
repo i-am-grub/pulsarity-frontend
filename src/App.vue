@@ -1,58 +1,115 @@
 <script setup lang="ts">
-  import { RouterView, RouterLink } from "vue-router";
+  import { RouterView } from "vue-router";
+
+	const systemName = "RotorHazard";
+	const systemVersion = "v5.0.0-alpha.1";
 </script>
 
 <template>
-  <nav class="navbar">
-    <div class="nav-container">
-      <RouterLink to="/" class="nav-link">Home</RouterLink> |
-      <RouterLink to="/login" class="nav-link">Login</RouterLink>
-    </div>
-  </nav>
-  <main class="main-content">
-    <RouterView />
-  </main>
+	<RouterView />
+  <footer>
+  	<span>Powered by {{ systemName }} {{ systemVersion }}</span>
+  </footer>
 </template>
 
-<style scoped>
-  .navbar {
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
-    padding: 15px 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
+<style>
+@font-face {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 400;
+    src: local(''),
+             url('./fonts/BarlowRH-Light.woff2') format('woff2');
+}
 
-  .nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-  }
+@font-face {
+    font-family: 'Barlow';
+    font-style: italic;
+    font-weight: 400;
+    src: local(''),
+             url('./fonts/Barlow-LightItalic.woff2') format('woff2');
+}
 
-  .nav-link {
-    text-decoration: none;
-    color: #333;
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-  }
+@font-face {
+    font-family: 'Barlow';
+    font-style: normal;
+    font-weight: 700;
+    src: local(''),
+             url('./fonts/BarlowRH-Bold.woff2') format('woff2');
+}
 
-  .nav-link:hover {
-    color: #42b883;
-    background-color: #f5fff8;
-  }
+@font-face {
+    font-family: 'Barlow';
+    font-style: italic;
+    font-weight: 700;
+    src: local(''),
+             url('./fonts/Barlow-BoldItalic.woff2') format('woff2');
+}
 
-  .nav-link.router-link-active {
-    color: #42b883;
-    background-color: #e8fbf5;
-  }
+:root {
+    --uses-color-scheme: light dark;
+    color-scheme: var(--uses-color-scheme);
+}
 
-  .main-content {
-    min-height: calc(100vh - 60px);
-    padding: 40px 20px;
-    background-color: #f8f9fa;
-  }
+html {
+	background: light-dark(#eee, #222);
+	color: light-dark(#222, #eee);
+	margin: 0;
+	padding: 0;
+	overflow-x: clip;
+	font-family: 'Barlow', sans-serif;
+	font-variant-numeric: tabular-nums;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+#app {
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	min-height: 100vh;
+}
+
+footer {
+	margin-block-start: auto;
+	padding: 1rem;
+	text-align: center;
+}
+
+dialog {
+	padding: 1rem;
+	border: solid thin light-dark(#222, #eee);
+}
+
+dialog::backdrop {
+	background: rgba(0,0,0,0.75);
+}
+
+.screen-reader-text {
+	clip: rect(1px, 1px, 1px, 1px);
+	position: absolute;
+}
+
+.screen-reader-text:focus {
+	background-color: #f1f1f1;
+	border-radius: 3px;
+	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
+	clip: auto;
+	color: #21759b;
+	display: block;
+	font-size: 14px;
+	font-weight: bold;
+	height: auto;
+	line-height: normal;
+	padding: 15px 23px 14px;
+	left: 5px;
+	top: 5px;
+	text-decoration: none;
+	text-transform: none;
+	width: auto;
+	z-index: 100000;
+}
+
 </style>
