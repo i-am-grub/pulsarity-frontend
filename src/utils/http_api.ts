@@ -405,3 +405,24 @@ export async function getHeats(
   }
   return null;
 }
+
+/**
+ * Gets the general server information
+ */
+export async function getServerData(): Promise<pulsarity.http.ServerData | null> {
+  const url = "/api/server-info";
+
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+
+    const buffer = await response.arrayBuffer();
+    return pulsarity.http.ServerData.decode(new Uint8Array(buffer));
+  } catch (error) {
+    handleError(error);
+  }
+  return null;
+}

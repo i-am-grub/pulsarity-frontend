@@ -1,9 +1,11 @@
 <script setup lang="ts">
   import { ref } from "vue";
   import { loginUser } from "../utils/http_api";
+  import { useServerStore } from "../stores/server_data"
+  import rhLogo from '../assets/RotorHazard_Logo.svg'
+  
 
-	const systemName = "RotorHazard";
-	const systemVersion = "v5.0.0-alpha.1";
+  const serverStore = useServerStore()
 
   const username = ref("");
   const password = ref("");
@@ -23,8 +25,9 @@
 <template>
 <div id="system-menu">
 	<div class="timer-info">
-		<img src="../assets/RotorHazard%20Logo.svg" alt="" />
-		<p>{{ systemName }} {{ systemVersion }}</p>
+		<img :src="rhLogo" alt="" />
+		<p v-if="~serverStore.isLoading">{{ serverStore.systemName }} {{ serverStore.systemVersion }}</p>
+        <p v-else>Loading...</p>
 		<p>License, github, support, etc. etc.</p>
 	</div>
 

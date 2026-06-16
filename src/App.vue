@@ -1,14 +1,19 @@
 <script setup lang="ts">
-  import { RouterView } from "vue-router";
+    import { onMounted } from 'vue'
+    import { RouterView } from "vue-router";
+    import { useServerStore } from "./stores/server_data"
 
-	const systemName = "RotorHazard";
-	const systemVersion = "v5.0.0-alpha.1";
+    const serverStore = useServerStore()
+
+    onMounted(() => {
+        serverStore.fetchServerData()
+    })
 </script>
 
 <template>
 	<RouterView />
   <footer>
-  	<span>Powered by {{ systemName }} {{ systemVersion }}</span>
+  	<span v-if="~serverStore.isLoading">Powered by {{ serverStore.systemName }} {{ serverStore.systemVersion }}</span>
   </footer>
 </template>
 

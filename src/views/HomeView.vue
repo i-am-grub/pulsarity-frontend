@@ -1,5 +1,6 @@
 <script setup lang="ts">
 	import SystemMenuView from './SystemMenuView.vue'
+    import rhIcon from '../assets/RotorHazard_Icon.svg'
 
 	const eventHostName = "Multirotor Vermont";
 	const eventName = "2026-06-14 Whoop Race at Generator";
@@ -17,7 +18,7 @@
 					<li><a href="#">Results</a></li>
 			</ul>
 		</nav>
-		<button popovertarget="system-dialog"><img src="../assets/RotorHazard%20Icon.svg" alt="" /><span class="screen-reader-text">System Menu</span></button>
+		<button popovertarget="system-dialog"><img :src="rhIcon" alt="" /><span class="screen-reader-text">System Menu</span></button>
 	</header>
   <main>
   	<div class="event-details">

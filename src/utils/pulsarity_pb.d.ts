@@ -2089,6 +2089,129 @@ export namespace pulsarity {
             /** Shape of a ResetPasswordRequest. */
             type $Shape = pulsarity.http.ResetPasswordRequest.$Properties;
         }
+
+        /**
+         * Properties of a ServerData.
+         * @deprecated Use pulsarity.http.ServerData.$Properties instead.
+         */
+        interface IServerData extends pulsarity.http.ServerData.$Properties {
+        }
+
+        /** Represents a ServerData. */
+        class ServerData {
+
+            /**
+             * Constructs a new ServerData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.http.ServerData.$Properties);
+
+            /** Unknown fields preserved while decoding */
+            $unknowns?: Uint8Array[];
+
+            /** ServerData version. */
+            version: string;
+
+            /** ServerData serverName. */
+            serverName: string;
+
+            /**
+             * Creates a new ServerData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns ServerData instance
+             */
+            static create(properties: pulsarity.http.ServerData.$Shape): pulsarity.http.ServerData & pulsarity.http.ServerData.$Shape;
+            static create(properties?: pulsarity.http.ServerData.$Properties): pulsarity.http.ServerData;
+
+            /**
+             * Encodes the specified ServerData message. Does not implicitly {@link pulsarity.http.ServerData.verify|verify} messages.
+             * @param message ServerData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.http.ServerData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified ServerData message, length delimited. Does not implicitly {@link pulsarity.http.ServerData.verify|verify} messages.
+             * @param message ServerData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.http.ServerData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a ServerData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.http.ServerData & pulsarity.http.ServerData.$Shape} ServerData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.http.ServerData & pulsarity.http.ServerData.$Shape;
+
+            /**
+             * Decodes a ServerData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.http.ServerData & pulsarity.http.ServerData.$Shape} ServerData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.http.ServerData & pulsarity.http.ServerData.$Shape;
+
+            /**
+             * Verifies a ServerData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a ServerData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns ServerData
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.http.ServerData;
+
+            /**
+             * Creates a plain object from a ServerData message. Also converts values to other types if specified.
+             * @param message ServerData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.http.ServerData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this ServerData to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for ServerData
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace ServerData {
+
+            /** Properties of a ServerData. */
+            interface $Properties {
+
+                /** ServerData version */
+                version?: (string|null);
+
+                /** ServerData serverName */
+                serverName?: (string|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a ServerData. */
+            type $Shape = pulsarity.http.ServerData.$Properties;
+        }
     }
 
     /** Namespace ws. */

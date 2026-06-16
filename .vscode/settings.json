@@ -1,4 +1,6 @@
 {
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
   "prettier.vueIndentScriptAndStyle": true,
   "[javascript]": {
     "editor.formatOnSave": true,
@@ -15,5 +17,9 @@
   "[vue]": {
     "editor.formatOnSave": true,
   },
-  "editor.tabSize": 4
+"editor.tabSize": 4,
+"prettier.tabWidth": 4,
+"prettier.useTabs": false,
+"prettier.insertPragma": true,
+"prettier.requirePragma": true
 }
