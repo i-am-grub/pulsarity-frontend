@@ -3941,37 +3941,41 @@ export const pulsarity = $root.pulsarity = (() => {
          */
         const http = {};
 
-        http.StatusResponse = (function() {
+        http.UserInfo = (function() {
 
             /**
-             * Properties of a StatusResponse.
-             * @typedef {Object} pulsarity.http.StatusResponse.$Properties
-             * @property {boolean|null} [status] StatusResponse status
+             * Properties of a UserInfo.
+             * @typedef {Object} pulsarity.http.UserInfo.$Properties
+             * @property {string|null} [authId] UserInfo authId
+             * @property {string|null} [username] UserInfo username
+             * @property {string|null} [dispayName] UserInfo dispayName
+             * @property {Array.<string>|null} [permissions] UserInfo permissions
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
              */
 
             /**
-             * Properties of a StatusResponse.
+             * Properties of a UserInfo.
              * @memberof pulsarity.http
-             * @interface IStatusResponse
-             * @augments pulsarity.http.StatusResponse.$Properties
-             * @deprecated Use pulsarity.http.StatusResponse.$Properties instead.
+             * @interface IUserInfo
+             * @augments pulsarity.http.UserInfo.$Properties
+             * @deprecated Use pulsarity.http.UserInfo.$Properties instead.
              */
 
             /**
-             * Shape of a StatusResponse.
-             * @typedef {pulsarity.http.StatusResponse.$Properties} pulsarity.http.StatusResponse.$Shape
+             * Shape of a UserInfo.
+             * @typedef {pulsarity.http.UserInfo.$Properties} pulsarity.http.UserInfo.$Shape
              */
 
             /**
-             * Constructs a new StatusResponse.
+             * Constructs a new UserInfo.
              * @memberof pulsarity.http
-             * @classdesc Represents a StatusResponse.
+             * @classdesc Represents a UserInfo.
              * @constructor
-             * @param {pulsarity.http.StatusResponse.$Properties=} [properties] Properties to set
+             * @param {pulsarity.http.UserInfo.$Properties=} [properties] Properties to set
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
              */
-            function StatusResponse(properties) {
+            function UserInfo(properties) {
+                this.permissions = [];
                 if (properties)
                     for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -3979,39 +3983,401 @@ export const pulsarity = $root.pulsarity = (() => {
             }
 
             /**
-             * StatusResponse status.
-             * @member {boolean} status
-             * @memberof pulsarity.http.StatusResponse
+             * UserInfo authId.
+             * @member {string} authId
+             * @memberof pulsarity.http.UserInfo
              * @instance
              */
-            StatusResponse.prototype.status = false;
+            UserInfo.prototype.authId = "";
 
             /**
-             * Creates a new StatusResponse instance using the specified properties.
+             * UserInfo username.
+             * @member {string} username
+             * @memberof pulsarity.http.UserInfo
+             * @instance
+             */
+            UserInfo.prototype.username = "";
+
+            /**
+             * UserInfo dispayName.
+             * @member {string} dispayName
+             * @memberof pulsarity.http.UserInfo
+             * @instance
+             */
+            UserInfo.prototype.dispayName = "";
+
+            /**
+             * UserInfo permissions.
+             * @member {Array.<string>} permissions
+             * @memberof pulsarity.http.UserInfo
+             * @instance
+             */
+            UserInfo.prototype.permissions = $util.emptyArray;
+
+            /**
+             * Creates a new UserInfo instance using the specified properties.
              * @function create
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.UserInfo
              * @static
-             * @param {pulsarity.http.StatusResponse.$Properties=} [properties] Properties to set
-             * @returns {pulsarity.http.StatusResponse} StatusResponse instance
+             * @param {pulsarity.http.UserInfo.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.http.UserInfo} UserInfo instance
              * @type {{
-             *   (properties: pulsarity.http.StatusResponse.$Shape): pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape;
-             *   (properties?: pulsarity.http.StatusResponse.$Properties): pulsarity.http.StatusResponse;
+             *   (properties: pulsarity.http.UserInfo.$Shape): pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape;
+             *   (properties?: pulsarity.http.UserInfo.$Properties): pulsarity.http.UserInfo;
              * }}
              */
-            StatusResponse.create = function create(properties) {
-                return new StatusResponse(properties);
+            UserInfo.create = function create(properties) {
+                return new UserInfo(properties);
             };
 
             /**
-             * Encodes the specified StatusResponse message. Does not implicitly {@link pulsarity.http.StatusResponse.verify|verify} messages.
+             * Encodes the specified UserInfo message. Does not implicitly {@link pulsarity.http.UserInfo.verify|verify} messages.
              * @function encode
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.UserInfo
              * @static
-             * @param {pulsarity.http.StatusResponse.$Properties} message StatusResponse message or plain object to encode
+             * @param {pulsarity.http.UserInfo.$Properties} message UserInfo message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            StatusResponse.encode = function encode(message, writer, _depth) {
+            UserInfo.encode = function encode(message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (message.authId != null && Object.hasOwnProperty.call(message, "authId"))
+                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.authId);
+                if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.username);
+                if (message.dispayName != null && Object.hasOwnProperty.call(message, "dispayName"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.dispayName);
+                if (message.permissions != null && message.permissions.length)
+                    for (let i = 0; i < message.permissions.length; ++i)
+                        writer.uint32(/* id 4, wireType 2 =*/34).string(message.permissions[i]);
+                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UserInfo message, length delimited. Does not implicitly {@link pulsarity.http.UserInfo.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {pulsarity.http.UserInfo.$Properties} message UserInfo message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UserInfo.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            };
+
+            /**
+             * Decodes a UserInfo message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape} UserInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UserInfo.decode = function decode(reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw Error("max depth exceeded");
+                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.UserInfo(), value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.string()).length)
+                                message.authId = value;
+                            else
+                                delete message.authId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.string()).length)
+                                message.username = value;
+                            else
+                                delete message.username;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.string()).length)
+                                message.dispayName = value;
+                            else
+                                delete message.dispayName;
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.permissions && message.permissions.length))
+                                message.permissions = [];
+                            message.permissions.push(reader.string());
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    $util.makeProp(message, "$unknowns", false);
+                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                }
+                if (_end !== undefined)
+                    throw Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UserInfo message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape} UserInfo
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UserInfo.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UserInfo message.
+             * @function verify
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UserInfo.verify = function verify(message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.authId != null && message.hasOwnProperty("authId"))
+                    if (!$util.isString(message.authId))
+                        return "authId: string expected";
+                if (message.username != null && message.hasOwnProperty("username"))
+                    if (!$util.isString(message.username))
+                        return "username: string expected";
+                if (message.dispayName != null && message.hasOwnProperty("dispayName"))
+                    if (!$util.isString(message.dispayName))
+                        return "dispayName: string expected";
+                if (message.permissions != null && message.hasOwnProperty("permissions")) {
+                    if (!Array.isArray(message.permissions))
+                        return "permissions: array expected";
+                    for (let i = 0; i < message.permissions.length; ++i)
+                        if (!$util.isString(message.permissions[i]))
+                            return "permissions: string[] expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UserInfo message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.http.UserInfo} UserInfo
+             */
+            UserInfo.fromObject = function fromObject(object, _depth) {
+                if (object instanceof $root.pulsarity.http.UserInfo)
+                    return object;
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                let message = new $root.pulsarity.http.UserInfo();
+                if (object.authId != null)
+                    if (typeof object.authId !== "string" || object.authId.length)
+                        message.authId = String(object.authId);
+                if (object.username != null)
+                    if (typeof object.username !== "string" || object.username.length)
+                        message.username = String(object.username);
+                if (object.dispayName != null)
+                    if (typeof object.dispayName !== "string" || object.dispayName.length)
+                        message.dispayName = String(object.dispayName);
+                if (object.permissions) {
+                    if (!Array.isArray(object.permissions))
+                        throw TypeError(".pulsarity.http.UserInfo.permissions: array expected");
+                    message.permissions = Array(object.permissions.length);
+                    for (let i = 0; i < object.permissions.length; ++i)
+                        message.permissions[i] = String(object.permissions[i]);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UserInfo message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {pulsarity.http.UserInfo} message UserInfo
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UserInfo.toObject = function toObject(message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.permissions = [];
+                if (options.defaults) {
+                    object.authId = "";
+                    object.username = "";
+                    object.dispayName = "";
+                }
+                if (message.authId != null && message.hasOwnProperty("authId"))
+                    object.authId = message.authId;
+                if (message.username != null && message.hasOwnProperty("username"))
+                    object.username = message.username;
+                if (message.dispayName != null && message.hasOwnProperty("dispayName"))
+                    object.dispayName = message.dispayName;
+                if (message.permissions && message.permissions.length) {
+                    object.permissions = Array(message.permissions.length);
+                    for (let j = 0; j < message.permissions.length; ++j)
+                        object.permissions[j] = message.permissions[j];
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UserInfo to JSON.
+             * @function toJSON
+             * @memberof pulsarity.http.UserInfo
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UserInfo.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UserInfo
+             * @function getTypeUrl
+             * @memberof pulsarity.http.UserInfo
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UserInfo.getTypeUrl = function getTypeUrl(prefix) {
+                if (prefix === undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.http.UserInfo";
+            };
+
+            return UserInfo;
+        })();
+
+        http.AuthenticatedResponse = (function() {
+
+            /**
+             * Properties of an AuthenticatedResponse.
+             * @typedef {Object} pulsarity.http.AuthenticatedResponse.$Properties
+             * @property {boolean|null} [status] AuthenticatedResponse status
+             * @property {pulsarity.http.UserInfo.$Properties|null} [userinfo] AuthenticatedResponse userinfo
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             */
+
+            /**
+             * Properties of an AuthenticatedResponse.
+             * @memberof pulsarity.http
+             * @interface IAuthenticatedResponse
+             * @augments pulsarity.http.AuthenticatedResponse.$Properties
+             * @deprecated Use pulsarity.http.AuthenticatedResponse.$Properties instead.
+             */
+
+            /**
+             * Shape of an AuthenticatedResponse.
+             * @typedef {pulsarity.http.AuthenticatedResponse.$Properties} pulsarity.http.AuthenticatedResponse.$Shape
+             */
+
+            /**
+             * Constructs a new AuthenticatedResponse.
+             * @memberof pulsarity.http
+             * @classdesc Represents an AuthenticatedResponse.
+             * @constructor
+             * @param {pulsarity.http.AuthenticatedResponse.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             */
+            function AuthenticatedResponse(properties) {
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * AuthenticatedResponse status.
+             * @member {boolean} status
+             * @memberof pulsarity.http.AuthenticatedResponse
+             * @instance
+             */
+            AuthenticatedResponse.prototype.status = false;
+
+            /**
+             * AuthenticatedResponse userinfo.
+             * @member {pulsarity.http.UserInfo.$Properties|null|undefined} userinfo
+             * @memberof pulsarity.http.AuthenticatedResponse
+             * @instance
+             */
+            AuthenticatedResponse.prototype.userinfo = null;
+
+            /**
+             * Creates a new AuthenticatedResponse instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.http.AuthenticatedResponse
+             * @static
+             * @param {pulsarity.http.AuthenticatedResponse.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.http.AuthenticatedResponse} AuthenticatedResponse instance
+             * @type {{
+             *   (properties: pulsarity.http.AuthenticatedResponse.$Shape): pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape;
+             *   (properties?: pulsarity.http.AuthenticatedResponse.$Properties): pulsarity.http.AuthenticatedResponse;
+             * }}
+             */
+            AuthenticatedResponse.create = function create(properties) {
+                return new AuthenticatedResponse(properties);
+            };
+
+            /**
+             * Encodes the specified AuthenticatedResponse message. Does not implicitly {@link pulsarity.http.AuthenticatedResponse.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.http.AuthenticatedResponse
+             * @static
+             * @param {pulsarity.http.AuthenticatedResponse.$Properties} message AuthenticatedResponse message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            AuthenticatedResponse.encode = function encode(message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
                 if (_depth === undefined)
@@ -4020,6 +4386,8 @@ export const pulsarity = $root.pulsarity = (() => {
                     throw Error("max depth exceeded");
                 if (message.status != null && Object.hasOwnProperty.call(message, "status"))
                     writer.uint32(/* id 1, wireType 0 =*/8).bool(message.status);
+                if (message.userinfo != null && Object.hasOwnProperty.call(message, "userinfo"))
+                    $root.pulsarity.http.UserInfo.encode(message.userinfo, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
                 if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -4027,37 +4395,37 @@ export const pulsarity = $root.pulsarity = (() => {
             };
 
             /**
-             * Encodes the specified StatusResponse message, length delimited. Does not implicitly {@link pulsarity.http.StatusResponse.verify|verify} messages.
+             * Encodes the specified AuthenticatedResponse message, length delimited. Does not implicitly {@link pulsarity.http.AuthenticatedResponse.verify|verify} messages.
              * @function encodeDelimited
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
-             * @param {pulsarity.http.StatusResponse.$Properties} message StatusResponse message or plain object to encode
+             * @param {pulsarity.http.AuthenticatedResponse.$Properties} message AuthenticatedResponse message or plain object to encode
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            StatusResponse.encodeDelimited = function encodeDelimited(message, writer) {
+            AuthenticatedResponse.encodeDelimited = function encodeDelimited(message, writer) {
                 return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
             };
 
             /**
-             * Decodes a StatusResponse message from the specified reader or buffer.
+             * Decodes an AuthenticatedResponse message from the specified reader or buffer.
              * @function decode
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
              * @param {number} [length] Message length if known beforehand
-             * @returns {pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape} StatusResponse
+             * @returns {pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape} AuthenticatedResponse
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            StatusResponse.decode = function decode(reader, length, _end, _depth, _target) {
+            AuthenticatedResponse.decode = function decode(reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
                     throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.StatusResponse(), value;
+                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.AuthenticatedResponse(), value;
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
@@ -4076,6 +4444,12 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.status;
                             continue;
                         }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            message.userinfo = $root.pulsarity.http.UserInfo.decode(reader, reader.uint32(), undefined, _depth + 1, message.userinfo);
+                            continue;
+                        }
                     }
                     reader.skipType(wireType, _depth, tag);
                     $util.makeProp(message, "$unknowns", false);
@@ -4087,30 +4461,30 @@ export const pulsarity = $root.pulsarity = (() => {
             };
 
             /**
-             * Decodes a StatusResponse message from the specified reader or buffer, length delimited.
+             * Decodes an AuthenticatedResponse message from the specified reader or buffer, length delimited.
              * @function decodeDelimited
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
              * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape} StatusResponse
+             * @returns {pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape} AuthenticatedResponse
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            StatusResponse.decodeDelimited = function decodeDelimited(reader) {
+            AuthenticatedResponse.decodeDelimited = function decodeDelimited(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
             };
 
             /**
-             * Verifies a StatusResponse message.
+             * Verifies an AuthenticatedResponse message.
              * @function verify
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            StatusResponse.verify = function verify(message, _depth) {
+            AuthenticatedResponse.verify = function verify(message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
                 if (_depth === undefined)
@@ -4120,41 +4494,51 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (message.status != null && message.hasOwnProperty("status"))
                     if (typeof message.status !== "boolean")
                         return "status: boolean expected";
+                if (message.userinfo != null && message.hasOwnProperty("userinfo")) {
+                    let error = $root.pulsarity.http.UserInfo.verify(message.userinfo, _depth + 1);
+                    if (error)
+                        return "userinfo." + error;
+                }
                 return null;
             };
 
             /**
-             * Creates a StatusResponse message from a plain object. Also converts values to their respective internal types.
+             * Creates an AuthenticatedResponse message from a plain object. Also converts values to their respective internal types.
              * @function fromObject
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
              * @param {Object.<string,*>} object Plain object
-             * @returns {pulsarity.http.StatusResponse} StatusResponse
+             * @returns {pulsarity.http.AuthenticatedResponse} AuthenticatedResponse
              */
-            StatusResponse.fromObject = function fromObject(object, _depth) {
-                if (object instanceof $root.pulsarity.http.StatusResponse)
+            AuthenticatedResponse.fromObject = function fromObject(object, _depth) {
+                if (object instanceof $root.pulsarity.http.AuthenticatedResponse)
                     return object;
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw Error("max depth exceeded");
-                let message = new $root.pulsarity.http.StatusResponse();
+                let message = new $root.pulsarity.http.AuthenticatedResponse();
                 if (object.status != null)
                     if (object.status)
                         message.status = Boolean(object.status);
+                if (object.userinfo != null) {
+                    if (typeof object.userinfo !== "object")
+                        throw TypeError(".pulsarity.http.AuthenticatedResponse.userinfo: object expected");
+                    message.userinfo = $root.pulsarity.http.UserInfo.fromObject(object.userinfo, _depth + 1);
+                }
                 return message;
             };
 
             /**
-             * Creates a plain object from a StatusResponse message. Also converts values to other types if specified.
+             * Creates a plain object from an AuthenticatedResponse message. Also converts values to other types if specified.
              * @function toObject
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
-             * @param {pulsarity.http.StatusResponse} message StatusResponse
+             * @param {pulsarity.http.AuthenticatedResponse} message AuthenticatedResponse
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            StatusResponse.toObject = function toObject(message, options, _depth) {
+            AuthenticatedResponse.toObject = function toObject(message, options, _depth) {
                 if (!options)
                     options = {};
                 if (_depth === undefined)
@@ -4162,39 +4546,43 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (_depth > $util.recursionLimit)
                     throw Error("max depth exceeded");
                 let object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     object.status = false;
+                    object.userinfo = null;
+                }
                 if (message.status != null && message.hasOwnProperty("status"))
                     object.status = message.status;
+                if (message.userinfo != null && message.hasOwnProperty("userinfo"))
+                    object.userinfo = $root.pulsarity.http.UserInfo.toObject(message.userinfo, options, _depth + 1);
                 return object;
             };
 
             /**
-             * Converts this StatusResponse to JSON.
+             * Converts this AuthenticatedResponse to JSON.
              * @function toJSON
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            StatusResponse.prototype.toJSON = function toJSON() {
+            AuthenticatedResponse.prototype.toJSON = function toJSON() {
                 return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
-             * Gets the type url for StatusResponse
+             * Gets the type url for AuthenticatedResponse
              * @function getTypeUrl
-             * @memberof pulsarity.http.StatusResponse
+             * @memberof pulsarity.http.AuthenticatedResponse
              * @static
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            StatusResponse.getTypeUrl = function getTypeUrl(prefix) {
+            AuthenticatedResponse.getTypeUrl = function getTypeUrl(prefix) {
                 if (prefix === undefined)
                     prefix = "type.googleapis.com";
-                return prefix + "/pulsarity.http.StatusResponse";
+                return prefix + "/pulsarity.http.AuthenticatedResponse";
             };
 
-            return StatusResponse;
+            return AuthenticatedResponse;
         })();
 
         http.LoginRequest = (function() {
@@ -4489,6 +4877,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a LoginResponse.
              * @typedef {Object} pulsarity.http.LoginResponse.$Properties
              * @property {boolean|null} [passwordResetRequired] LoginResponse passwordResetRequired
+             * @property {pulsarity.http.UserInfo.$Properties|null} [userinfo] LoginResponse userinfo
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
              */
 
@@ -4529,6 +4918,14 @@ export const pulsarity = $root.pulsarity = (() => {
             LoginResponse.prototype.passwordResetRequired = false;
 
             /**
+             * LoginResponse userinfo.
+             * @member {pulsarity.http.UserInfo.$Properties|null|undefined} userinfo
+             * @memberof pulsarity.http.LoginResponse
+             * @instance
+             */
+            LoginResponse.prototype.userinfo = null;
+
+            /**
              * Creates a new LoginResponse instance using the specified properties.
              * @function create
              * @memberof pulsarity.http.LoginResponse
@@ -4562,6 +4959,8 @@ export const pulsarity = $root.pulsarity = (() => {
                     throw Error("max depth exceeded");
                 if (message.passwordResetRequired != null && Object.hasOwnProperty.call(message, "passwordResetRequired"))
                     writer.uint32(/* id 1, wireType 0 =*/8).bool(message.passwordResetRequired);
+                if (message.userinfo != null && Object.hasOwnProperty.call(message, "userinfo"))
+                    $root.pulsarity.http.UserInfo.encode(message.userinfo, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
                 if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -4618,6 +5017,12 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.passwordResetRequired;
                             continue;
                         }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            message.userinfo = $root.pulsarity.http.UserInfo.decode(reader, reader.uint32(), undefined, _depth + 1, message.userinfo);
+                            continue;
+                        }
                     }
                     reader.skipType(wireType, _depth, tag);
                     $util.makeProp(message, "$unknowns", false);
@@ -4662,6 +5067,11 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (message.passwordResetRequired != null && message.hasOwnProperty("passwordResetRequired"))
                     if (typeof message.passwordResetRequired !== "boolean")
                         return "passwordResetRequired: boolean expected";
+                if (message.userinfo != null && message.hasOwnProperty("userinfo")) {
+                    let error = $root.pulsarity.http.UserInfo.verify(message.userinfo, _depth + 1);
+                    if (error)
+                        return "userinfo." + error;
+                }
                 return null;
             };
 
@@ -4684,6 +5094,11 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (object.passwordResetRequired != null)
                     if (object.passwordResetRequired)
                         message.passwordResetRequired = Boolean(object.passwordResetRequired);
+                if (object.userinfo != null) {
+                    if (typeof object.userinfo !== "object")
+                        throw TypeError(".pulsarity.http.LoginResponse.userinfo: object expected");
+                    message.userinfo = $root.pulsarity.http.UserInfo.fromObject(object.userinfo, _depth + 1);
+                }
                 return message;
             };
 
@@ -4704,10 +5119,14 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (_depth > $util.recursionLimit)
                     throw Error("max depth exceeded");
                 let object = {};
-                if (options.defaults)
+                if (options.defaults) {
                     object.passwordResetRequired = false;
+                    object.userinfo = null;
+                }
                 if (message.passwordResetRequired != null && message.hasOwnProperty("passwordResetRequired"))
                     object.passwordResetRequired = message.passwordResetRequired;
+                if (message.userinfo != null && message.hasOwnProperty("userinfo"))
+                    object.userinfo = $root.pulsarity.http.UserInfo.toObject(message.userinfo, options, _depth + 1);
                 return object;
             };
 

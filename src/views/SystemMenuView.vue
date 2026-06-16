@@ -1,25 +1,12 @@
 <script setup lang="ts">
-  import { ref } from "vue";
-  import { loginUser } from "../utils/http_api";
   import { useServerStore } from "../stores/server_data"
+  import { useAuthenticationStore } from "../stores/auth"
+  import LoginView from './LoginView.vue'
+
   import rhLogo from '../assets/RotorHazard_Logo.svg'
-  
 
   const serverStore = useServerStore()
-
-  const username = ref("");
-  const password = ref("");
-  const loading = ref(false);
-  const error = ref("");
-
-  const handleSubmit = async () => {
-    loading.value = true;
-    error.value = "";
-
-    loginUser(username.value, password.value);
-
-    loading.value = false;
-  };
+  const authStore = useAuthenticationStore()
 </script>
 
 <template>
@@ -40,39 +27,8 @@
 		</ul>
 	</div>
 
-	<div class="login-container">
-		<h2>Login</h2>
+	<LoginView v-if="~authStore.isAuthenticated"/>
 
-		<form @submit.prevent="handleSubmit">
-			<div class="form-group">
-				<label for="username">Username:</label>
-				<input
-					id="username"
-					v-model="username"
-					type="username"
-					required
-					:disabled="loading"
-				/>
-			</div>
-
-			<div class="form-group">
-				<label for="password">Password:</label>
-				<input
-					id="password"
-					v-model="password"
-					type="password"
-					required
-					:disabled="loading"
-				/>
-			</div>
-
-			<div v-if="error" class="error">{{ error }}</div>
-
-			<button type="submit" :disabled="loading">
-				{{ loading ? "Logging in..." : "Login" }}
-			</button>
-		</form>
-	</div>
 </div>
 </template>
 

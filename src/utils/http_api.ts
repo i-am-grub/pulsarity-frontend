@@ -16,7 +16,7 @@ function handleError(error: unknown) {
 /**
  * Gets the current authentication status of the client as a StatusResponse
  */
-export async function authCheck(): Promise<pulsarity.http.StatusResponse | null> {
+export async function authCheck(): Promise<pulsarity.http.AuthenticatedResponse | null> {
   const url = "/api/auth-check";
 
   try {
@@ -27,7 +27,7 @@ export async function authCheck(): Promise<pulsarity.http.StatusResponse | null>
     }
 
     const buffer = await response.arrayBuffer();
-    return pulsarity.http.StatusResponse.decode(new Uint8Array(buffer));
+    return pulsarity.http.AuthenticatedResponse.decode(new Uint8Array(buffer));
   } catch (error) {
     handleError(error);
   }

@@ -1611,120 +1611,261 @@ export namespace pulsarity {
     namespace http {
 
         /**
-         * Properties of a StatusResponse.
-         * @deprecated Use pulsarity.http.StatusResponse.$Properties instead.
+         * Properties of a UserInfo.
+         * @deprecated Use pulsarity.http.UserInfo.$Properties instead.
          */
-        interface IStatusResponse extends pulsarity.http.StatusResponse.$Properties {
+        interface IUserInfo extends pulsarity.http.UserInfo.$Properties {
         }
 
-        /** Represents a StatusResponse. */
-        class StatusResponse {
+        /** Represents a UserInfo. */
+        class UserInfo {
 
             /**
-             * Constructs a new StatusResponse.
+             * Constructs a new UserInfo.
              * @param [properties] Properties to set
              */
-            constructor(properties?: pulsarity.http.StatusResponse.$Properties);
+            constructor(properties?: pulsarity.http.UserInfo.$Properties);
 
             /** Unknown fields preserved while decoding */
             $unknowns?: Uint8Array[];
 
-            /** StatusResponse status. */
-            status: boolean;
+            /** UserInfo authId. */
+            authId: string;
+
+            /** UserInfo username. */
+            username: string;
+
+            /** UserInfo dispayName. */
+            dispayName: string;
+
+            /** UserInfo permissions. */
+            permissions: string[];
 
             /**
-             * Creates a new StatusResponse instance using the specified properties.
+             * Creates a new UserInfo instance using the specified properties.
              * @param [properties] Properties to set
-             * @returns StatusResponse instance
+             * @returns UserInfo instance
              */
-            static create(properties: pulsarity.http.StatusResponse.$Shape): pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape;
-            static create(properties?: pulsarity.http.StatusResponse.$Properties): pulsarity.http.StatusResponse;
+            static create(properties: pulsarity.http.UserInfo.$Shape): pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape;
+            static create(properties?: pulsarity.http.UserInfo.$Properties): pulsarity.http.UserInfo;
 
             /**
-             * Encodes the specified StatusResponse message. Does not implicitly {@link pulsarity.http.StatusResponse.verify|verify} messages.
-             * @param message StatusResponse message or plain object to encode
+             * Encodes the specified UserInfo message. Does not implicitly {@link pulsarity.http.UserInfo.verify|verify} messages.
+             * @param message UserInfo message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encode(message: pulsarity.http.StatusResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encode(message: pulsarity.http.UserInfo.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Encodes the specified StatusResponse message, length delimited. Does not implicitly {@link pulsarity.http.StatusResponse.verify|verify} messages.
-             * @param message StatusResponse message or plain object to encode
+             * Encodes the specified UserInfo message, length delimited. Does not implicitly {@link pulsarity.http.UserInfo.verify|verify} messages.
+             * @param message UserInfo message or plain object to encode
              * @param [writer] Writer to encode to
              * @returns Writer
              */
-            static encodeDelimited(message: pulsarity.http.StatusResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+            static encodeDelimited(message: pulsarity.http.UserInfo.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
 
             /**
-             * Decodes a StatusResponse message from the specified reader or buffer.
+             * Decodes a UserInfo message from the specified reader or buffer.
              * @param reader Reader or buffer to decode from
              * @param [length] Message length if known beforehand
-             * @returns {pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape} StatusResponse
+             * @returns {pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape} UserInfo
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape;
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape;
 
             /**
-             * Decodes a StatusResponse message from the specified reader or buffer, length delimited.
+             * Decodes a UserInfo message from the specified reader or buffer, length delimited.
              * @param reader Reader or buffer to decode from
-             * @returns {pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape} StatusResponse
+             * @returns {pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape} UserInfo
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.http.StatusResponse & pulsarity.http.StatusResponse.$Shape;
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.http.UserInfo & pulsarity.http.UserInfo.$Shape;
 
             /**
-             * Verifies a StatusResponse message.
+             * Verifies a UserInfo message.
              * @param message Plain object to verify
              * @returns `null` if valid, otherwise the reason why it is not
              */
             static verify(message: { [k: string]: any }): (string|null);
 
             /**
-             * Creates a StatusResponse message from a plain object. Also converts values to their respective internal types.
+             * Creates a UserInfo message from a plain object. Also converts values to their respective internal types.
              * @param object Plain object
-             * @returns StatusResponse
+             * @returns UserInfo
              */
-            static fromObject(object: { [k: string]: any }): pulsarity.http.StatusResponse;
+            static fromObject(object: { [k: string]: any }): pulsarity.http.UserInfo;
 
             /**
-             * Creates a plain object from a StatusResponse message. Also converts values to other types if specified.
-             * @param message StatusResponse
+             * Creates a plain object from a UserInfo message. Also converts values to other types if specified.
+             * @param message UserInfo
              * @param [options] Conversion options
              * @returns Plain object
              */
-            static toObject(message: pulsarity.http.StatusResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+            static toObject(message: pulsarity.http.UserInfo, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
             /**
-             * Converts this StatusResponse to JSON.
+             * Converts this UserInfo to JSON.
              * @returns JSON object
              */
             toJSON(): { [k: string]: any };
 
             /**
-             * Gets the type url for StatusResponse
+             * Gets the type url for UserInfo
              * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns The type url
              */
             static getTypeUrl(prefix?: string): string;
         }
 
-        namespace StatusResponse {
+        namespace UserInfo {
 
-            /** Properties of a StatusResponse. */
+            /** Properties of a UserInfo. */
             interface $Properties {
 
-                /** StatusResponse status */
-                status?: (boolean|null);
+                /** UserInfo authId */
+                authId?: (string|null);
+
+                /** UserInfo username */
+                username?: (string|null);
+
+                /** UserInfo dispayName */
+                dispayName?: (string|null);
+
+                /** UserInfo permissions */
+                permissions?: (string[]|null);
 
                 /** Unknown fields preserved while decoding */
                 $unknowns?: Uint8Array[];
             }
 
-            /** Shape of a StatusResponse. */
-            type $Shape = pulsarity.http.StatusResponse.$Properties;
+            /** Shape of a UserInfo. */
+            type $Shape = pulsarity.http.UserInfo.$Properties;
+        }
+
+        /**
+         * Properties of an AuthenticatedResponse.
+         * @deprecated Use pulsarity.http.AuthenticatedResponse.$Properties instead.
+         */
+        interface IAuthenticatedResponse extends pulsarity.http.AuthenticatedResponse.$Properties {
+        }
+
+        /** Represents an AuthenticatedResponse. */
+        class AuthenticatedResponse {
+
+            /**
+             * Constructs a new AuthenticatedResponse.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.http.AuthenticatedResponse.$Properties);
+
+            /** Unknown fields preserved while decoding */
+            $unknowns?: Uint8Array[];
+
+            /** AuthenticatedResponse status. */
+            status: boolean;
+
+            /** AuthenticatedResponse userinfo. */
+            userinfo?: (pulsarity.http.UserInfo.$Properties|null);
+
+            /**
+             * Creates a new AuthenticatedResponse instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns AuthenticatedResponse instance
+             */
+            static create(properties: pulsarity.http.AuthenticatedResponse.$Shape): pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape;
+            static create(properties?: pulsarity.http.AuthenticatedResponse.$Properties): pulsarity.http.AuthenticatedResponse;
+
+            /**
+             * Encodes the specified AuthenticatedResponse message. Does not implicitly {@link pulsarity.http.AuthenticatedResponse.verify|verify} messages.
+             * @param message AuthenticatedResponse message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.http.AuthenticatedResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified AuthenticatedResponse message, length delimited. Does not implicitly {@link pulsarity.http.AuthenticatedResponse.verify|verify} messages.
+             * @param message AuthenticatedResponse message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.http.AuthenticatedResponse.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes an AuthenticatedResponse message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape} AuthenticatedResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape;
+
+            /**
+             * Decodes an AuthenticatedResponse message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape} AuthenticatedResponse
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.http.AuthenticatedResponse & pulsarity.http.AuthenticatedResponse.$Shape;
+
+            /**
+             * Verifies an AuthenticatedResponse message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates an AuthenticatedResponse message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns AuthenticatedResponse
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.http.AuthenticatedResponse;
+
+            /**
+             * Creates a plain object from an AuthenticatedResponse message. Also converts values to other types if specified.
+             * @param message AuthenticatedResponse
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.http.AuthenticatedResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this AuthenticatedResponse to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for AuthenticatedResponse
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace AuthenticatedResponse {
+
+            /** Properties of an AuthenticatedResponse. */
+            interface $Properties {
+
+                /** AuthenticatedResponse status */
+                status?: (boolean|null);
+
+                /** AuthenticatedResponse userinfo */
+                userinfo?: (pulsarity.http.UserInfo.$Properties|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of an AuthenticatedResponse. */
+            type $Shape = pulsarity.http.AuthenticatedResponse.$Properties;
         }
 
         /**
@@ -1872,6 +2013,9 @@ export namespace pulsarity {
             /** LoginResponse passwordResetRequired. */
             passwordResetRequired: boolean;
 
+            /** LoginResponse userinfo. */
+            userinfo?: (pulsarity.http.UserInfo.$Properties|null);
+
             /**
              * Creates a new LoginResponse instance using the specified properties.
              * @param [properties] Properties to set
@@ -1958,6 +2102,9 @@ export namespace pulsarity {
 
                 /** LoginResponse passwordResetRequired */
                 passwordResetRequired?: (boolean|null);
+
+                /** LoginResponse userinfo */
+                userinfo?: (pulsarity.http.UserInfo.$Properties|null);
 
                 /** Unknown fields preserved while decoding */
                 $unknowns?: Uint8Array[];
