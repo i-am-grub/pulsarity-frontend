@@ -56,7 +56,7 @@ export async function loginUser(
     });
     const body = pulsarity.http.LoginRequest.encode(
         message,
-    ).finish() as Uint8Array<ArrayBuffer>;
+    ).finish() as Uint8Array;
 
     try {
         const response = await fetch(url, {
@@ -118,7 +118,7 @@ export async function resetPassword(
     });
     const body = pulsarity.http.ResetPasswordRequest.encode(
         message,
-    ).finish() as Uint8Array<ArrayBuffer>;
+    ).finish() as Uint8Array;
 
     try {
         const response = await fetch(url, {
