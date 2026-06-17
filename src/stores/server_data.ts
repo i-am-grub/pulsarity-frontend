@@ -16,10 +16,8 @@ export const useServerStore = defineStore("serverData", () => {
         isLoading.value = true;
         try {
             const data = await getServerData();
-            if (data !== null) {
-                systemVersion.value = data.version;
-                systemName.value = data.serverName;
-            }
+            systemVersion.value = data?.version ?? "";
+            systemName.value = data?.serverName ?? "";
         } catch (error) {
             console.error("Failed to load system data:", error);
         } finally {

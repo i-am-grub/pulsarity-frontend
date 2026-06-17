@@ -28,6 +28,7 @@
 	</div>
 
 	<LoginView v-if="!authStore.isAuthenticated"/>
+    <button @click="authStore.runLogoutUser" v-else>Logout</button>
 
 </div>
 </template>
