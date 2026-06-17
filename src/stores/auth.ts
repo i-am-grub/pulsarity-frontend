@@ -99,6 +99,13 @@ export const useAuthenticationStore = defineStore("authStore", () => {
         }
     }
 
+    /**
+     * Check if the user has a specific permission
+     */
+    function hasPermission(permission: string): boolean {
+        return permissions.value.has(permission);
+    }
+
     return {
         isAuthenticated,
         passwordResetRequired,
@@ -106,10 +113,10 @@ export const useAuthenticationStore = defineStore("authStore", () => {
         authId,
         username,
         displayName,
-        permissions,
         runLoginUser,
         runLogoutUser,
         runPasswordReset,
         checkUserAuthenticated,
+        hasPermission,
     };
 });
