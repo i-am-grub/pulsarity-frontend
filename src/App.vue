@@ -16,7 +16,7 @@
 <template>
 	<RouterView />
   <footer>
-  	<span v-if="~serverStore.isLoading">Powered by {{ serverStore.systemName }} {{ serverStore.systemVersion }}</span>
+  	<span v-if="!serverStore.isLoading">Powered by {{ serverStore.systemName }} {{ serverStore.systemVersion }}</span>
   </footer>
 </template>
 

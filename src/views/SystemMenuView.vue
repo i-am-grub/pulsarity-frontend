@@ -13,7 +13,7 @@
 <div id="system-menu">
 	<div class="timer-info">
 		<img :src="rhLogo" alt="" />
-		<p v-if="~serverStore.isLoading">{{ serverStore.systemName }} {{ serverStore.systemVersion }}</p>
+		<p v-if="!serverStore.isLoading">{{ serverStore.systemName }} {{ serverStore.systemVersion }}</p>
         <p v-else>Loading...</p>
 		<p>License, github, support, etc. etc.</p>
 	</div>
@@ -27,7 +27,7 @@
 		</ul>
 	</div>
 
-	<LoginView v-if="~authStore.isAuthenticated"/>
+	<LoginView v-if="!authStore.isAuthenticated"/>
 
 </div>
 </template>
