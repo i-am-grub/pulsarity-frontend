@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { useServerStore } from "../stores/server_data"
   import { useAuthenticationStore } from "../stores/auth"
-  import LoginView from './LoginView.vue'
+  import LoginView from './LoginComponent.vue'
 
   import rhLogo from '../assets/RotorHazard_Logo.svg'
 

@@ -1,5 +1,7 @@
+<!-- The Root View -->
+
 <script setup lang="ts">
-	import SystemMenuView from './SystemMenuView.vue'
+	import SystemMenuView from '../components/SystemComponent.vue'
     import rhIcon from '../assets/RotorHazard_Icon.svg'
 
 	const eventHostName = "Multirotor Vermont";
