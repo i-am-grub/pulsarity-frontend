@@ -17,9 +17,6 @@
   "[vue]": {
     "editor.formatOnSave": true,
   },
-"editor.tabSize": 4,
-"prettier.tabWidth": 4,
-"prettier.useTabs": false,
-"prettier.insertPragma": true,
-"prettier.requirePragma": true
+"prettier.useTabs": true,
+"prettier.insertPragma": true
 }
