@@ -1,7 +1,7 @@
 /** @format */
 
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import {
     loginUser,
     authCheck,
@@ -18,7 +18,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
     const authId = ref("");
     const username = ref("");
     const displayName = ref("");
-    const permissions = ref(new Set());
+    const permissions = reactive<Set<string>>(new Set());
 
     const isLoading = ref(false);
 
@@ -31,13 +31,13 @@ export const useAuthenticationStore = defineStore("authStore", () => {
             const response = await loginUser(username_, password);
             passwordResetRequired.value =
                 response?.passwordResetRequired ?? passwordResetRequired.value;
+            isAuthenticated.value = response?.userinfo?.authenticated ?? false;
             authId.value = response?.userinfo?.authId ?? "";
             username.value = response?.userinfo?.username ?? "";
             displayName.value = response?.userinfo?.dispayName ?? "";
             response?.userinfo?.permissions?.forEach((value) =>
-                permissions.value.add(value),
+                permissions.add(value),
             );
-            if (response !== null) isAuthenticated.value = true;
         } catch (error) {
             isAuthenticated.value = false;
         } finally {
@@ -55,7 +55,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
             authId.value = "";
             username.value = "";
             displayName.value = "";
-            permissions.value.clear();
+            permissions.clear();
             passwordResetRequired.value = false;
             isAuthenticated.value = false;
         } catch (error) {
@@ -85,13 +85,13 @@ export const useAuthenticationStore = defineStore("authStore", () => {
         isLoading.value = true;
         try {
             const response = await authCheck();
+            isAuthenticated.value = response?.userinfo?.authenticated ?? false;
             authId.value = response?.userinfo?.authId ?? "";
             username.value = response?.userinfo?.username ?? "";
             displayName.value = response?.userinfo?.dispayName ?? "";
             response?.userinfo?.permissions?.forEach((value) =>
-                permissions.value.add(value),
+                permissions.add(value),
             );
-            if (response !== null) isAuthenticated.value = true;
         } catch (error) {
             isAuthenticated.value = false;
         } finally {
@@ -103,7 +103,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
      * Check if the user has a specific permission
      */
     function hasPermission(permission: string): boolean {
-        return permissions.value.has(permission);
+        return permissions.has(permission);
     }
 
     return {

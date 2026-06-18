@@ -4,10 +4,12 @@
 
 <script setup lang="ts">
 	import { useServerStore } from "../stores/server_data";
+	import { useAuthenticationStore } from "../stores/auth";
 	import SystemMenuComponent from "../components/SystemComponent.vue";
 	import rhIcon from "../assets/RotorHazard_Icon.svg";
 
 	const serverStore = useServerStore();
+	const authStore = useAuthenticationStore();
 
 	const eventHostName = "Multirotor Vermont";
 	const eventName = "2026-06-14 Whoop Race at Generator";
@@ -33,7 +35,7 @@
 		</button>
 	</header>
 	<main>
-		<div class="event-details">
+		<div class="event-details" v-if="authStore.hasPermission('read_events')">
 			<h1>{{ eventName }}</h1>
 			<h2>Event Description</h2>
 			<p>...</p>

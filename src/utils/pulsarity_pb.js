@@ -3946,6 +3946,7 @@ export const pulsarity = $root.pulsarity = (() => {
             /**
              * Properties of a UserInfo.
              * @typedef {Object} pulsarity.http.UserInfo.$Properties
+             * @property {boolean|null} [authenticated] UserInfo authenticated
              * @property {string|null} [authId] UserInfo authId
              * @property {string|null} [username] UserInfo username
              * @property {string|null} [dispayName] UserInfo dispayName
@@ -3981,6 +3982,14 @@ export const pulsarity = $root.pulsarity = (() => {
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
             }
+
+            /**
+             * UserInfo authenticated.
+             * @member {boolean} authenticated
+             * @memberof pulsarity.http.UserInfo
+             * @instance
+             */
+            UserInfo.prototype.authenticated = false;
 
             /**
              * UserInfo authId.
@@ -4046,15 +4055,17 @@ export const pulsarity = $root.pulsarity = (() => {
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     throw Error("max depth exceeded");
+                if (message.authenticated != null && Object.hasOwnProperty.call(message, "authenticated"))
+                    writer.uint32(/* id 1, wireType 0 =*/8).bool(message.authenticated);
                 if (message.authId != null && Object.hasOwnProperty.call(message, "authId"))
-                    writer.uint32(/* id 1, wireType 2 =*/10).string(message.authId);
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.authId);
                 if (message.username != null && Object.hasOwnProperty.call(message, "username"))
-                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.username);
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.username);
                 if (message.dispayName != null && Object.hasOwnProperty.call(message, "dispayName"))
-                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.dispayName);
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.dispayName);
                 if (message.permissions != null && message.permissions.length)
                     for (let i = 0; i < message.permissions.length; ++i)
-                        writer.uint32(/* id 4, wireType 2 =*/34).string(message.permissions[i]);
+                        writer.uint32(/* id 5, wireType 2 =*/42).string(message.permissions[i]);
                 if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -4103,6 +4114,15 @@ export const pulsarity = $root.pulsarity = (() => {
                     let wireType = tag & 7;
                     switch (tag >>>= 3) {
                     case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.authenticated = value;
+                            else
+                                delete message.authenticated;
+                            continue;
+                        }
+                    case 2: {
                             if (wireType !== 2)
                                 break;
                             if ((value = reader.string()).length)
@@ -4111,7 +4131,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.authId;
                             continue;
                         }
-                    case 2: {
+                    case 3: {
                             if (wireType !== 2)
                                 break;
                             if ((value = reader.string()).length)
@@ -4120,7 +4140,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.username;
                             continue;
                         }
-                    case 3: {
+                    case 4: {
                             if (wireType !== 2)
                                 break;
                             if ((value = reader.string()).length)
@@ -4129,7 +4149,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.dispayName;
                             continue;
                         }
-                    case 4: {
+                    case 5: {
                             if (wireType !== 2)
                                 break;
                             if (!(message.permissions && message.permissions.length))
@@ -4178,6 +4198,9 @@ export const pulsarity = $root.pulsarity = (() => {
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
+                if (message.authenticated != null && message.hasOwnProperty("authenticated"))
+                    if (typeof message.authenticated !== "boolean")
+                        return "authenticated: boolean expected";
                 if (message.authId != null && message.hasOwnProperty("authId"))
                     if (!$util.isString(message.authId))
                         return "authId: string expected";
@@ -4213,6 +4236,9 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (_depth > $util.recursionLimit)
                     throw Error("max depth exceeded");
                 let message = new $root.pulsarity.http.UserInfo();
+                if (object.authenticated != null)
+                    if (object.authenticated)
+                        message.authenticated = Boolean(object.authenticated);
                 if (object.authId != null)
                     if (typeof object.authId !== "string" || object.authId.length)
                         message.authId = String(object.authId);
@@ -4252,10 +4278,13 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (options.arrays || options.defaults)
                     object.permissions = [];
                 if (options.defaults) {
+                    object.authenticated = false;
                     object.authId = "";
                     object.username = "";
                     object.dispayName = "";
                 }
+                if (message.authenticated != null && message.hasOwnProperty("authenticated"))
+                    object.authenticated = message.authenticated;
                 if (message.authId != null && message.hasOwnProperty("authId"))
                     object.authId = message.authId;
                 if (message.username != null && message.hasOwnProperty("username"))

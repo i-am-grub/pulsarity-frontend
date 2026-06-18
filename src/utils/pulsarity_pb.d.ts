@@ -1629,6 +1629,9 @@ export namespace pulsarity {
             /** Unknown fields preserved while decoding */
             $unknowns?: Uint8Array[];
 
+            /** UserInfo authenticated. */
+            authenticated: boolean;
+
             /** UserInfo authId. */
             authId: string;
 
@@ -1724,6 +1727,9 @@ export namespace pulsarity {
 
             /** Properties of a UserInfo. */
             interface $Properties {
+
+                /** UserInfo authenticated */
+                authenticated?: (boolean|null);
 
                 /** UserInfo authId */
                 authId?: (string|null);
