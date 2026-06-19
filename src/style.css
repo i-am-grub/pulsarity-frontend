@@ -39,16 +39,22 @@
 	color-scheme: var(--uses-color-scheme);
 }
 
-p,
-ul,
-ol {
+h1, h2, h3, h4, h5, h6, p, ul, ol {
 	margin: 0;
 }
 
+* + h3,
+* + h4,
+* + h5,
+* + h6,
 * + p,
 * + ul,
 * + ol {
 	margin-top: 1rem;
+}
+
+* + h2 {
+	margin-top: 2rem;
 }
 
 html {

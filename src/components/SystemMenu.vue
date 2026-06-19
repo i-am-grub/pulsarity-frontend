@@ -3,7 +3,7 @@
 <script setup lang="ts">
 	import { useServerStore } from "../stores/server_data";
 	import { useAuthenticationStore } from "../stores/auth";
-	import LoginView from "./LoginComponent.vue";
+	import LoginView from "./Login.vue";
 
 	import rhLogo from "../assets/RotorHazard_Logo.svg";
 
@@ -38,7 +38,7 @@
 			<LoginView v-if="!authStore.isAuthenticated" />
 			<template v-else>
 				<p v-if="!serverStore.isLoading">
-					Logged in as <strong>{{ authStore.username }}</strong>
+					Logged in as <strong>{{ authStore.displayName }}</strong>
 				</p>
 				<p><a href="/admin/">Admin console</a></p>
 				<button @click="authStore.runLogoutUser">Logout</button>

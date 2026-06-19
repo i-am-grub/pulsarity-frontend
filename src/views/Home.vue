@@ -5,7 +5,7 @@
 <script setup lang="ts">
 	import { useServerStore } from "../stores/server_data";
 	import { useAuthenticationStore } from "../stores/auth";
-	import SystemMenuComponent from "../components/SystemComponent.vue";
+	import SystemMenuComponent from "../components/SystemMenu.vue";
 	import rhIcon from "../assets/RotorHazard_Icon.svg";
 
 	const serverStore = useServerStore();
