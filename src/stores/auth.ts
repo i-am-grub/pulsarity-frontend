@@ -35,6 +35,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
             authId.value = response?.userinfo?.authId ?? "";
             username.value = response?.userinfo?.username ?? "";
             displayName.value = response?.userinfo?.dispayName ?? "";
+            permissions.clear();
             response?.userinfo?.permissions?.forEach((value) =>
                 permissions.add(value),
             );
@@ -50,18 +51,15 @@ export const useAuthenticationStore = defineStore("authStore", () => {
      */
     async function runLogoutUser() {
         isLoading.value = true;
+        console.log(permissions);
         try {
             await logoutUser();
-            authId.value = "";
-            username.value = "";
-            displayName.value = "";
-            permissions.clear();
-            passwordResetRequired.value = false;
-            isAuthenticated.value = false;
+            await checkUserAuthenticated();
         } catch (error) {
         } finally {
             isLoading.value = false;
         }
+        console.log(permissions);
     }
 
     /**
@@ -71,7 +69,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
         isLoading.value = true;
         try {
             await resetPassword(oldPassword, newPassword);
-            passwordResetRequired.value = false;
+            await checkUserAuthenticated();
         } catch (error) {
         } finally {
             isLoading.value = false;
@@ -89,6 +87,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
             authId.value = response?.userinfo?.authId ?? "";
             username.value = response?.userinfo?.username ?? "";
             displayName.value = response?.userinfo?.dispayName ?? "";
+            permissions.clear();
             response?.userinfo?.permissions?.forEach((value) =>
                 permissions.add(value),
             );
