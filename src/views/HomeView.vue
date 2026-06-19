@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 	import { useServerStore } from "../stores/server_data";
-	import SystemMenuView from "../components/SystemComponent.vue";
+	import SystemMenuComponent from "../components/SystemComponent.vue";
 	import rhIcon from "../assets/RotorHazard_Icon.svg";
 
 	const serverStore = useServerStore();
@@ -76,23 +76,11 @@
 		<button popovertarget="system-dialog" popovertargetaction="hide">
 			<span class="screen-reader-text">Close</span>
 		</button>
-		<SystemMenuView />
+		<SystemMenuComponent />
 	</dialog>
 </template>
 
-<style>
-	p,
-	ul,
-	ol {
-		margin: 0;
-	}
-
-	* + p,
-	* + ul,
-	* + ol {
-		margin-top: 1rem;
-	}
-
+<style scoped>
 	header {
 		position: sticky;
 		padding: 1rem;
@@ -154,9 +142,7 @@
 	#system-dialog > button::after {
 		content: "\00d7";
 	}
-</style>
 
-<style scoped>
 	main {
 		grid-template-areas:
 			"eventinfo"
@@ -172,9 +158,9 @@
 		}
 	}
 	/*
-(20 - 16 = 4) / (65 - 42 = 23) = 0.1739
-16 - 42*0.1739 = 8.6962
-*/
+  (20 - 16 = 4) / (65 - 42 = 23) = 0.1739
+  16 - 42*0.1739 = 8.6962
+  */
 
 	.event-details {
 		grid-area: eventinfo;
