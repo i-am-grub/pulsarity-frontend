@@ -51,7 +51,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
      */
     async function runLogoutUser() {
         isLoading.value = true;
-        console.log(permissions);
         try {
             await logoutUser();
             await checkUserAuthenticated();
@@ -59,7 +58,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
         } finally {
             isLoading.value = false;
         }
-        console.log(permissions);
     }
 
     /**
