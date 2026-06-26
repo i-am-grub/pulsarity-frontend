@@ -23,9 +23,9 @@
 		</div>
 		<nav>
 			<ul>
-				<li><RouterLink to="/" class="nav-link">Overview</RouterLink></li>
-				<li><a href="#">Current Race</a></li>
-				<li><a href="#">Results</a></li>
+				<li><RouterLink to="/" class="nav-link">{{ $t('messages.overview') }}</RouterLink></li>
+				<li><a href="#">{{ $t('messages.current_race') }}</a></li>
+				<li><a href="#">{{ $t('messages.results') }}</a></li>
 			</ul>
 		</nav>
 		<button popovertarget="system-dialog">
@@ -37,11 +37,11 @@
 	<main>
 		<div class="event-details" v-if="authStore.hasPermission('read_events')">
 			<h1>{{ eventName }}</h1>
-			<h2>Event Description</h2>
+			<h2>{{ $t('messages.event_description') }}</h2>
 			<p>...</p>
-			<h2>Registered Pilots</h2>
+			<h2>{{ $t('messages.registered_pilots') }}</h2>
 			<p>...</p>
-			<h2>Heats and Classes</h2>
+			<h2>{{ $t('messages.heats_and_classes') }}</h2>
 			<p>...</p>
 			<h2>...</h2>
 		</div>
@@ -69,7 +69,7 @@
 		</div>
 	</main>
 	<footer>
-		<span v-if="!serverStore.isLoading"
+		<span
 			>Powered by {{ serverStore.systemName }}
 			{{ serverStore.systemVersion }}</span
 		>
@@ -113,6 +113,7 @@
 	nav > ul > li {
 		margin: 0;
 		padding: 0;
+        text-transform: capitalize;
 	}
 
 	header > button {
@@ -167,6 +168,10 @@
 	.event-details {
 		grid-area: eventinfo;
 	}
+
+    .event-details > h2 {
+        text-transform: capitalize;
+    }
 
 	.event-host-info {
 		grid-area: hostinfo;

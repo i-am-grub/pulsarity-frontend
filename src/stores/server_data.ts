@@ -1,29 +1,36 @@
 /** @format */
 
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { getServerData } from "../utils/http_api";
 
 /**
  * Store containing general server information
  */
 export const useServerStore = defineStore("serverData", () => {
-    const isLoading = ref(false);
-    const systemVersion = ref("");
-    const systemName = ref("");
+	const systemVersion = ref("");
+	const systemName = ref("");
+	const languagePackVersion = ref("");
+	const languagePackKeys = reactive<Array<string>>([]);
 
-    async function fetchServerData() {
-        isLoading.value = true;
-        try {
-            const data = await getServerData();
-            systemVersion.value = data?.version ?? "";
-            systemName.value = data?.serverName ?? "";
-        } catch (error) {
-            console.error("Failed to load system data:", error);
-        } finally {
-            isLoading.value = false;
-        }
-    }
+	async function fetchServerData() {
+		try {
+			const data = await getServerData();
+			systemVersion.value = data?.version ?? "";
+			systemName.value = data?.serverName ?? "";
+			languagePackVersion.value = data?.languageVersion ?? "";
+			languagePackKeys.length = 0;
+			data?.languagePacks.forEach((value) => languagePackKeys.push(value));
+		} catch (error) {
+			console.error("Failed to load system data:", error);
+		}
+	}
 
-    return { systemName, systemVersion, isLoading, fetchServerData };
+	return {
+		systemName,
+		systemVersion,
+		languagePackVersion,
+		languagePackKeys,
+		fetchServerData,
+	};
 });

@@ -2268,6 +2268,12 @@ export namespace pulsarity {
             /** ServerData serverName. */
             serverName: string;
 
+            /** ServerData languageVersion. */
+            languageVersion: string;
+
+            /** ServerData languagePacks. */
+            languagePacks: string[];
+
             /**
              * Creates a new ServerData instance using the specified properties.
              * @param [properties] Properties to set
@@ -2358,12 +2364,141 @@ export namespace pulsarity {
                 /** ServerData serverName */
                 serverName?: (string|null);
 
+                /** ServerData languageVersion */
+                languageVersion?: (string|null);
+
+                /** ServerData languagePacks */
+                languagePacks?: (string[]|null);
+
                 /** Unknown fields preserved while decoding */
                 $unknowns?: Uint8Array[];
             }
 
             /** Shape of a ServerData. */
             type $Shape = pulsarity.http.ServerData.$Properties;
+        }
+
+        /**
+         * Properties of a LocalizationData.
+         * @deprecated Use pulsarity.http.LocalizationData.$Properties instead.
+         */
+        interface ILocalizationData extends pulsarity.http.LocalizationData.$Properties {
+        }
+
+        /** Represents a LocalizationData. */
+        class LocalizationData {
+
+            /**
+             * Constructs a new LocalizationData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.http.LocalizationData.$Properties);
+
+            /** Unknown fields preserved while decoding */
+            $unknowns?: Uint8Array[];
+
+            /** LocalizationData messages. */
+            messages: { [k: string]: string };
+
+            /** LocalizationData pluralization. */
+            pluralization: { [k: string]: string };
+
+            /**
+             * Creates a new LocalizationData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns LocalizationData instance
+             */
+            static create(properties: pulsarity.http.LocalizationData.$Shape): pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape;
+            static create(properties?: pulsarity.http.LocalizationData.$Properties): pulsarity.http.LocalizationData;
+
+            /**
+             * Encodes the specified LocalizationData message. Does not implicitly {@link pulsarity.http.LocalizationData.verify|verify} messages.
+             * @param message LocalizationData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.http.LocalizationData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified LocalizationData message, length delimited. Does not implicitly {@link pulsarity.http.LocalizationData.verify|verify} messages.
+             * @param message LocalizationData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.http.LocalizationData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a LocalizationData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape} LocalizationData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape;
+
+            /**
+             * Decodes a LocalizationData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape} LocalizationData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape;
+
+            /**
+             * Verifies a LocalizationData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a LocalizationData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns LocalizationData
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.http.LocalizationData;
+
+            /**
+             * Creates a plain object from a LocalizationData message. Also converts values to other types if specified.
+             * @param message LocalizationData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.http.LocalizationData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this LocalizationData to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for LocalizationData
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace LocalizationData {
+
+            /** Properties of a LocalizationData. */
+            interface $Properties {
+
+                /** LocalizationData messages */
+                messages?: ({ [k: string]: string }|null);
+
+                /** LocalizationData pluralization */
+                pluralization?: ({ [k: string]: string }|null);
+
+                /** Unknown fields preserved while decoding */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a LocalizationData. */
+            type $Shape = pulsarity.http.LocalizationData.$Properties;
         }
     }
 
