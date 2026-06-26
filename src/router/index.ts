@@ -5,6 +5,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import HomeView from "../views/Home.vue";
+import HomeOverview from "../views/HomeOverview.vue";
+import HomeCurrentRace from "../views/HomeCurrentRace.vue";
+import HomeResults from "../views/HomeResults.vue";
 import AdminView from "../views/Admin.vue";
 import AdminOverview from "../views/AdminOverview.vue";
 import AdminEventSetup from "../views/AdminEventSetup.vue";
@@ -15,7 +18,24 @@ import AdminRunRace from "../views/AdminRunRace.vue";
 import AdminTimerSettings from "../views/AdminTimerSettings.vue";
 
 const routes = [
-	{ path: "/", component: HomeView },
+	{ 
+    path: "/", 
+    component: HomeView,
+		children: [
+			{
+				path: '',
+				component: HomeOverview,
+			},
+			{
+				path: 'current',
+				component: HomeCurrentRace,
+			},
+			{
+				path: 'results',
+				component: HomeResults,
+			},
+    ]
+  },
 	{
 		path: "/admin/", 
 		component: AdminView,
