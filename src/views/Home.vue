@@ -4,15 +4,19 @@
 
 <script setup lang="ts">
 	import { useServerStore } from "../stores/server_data";
-	import { useAuthenticationStore } from "../stores/auth";
 	import SystemMenuComponent from "../components/SystemMenu.vue";
 	import rhIcon from "../assets/RotorHazard_Icon.svg";
 
 	const serverStore = useServerStore();
-	const authStore = useAuthenticationStore();
 
 	const eventHostName = "Multirotor Vermont";
 	const eventName = "2026-06-14 Whoop Race at Generator";
+
+	const homeNavItems = [
+		{ path: "/", messageKey: 'messages.overview' },
+		{ path: "/current", messageKey: 'messages.current_race' },
+		{ path: "/results", messageKey: 'messages.results' },
+	];
 </script>
 
 <template>
@@ -21,11 +25,11 @@
 			<span class="system-title">{{ eventHostName }}</span> :
 			<span class="event-title"> {{ eventName }}</span>
 		</div>
-		<nav>
+		<nav id="nav-main">
 			<ul>
-				<li><RouterLink to="/" class="nav-link">{{ $t('messages.overview') }}</RouterLink></li>
-				<li><a href="#">{{ $t('messages.current_race') }}</a></li>
-				<li><a href="#">{{ $t('messages.results') }}</a></li>
+				<li v-for="item in homeNavItems">
+					<RouterLink :to="item.path">{{ $t(item.messageKey) }}</RouterLink>
+				</li>
 			</ul>
 		</nav>
 		<button popovertarget="system-dialog">
@@ -35,38 +39,7 @@
 		</button>
 	</header>
 	<main>
-		<div class="event-details" v-if="authStore.hasPermission('read_events')">
-			<h1>{{ eventName }}</h1>
-			<h2>{{ $t('messages.event_description') }}</h2>
-			<p>...</p>
-			<h2>{{ $t('messages.registered_pilots') }}</h2>
-			<p>...</p>
-			<h2>{{ $t('messages.heats_and_classes') }}</h2>
-			<p>...</p>
-			<h2>...</h2>
-		</div>
-		<div class="event-host-info">
-			<h2>{{ eventHostName }}</h2>
-			<div class="timer-logo">[timer logo]</div>
-			<div class="timer-info">
-				<p>
-					One of the oldest continuously running FPV racing communities, since
-					2015. Offering outdoor racing through summer and indoor racing year
-					round.
-				</p>
-				<ul>
-					<li>
-						<a
-							href="https://www.multigp.com/chapters/view/?chapter=Multirotor-Vermont---"
-							>MultiGP</a
-						>
-					</li>
-					<li>
-						<a href="https://fpvscores.com/organisation/mrvt">FPVScores</a>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<RouterView />
 	</main>
 	<footer>
 		<span
@@ -92,6 +65,21 @@
 			"nav sys";
 		grid-template-columns: 1fr auto;
 		border-bottom: solid thin light-dark(#222, #000);
+		background: linear-gradient(
+			to bottom,
+			light-dark(
+					hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+					hsl(var(--hue_1), var(--sat_1), var(--lum_1_high))
+				)
+				0%,
+			25%,
+			light-dark(
+					hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
+					hsl(var(--hue_1), var(--sat_1), var(--lum_1_low))
+				)
+				100%
+		);
+		color: light-dark(var(--contrast_0_high), var(--contrast_1_high));
 	}
 
 	.title {
@@ -114,6 +102,11 @@
 		margin: 0;
 		padding: 0;
         text-transform: capitalize;
+	}
+
+	nav a {
+		color: light-dark(var(--contrast_0_high), var(--contrast_1_high));
+		font-weight: 700;
 	}
 
 	header > button {
