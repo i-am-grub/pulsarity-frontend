@@ -69,17 +69,17 @@
 			to bottom,
 			light-dark(
 					hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-					hsl(var(--hue_1), var(--sat_1), var(--lum_1_high))
+					hsl(var(--hue_0), var(--sat_0), var(--lum_1_high))
 				)
 				0%,
 			25%,
 			light-dark(
 					hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
-					hsl(var(--hue_1), var(--sat_1), var(--lum_1_low))
+					hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
 				)
 				100%
 		);
-		color: light-dark(var(--contrast_0_high), var(--contrast_1_high));
+		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 	}
 
 	.title {
@@ -104,7 +104,7 @@
 	}
 
 	nav a {
-		color: light-dark(var(--contrast_0_high), var(--contrast_1_high));
+		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 		font-weight: 700;
 	}
 

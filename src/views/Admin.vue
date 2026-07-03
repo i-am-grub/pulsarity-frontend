@@ -68,10 +68,15 @@
 
 	nav {
 		grid-area: nav;
+		border-inline-end: solid thin
+			light-dark(
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high))
+			);
 	}
 
 	nav > a:first-child {
-		padding: 0.5rem;
+		padding: 0.5rem 1rem;
 		display: block;
 	}
 
@@ -93,7 +98,24 @@
 	nav > ul > li > a {
 		display: block;
 		padding: 0.5rem;
-		background: light-dark(#ccc, #000);
+		background: light-dark(
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_high), 15%),
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 15%)
+		);
+		text-decoration: none;
+		font-weight: 600;
+		color: light-dark(var(--ui-black), var(--ui-white));
+		transition:
+			background-color 0.2s,
+			color 0.2s;
+	}
+
+	nav > ul > li > a:hover {
+		background: light-dark(
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
+		);
+		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 	}
 
 	main {
