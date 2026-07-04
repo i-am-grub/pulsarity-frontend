@@ -6,36 +6,34 @@ import { pulsarity } from "./pulsarity_pb";
  * Handle errors from attempting to fetch and parse data from the server.
  */
 function handleError(error: unknown) {
-    let errorMessage = "n/a";
+	let errorMessage = "n/a";
 
-    if (error instanceof Error) {
-        errorMessage = error.message;
-    }
+	if (error instanceof Error) {
+		errorMessage = error.message;
+	}
 
-    console.error("Fetch operation failed: ", errorMessage);
+	console.error("Fetch operation failed: ", errorMessage);
 }
 
 /**
  * Gets the current authentication status of the client as a StatusResponse
  */
 export async function authCheck(): Promise<pulsarity.http.AuthenticatedResponse | null> {
-    const url = "/api/auth-check";
+	const url = "/api/auth-check";
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.http.AuthenticatedResponse.decode(
-            new Uint8Array(buffer),
-        );
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.http.AuthenticatedResponse.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -45,58 +43,58 @@ export async function authCheck(): Promise<pulsarity.http.AuthenticatedResponse 
  * @param [password] Password to use for authentication
  */
 export async function loginUser(
-    username: string,
-    password: string,
+	username: string,
+	password: string,
 ): Promise<pulsarity.http.LoginResponse | null> {
-    const url = "/api/login";
+	const url = "/api/login";
 
-    const message = pulsarity.http.LoginRequest.create({
-        username: username,
-        password: password,
-    });
-    const body = pulsarity.http.LoginRequest.encode(
-        message,
-    ).finish() as Uint8Array;
+	const message = pulsarity.http.LoginRequest.create({
+		username: username,
+		password: password,
+	});
+	const body = pulsarity.http.LoginRequest.encode(
+		message,
+	).finish() as Uint8Array<ArrayBuffer>;
 
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-protobuf" },
-            body: body,
-        });
+	try {
+		const response = await fetch(url, {
+			method: "POST",
+			headers: { "Content-Type": "application/x-protobuf" },
+			body: body,
+		});
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.http.LoginResponse.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.http.LoginResponse.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
  * Logout the client from the server
  */
 export async function logoutUser(): Promise<void> {
-    const url = "/api/logout";
+	const url = "/api/logout";
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-    } catch (error) {
-        let errorMessage = "n/a";
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
+	} catch (error) {
+		let errorMessage = "n/a";
 
-        if (error instanceof Error) {
-            errorMessage = error.message;
-        }
-        console.log("Fetch operation failed: ", errorMessage);
-    }
+		if (error instanceof Error) {
+			errorMessage = error.message;
+		}
+		console.log("Fetch operation failed: ", errorMessage);
+	}
 }
 
 /**
@@ -107,32 +105,32 @@ export async function logoutUser(): Promise<void> {
  * @param [newPassword] New password
  */
 export async function resetPassword(
-    oldPassword: string,
-    newPassword: string,
+	oldPassword: string,
+	newPassword: string,
 ): Promise<void> {
-    const url = "/api/reset-password";
+	const url = "/api/reset-password";
 
-    const message = pulsarity.http.ResetPasswordRequest.create({
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-    });
-    const body = pulsarity.http.ResetPasswordRequest.encode(
-        message,
-    ).finish() as Uint8Array;
+	const message = pulsarity.http.ResetPasswordRequest.create({
+		oldPassword: oldPassword,
+		newPassword: newPassword,
+	});
+	const body = pulsarity.http.ResetPasswordRequest.encode(
+		message,
+	).finish() as Uint8Array<ArrayBuffer>;
 
-    try {
-        const response = await fetch(url, {
-            method: "POST",
-            headers: { "Content-Type": "application/x-protobuf" },
-            body: body,
-        });
+	try {
+		const response = await fetch(url, {
+			method: "POST",
+			headers: { "Content-Type": "application/x-protobuf" },
+			body: body,
+		});
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-    } catch (error) {
-        handleError(error);
-    }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
+	} catch (error) {
+		handleError(error);
+	}
 }
 
 /**
@@ -141,25 +139,25 @@ export async function resetPassword(
  * @param [id] The id of the pilot
  */
 export async function getPilot(id: number): Promise<pulsarity.db.Pilot | null> {
-    const url = `/api/pilots/${id}`;
+	const url = `/api/pilots/${id}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        if (response.status === 204) {
-            return null;
-        }
+		if (response.status === 204) {
+			return null;
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.Pilot.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.Pilot.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -168,24 +166,24 @@ export async function getPilot(id: number): Promise<pulsarity.db.Pilot | null> {
  * @param [limit] The maximum number of pilots to get.
  */
 export async function getPilots(
-    idCursor: number = 0,
-    limit: number = 25,
+	idCursor: number = 0,
+	limit: number = 25,
 ): Promise<pulsarity.db.Pilots | null> {
-    const url = `/api/pilots/?cursor=${idCursor}&limit=${limit}`;
+	const url = `/api/pilots/?cursor=${idCursor}&limit=${limit}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.Pilots.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.Pilots.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -194,27 +192,27 @@ export async function getPilots(
  * @param [id] The id of the race event
  */
 export async function getRaceEvent(
-    id: number,
+	id: number,
 ): Promise<pulsarity.db.RaceEvent | null> {
-    const url = `/api/events/${id}`;
+	const url = `/api/events/${id}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        if (response.status === 204) {
-            return null;
-        }
+		if (response.status === 204) {
+			return null;
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.RaceEvent.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.RaceEvent.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -223,24 +221,24 @@ export async function getRaceEvent(
  * @param [limit] The maximum number of pilots to get.
  */
 export async function getRaceEvents(
-    idCursor: number = 0,
-    limit: number = 25,
+	idCursor: number = 0,
+	limit: number = 25,
 ): Promise<pulsarity.db.RaceEvents | null> {
-    const url = `/api/events/?cursor=${idCursor}&limit=${limit}`;
+	const url = `/api/events/?cursor=${idCursor}&limit=${limit}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.RaceEvents.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.RaceEvents.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -249,27 +247,27 @@ export async function getRaceEvents(
  * @param [id] The id of the race event
  */
 export async function getRaceClass(
-    id: number,
+	id: number,
 ): Promise<pulsarity.db.RaceClass | null> {
-    const url = `/api/raceclasses/${id}`;
+	const url = `/api/raceclasses/${id}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        if (response.status === 204) {
-            return null;
-        }
+		if (response.status === 204) {
+			return null;
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.RaceClass.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.RaceClass.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -279,25 +277,25 @@ export async function getRaceClass(
  * @param [limit] The maximum number of raceclasses to get.
  */
 export async function getRaceClasses(
-    eventId: number,
-    idCursor: number = 0,
-    limit: number = 25,
+	eventId: number,
+	idCursor: number = 0,
+	limit: number = 25,
 ): Promise<pulsarity.db.RaceClasses | null> {
-    const url = `/api/events/${eventId}/raceclasses?cursor=${idCursor}&limit=${limit}`;
+	const url = `/api/events/${eventId}/raceclasses?cursor=${idCursor}&limit=${limit}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.RaceClasses.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.RaceClasses.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -306,25 +304,25 @@ export async function getRaceClasses(
  * @param [id] The id of the round
  */
 export async function getRound(id: number): Promise<pulsarity.db.Round | null> {
-    const url = `/api/rounds/${id}`;
+	const url = `/api/rounds/${id}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        if (response.status === 204) {
-            return null;
-        }
+		if (response.status === 204) {
+			return null;
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.Round.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.Round.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -334,25 +332,25 @@ export async function getRound(id: number): Promise<pulsarity.db.Round | null> {
  * @param [limit] The maximum number of rounds to get.
  */
 export async function getRounds(
-    raceclassId: number,
-    idCursor: number = 0,
-    limit: number = 25,
+	raceclassId: number,
+	idCursor: number = 0,
+	limit: number = 25,
 ): Promise<pulsarity.db.Rounds | null> {
-    const url = `/api/raceclasses/${raceclassId}/rounds?cursor=${idCursor}&limit=${limit}`;
+	const url = `/api/raceclasses/${raceclassId}/rounds?cursor=${idCursor}&limit=${limit}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.Rounds.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.Rounds.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -361,25 +359,25 @@ export async function getRounds(
  * @param [id] The id of the heat
  */
 export async function getHeat(id: number): Promise<pulsarity.db.Heat | null> {
-    const url = `/api/rounds/${id}`;
+	const url = `/api/rounds/${id}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        if (response.status === 204) {
-            return null;
-        }
+		if (response.status === 204) {
+			return null;
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.Heat.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.Heat.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
@@ -389,44 +387,44 @@ export async function getHeat(id: number): Promise<pulsarity.db.Heat | null> {
  * @param [limit] The maximum number of heats to get
  */
 export async function getHeats(
-    roundId: number,
-    idCursor: number = 0,
-    limit: number = 25,
+	roundId: number,
+	idCursor: number = 0,
+	limit: number = 25,
 ): Promise<pulsarity.db.Heats | null> {
-    const url = `/api/rounds/${roundId}/heats?cursor=${idCursor}&limit=${limit}`;
+	const url = `/api/rounds/${roundId}/heats?cursor=${idCursor}&limit=${limit}`;
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.db.Heats.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.db.Heats.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }
 
 /**
  * Gets the general server information
  */
 export async function getServerData(): Promise<pulsarity.http.ServerData | null> {
-    const url = "/api/server-info";
+	const url = "/api/server-info";
 
-    try {
-        const response = await fetch(url);
+	try {
+		const response = await fetch(url);
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
+		if (!response.ok) {
+			throw new Error(await response.text());
+		}
 
-        const buffer = await response.arrayBuffer();
-        return pulsarity.http.ServerData.decode(new Uint8Array(buffer));
-    } catch (error) {
-        handleError(error);
-    }
-    return null;
+		const buffer = await response.arrayBuffer();
+		return pulsarity.http.ServerData.decode(new Uint8Array(buffer));
+	} catch (error) {
+		handleError(error);
+	}
+	return null;
 }

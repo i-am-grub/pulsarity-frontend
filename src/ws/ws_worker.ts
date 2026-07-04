@@ -2,12 +2,20 @@
 /// <reference lib="WebWorker" />
 
 import { pulsarity } from "../utils/pulsarity_pb";
-import { WebWorkerAction, type EventData } from "./ws_types";
-import { WebSocketMode } from "./ws_types";
+import {
+	isConnectEventMessage,
+	isWebSocketEventMessage,
+	type WebSocketModeType,
+	WebSocketMode,
+	type WorkerMessage,
+	type ConnectEventMessage,
+	type WebSocketEventMessage,
+	WebWorkerAction,
+} from "./ws_types";
 
 // Track active connections across tabs
 const connections: Set<MessagePort> = new Set<MessagePort>();
-let mode = WebSocketMode.OFF;
+let mode: WebSocketModeType = WebSocketMode.OFF;
 
 // Cast self to SharedWorkerGlobalScope
 const ctx = self as unknown as SharedWorkerGlobalScope;
@@ -15,11 +23,11 @@ const ctx = self as unknown as SharedWorkerGlobalScope;
 let ws: WebSocket;
 
 /**
- * Sends the websocket connection mode to all
- * connections
+ * Sends the websocket connection mode to all connections
+ * @param new_mode The mode to send to the worker's connections
  */
-function sendConnectionMode(new_mode: WebSocketMode) {
-	const data: EventData = {
+function sendConnectionMode(new_mode: WebSocketModeType) {
+	const data: ConnectEventMessage = {
 		action: WebWorkerAction.CONNECT,
 		wsMode: new_mode,
 	};
@@ -30,8 +38,9 @@ function sendConnectionMode(new_mode: WebSocketMode) {
 
 /**
  * Generate a websocket connection
+ * @param new_mode The mode to update the websocket connection to
  */
-function connectWebSocket(new_mode: WebSocketMode) {
+function connectWebSocket(new_mode: WebSocketModeType) {
 	switch (new_mode) {
 		case WebSocketMode.DUPLEX:
 			console.debug("Starting duplex websocket...");
@@ -45,8 +54,10 @@ function connectWebSocket(new_mode: WebSocketMode) {
 			return;
 	}
 
+	// Switch the binary type to be compatible with protocol buffers
 	ws.binaryType = "arraybuffer";
 
+	// Set websocket callbacks
 	ws.onopen = (_) => {
 		console.log("WebSocket is connected.");
 		sendConnectionMode(new_mode);
@@ -56,12 +67,14 @@ function connectWebSocket(new_mode: WebSocketMode) {
 
 	ws.onclose = (event) => {
 		mode = WebSocketMode.OFF;
+		sendConnectionMode(mode);
+
 		console.log(
 			`Connection closed. Code: ${event.code}, Reason: ${event.reason}. Attempting to reconnect in 3 seconds...`,
 		);
+
 		// Reconnect after a delay - TODO: exponential backoff
 		setTimeout(connectWebSocket, 3000, new_mode);
-		sendConnectionMode(WebSocketMode.OFF);
 	};
 
 	ws.onerror = (error) => {
@@ -69,35 +82,47 @@ function connectWebSocket(new_mode: WebSocketMode) {
 		ws.close(); // Triggers onclose event to handle retry
 	};
 
+	// Update the global websocket mode
 	mode = new_mode;
 }
 
 /**
- * Generate a websocket connection
+ * Set the websocket mode the worker should use
+ * @param new_mode The mode to set the websocket connection to
  */
-function setWebsocketMode(new_mode: WebSocketMode) {
+function setWebsocketMode(new_mode: WebSocketModeType) {
+	// No need to update the connection if the mode is the same
 	if (new_mode === mode) {
 		return;
 	}
 
+	// Create a new connection immediately
 	if (mode === WebSocketMode.OFF) {
 		connectWebSocket(new_mode);
-	} else if (new_mode === WebSocketMode.OFF) {
+	}
+	// Update the connection to prevent it from trying to reconnect and then close it
+	else if (new_mode === WebSocketMode.OFF) {
 		ws.onclose = (event) => {
 			mode = WebSocketMode.OFF;
+			sendConnectionMode(mode);
+
 			console.log(
 				`Connection closed. Code: ${event.code}, Reason: ${event.reason}. Turning off websocket...`,
 			);
-			sendConnectionMode(WebSocketMode.OFF);
 		};
 
 		ws.close(1000, "Closing client websocket");
-	} else {
+	}
+	// Update the connection to reconnect immediately after closing
+	else {
 		ws.onclose = (event) => {
 			mode = WebSocketMode.OFF;
+			sendConnectionMode(mode);
+
 			console.log(
 				`Connection closed. Code: ${event.code}, Reason: ${event.reason}. Reconnecting immediately...`,
 			);
+
 			setTimeout(connectWebSocket, 0, new_mode);
 		};
 
@@ -106,7 +131,8 @@ function setWebsocketMode(new_mode: WebSocketMode) {
 }
 
 /**
- * Handle websocket data coming from the server
+ * Handle websocket event data coming from the server
+ * @param evt The message event data to process
  */
 function handleServerEvt(evt: MessageEvent<ArrayBuffer>) {
 	const msg = pulsarity.ws.WebsocketEvent.decode(new Uint8Array(evt.data));
@@ -118,7 +144,10 @@ function handleServerEvt(evt: MessageEvent<ArrayBuffer>) {
 	}
 
 	// Send the parsed event to each connection
-	const data: EventData = { action: WebWorkerAction.MESSAGE, evtData: msg };
+	const data: WebSocketEventMessage = {
+		action: WebWorkerAction.WEBSOCKET,
+		messageData: msg,
+	};
 	connections.forEach((port) => {
 		port.postMessage(data);
 	});
@@ -126,10 +155,27 @@ function handleServerEvt(evt: MessageEvent<ArrayBuffer>) {
 
 /**
  * Send data to the server over the websocket connection
+ * @param evt The protocol buffer message to sent to the server
  */
 function sendMessageToServer(evt: pulsarity.ws.WebsocketEvent) {
-	const body = pulsarity.ws.WebsocketEvent.encode(evt).finish();
+	const body = pulsarity.ws.WebsocketEvent.encode(
+		evt,
+	).finish() as Uint8Array<ArrayBuffer>;
 	ws.send(body);
+}
+
+/**
+ * Handle message event data coming from shared worker clients
+ * @param evt The event data to process from the client
+ */
+function handleWorkerClientEvt(evt: MessageEvent<WorkerMessage>) {
+	const eventData = evt.data;
+
+	if (isWebSocketEventMessage(eventData)) {
+		sendMessageToServer(eventData.messageData);
+	} else if (isConnectEventMessage(eventData)) {
+		setWebsocketMode(eventData.wsMode);
+	}
 }
 
 /**
@@ -143,26 +189,7 @@ ctx.onconnect = (event: MessageEvent) => {
 	 * Add event handler for when the shared worker recieves data from
 	 * a connection
 	 */
-	port.onmessage = (e: MessageEvent<EventData>) => {
-		const eventData = e.data;
-
-		switch (eventData.action) {
-			// Encode the message and send the websocket data to the server
-			case WebWorkerAction.MESSAGE:
-				if (eventData.evtData !== undefined) {
-					sendMessageToServer(eventData.evtData);
-				}
-				break;
-
-			// Reconnect the websocket
-			case WebWorkerAction.CONNECT:
-				if (eventData.wsMode !== undefined) {
-					setWebsocketMode(eventData.wsMode);
-				}
-
-				break;
-		}
-	};
+	port.onmessage = handleWorkerClientEvt;
 
 	/**
 	 * Remove the connection from the list. Clean up the websocket
@@ -180,7 +207,7 @@ ctx.onconnect = (event: MessageEvent) => {
 	port.start();
 
 	// Send the current websocket connection mode
-	const data: EventData = {
+	const data: ConnectEventMessage = {
 		action: WebWorkerAction.CONNECT,
 		wsMode: mode,
 	};

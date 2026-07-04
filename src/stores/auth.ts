@@ -9,7 +9,7 @@ import {
 	resetPassword,
 } from "../utils/http_api";
 import { setWebsocketMode } from "../ws/ws_router";
-import { WebSocketMode } from "../ws/ws_types";
+import { WebSocketMode, type WebSocketModeType } from "../ws/ws_types";
 
 /**
  * The authentication store
@@ -112,7 +112,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	 * set of permissions
 	 */
 	function updateWebSocketMode() {
-		let mode: WebSocketMode;
+		let mode: WebSocketModeType;
 
 		if (hasPermission("duplex_websocket")) {
 			mode = WebSocketMode.DUPLEX;

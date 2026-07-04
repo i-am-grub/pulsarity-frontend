@@ -2,10 +2,6 @@
 
 <!-- Admin/RD base view -->
 
-<script setup lang="ts">
-	import RaceControl from "./RaceControl.vue";
-</script>
-
 <template>
 	<div class="race-controls">
 		<button id="race-control-start">Start</button>
