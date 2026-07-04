@@ -6,12 +6,13 @@
       "name": "pulsarity-frontend",
       "dependencies": {
         "pinia": "3.0.4",
-        "protobufjs": "8.4.2",
+        "protobufjs": "8.5.0",
         "vue": "3.5.34",
         "vue-router": "5.0.7",
       },
       "devDependencies": {
         "@types/node": "25.9.1",
+        "@types/sharedworker": "^0.0.227",
         "@vitejs/plugin-vue": "6.0.7",
         "@vue/tsconfig": "0.9.1",
         "protobufjs-cli": "2.4.2",
@@ -97,6 +98,8 @@
     "@types/mdurl": ["@types/mdurl@2.0.0", "", {}, "sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg=="],
 
     "@types/node": ["@types/node@25.9.1", "", { "dependencies": { "undici-types": ">=7.24.0 <7.24.7" } }, "sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg=="],
+
+    "@types/sharedworker": ["@types/sharedworker@0.0.227", "", {}, "sha512-3G0cLIp6uml0u9oKnDjP+RbeQgqHdV918Fj7A3p32LaMJkh3Q+mqEYTEhusOT1bAfwxGoxwARf1ajZ1PZgxFhw=="],
 
     "@vitejs/plugin-vue": ["@vitejs/plugin-vue@6.0.7", "", { "dependencies": { "@rolldown/pluginutils": "^1.0.1" }, "peerDependencies": { "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0", "vue": "^3.2.25" } }, "sha512-km+p+XdSz9Sxm5rqUbqcSfZYaAniKxWBj1KURl+Jr7UaPvvX7BmaWMdP69I5rrFDeQGyxAG7NXdc57vz+snhWg=="],
 
@@ -312,7 +315,7 @@
 
     "prelude-ls": ["prelude-ls@1.1.2", "", {}, "sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w=="],
 
-    "protobufjs": ["protobufjs@8.4.2", "", { "dependencies": { "long": "^5.3.2" } }, "sha512-64rfNzkWOZAIazXzpBFPWq6F9up6gMvTzjE2oWIzApx2N/dqVUEE7+bCn2+40780dFVtKOUab8QfxJ6KJDWbqA=="],
+    "protobufjs": ["protobufjs@8.5.0", "", { "dependencies": { "long": "^5.3.2" } }, "sha512-df1jWDPA5VIBNRtuAHjqr09f2qN5D4Vke1wYqOQg1XJ7ZDpA7BD6L7E4tyChgGRLB5hqk2m79Zsy0WHwV9a84A=="],
 
     "protobufjs-cli": ["protobufjs-cli@2.4.2", "", { "dependencies": { "chalk": "^4.0.0", "escodegen": "^1.13.0", "espree": "^9.0.0", "estraverse": "^5.1.0", "glob": "^8.0.0", "jsdoc": "^4.0.0", "minimist": "^1.2.8", "semver": "^7.1.2", "tmp": "^0.2.1", "uglify-js": "^3.7.7" }, "peerDependencies": { "protobufjs": "^8.4.2" }, "bin": { "pbjs": "bin/pbjs", "pbts": "bin/pbts", "protoc-gen-pbjs": "bin/protoc-gen-pbjs" } }, "sha512-dz7TvVs+tf0CQqS7wU+MsUH/5mNZAXmRD6PxxbjBk7DaL0AbjAJzVnV+B1w4qslCnL5TwlwCfPchd/us8AmfBQ=="],
 
