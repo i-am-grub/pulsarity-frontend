@@ -32,6 +32,7 @@
 					<RouterLink :to="item.path">{{ item.name }}</RouterLink>
 				</li>
 			</ul>
+			<RouterLink to="/">Public View</RouterLink>
 		</nav>
 		<main>
 			<RouterView />
@@ -47,13 +48,14 @@
 			"nav main";
 		grid-template-columns: 16em 1fr;
 		grid-template-rows: auto 1fr;
-		min-height: 100vw;
+		min-height: 100vh;
 	}
 
 	header {
 		grid-area: header;
 		display: flex;
 		gap: 1rem;
+		padding: 0.25rem 0.5rem;
 	}
 
 	.race-state {
@@ -70,9 +72,11 @@
 		grid-area: nav;
 		border-inline-end: solid thin
 			light-dark(
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high))
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
 			);
+		display: flex;
+		flex-direction: column;
 	}
 
 	nav > a:first-child {
@@ -98,10 +102,6 @@
 	nav > ul > li > a {
 		display: block;
 		padding: 0.5rem;
-		background: light-dark(
-			hsla(var(--hue_0), var(--sat_0), var(--lum_0_high), 15%),
-			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 15%)
-		);
 		text-decoration: none;
 		font-weight: 600;
 		color: light-dark(var(--ui-black), var(--ui-white));
@@ -112,13 +112,27 @@
 
 	nav > ul > li > a:hover {
 		background: light-dark(
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_high), 15%),
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 30%)
+		);
+	}
+
+	nav > ul > li > a.router-link-active {
+		background: light-dark(
 			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
 			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
 		);
 		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 	}
 
+	nav > :last-child {
+		margin-block-start: auto;
+		display: block;
+		padding: 0.5rem;
+	}
+
 	main {
 		grid-area: main;
+		padding: 1rem;
 	}
 </style>

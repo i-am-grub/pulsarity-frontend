@@ -18,7 +18,7 @@
 <style>
 	.race-controls {
 		display: flex;
-		gap: 1rem;
+		gap: 0.5rem;
 	}
 	.race-controls > button {
 		flex: 1;
