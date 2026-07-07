@@ -20,15 +20,15 @@
 
 <template>
 	<div class="login-container">
-		<h1>Login</h1>
-
-		<form @submit.prevent="handleSubmit">
+		<form @submit.prevent="handleSubmit" id="login">
 			<div class="form-group">
 				<label for="username">Username:</label>
 				<input
 					id="username"
 					v-model="username"
 					type="username"
+					name="username"
+					autocomplete="username"
 					required
 					:disabled="authStore.isLoading"
 				/>
@@ -40,6 +40,8 @@
 					id="password"
 					v-model="password"
 					type="password"
+					name="password"
+					autocomplete="current-password"
 					required
 					:disabled="authStore.isLoading"
 				/>
@@ -48,7 +50,7 @@
 			<div v-if="error" class="error">{{ error }}</div>
 
 			<button type="submit" :disabled="authStore.isLoading">
-				{{ authStore.isLoading ? "Logging in..." : "Login" }}
+				{{ authStore.isLoading ? "Logging in..." : "Log in" }}
 			</button>
 		</form>
 	</div>

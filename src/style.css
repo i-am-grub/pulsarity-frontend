@@ -1,3 +1,5 @@
+/** @format */
+
 @font-face {
 	font-family: "Barlow";
 	font-style: normal;
@@ -55,7 +57,15 @@
 	color-scheme: var(--uses-color-scheme);
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
 	margin: 0;
 }
 
@@ -76,20 +86,19 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
 html {
 	background: linear-gradient(
 		light-dark(
-			hsl(var(--hue_0), var(--sat_0), 100%),
-			hsl(var(--hue_0), var(--sat_0), 0%)
-		) 0%,
+				hsl(var(--hue_0), var(--sat_0), 100%),
+				hsl(var(--hue_0), var(--sat_0), 0%)
+			)
+			0%,
 		90%,
 		light-dark(
-			hsl(var(--hue_0), var(--sat_0), 85%),
-			hsl(var(--hue_0), var(--sat_0), 15%)
-		) 100vh
+				hsl(var(--hue_0), var(--sat_0), 85%),
+				hsl(var(--hue_0), var(--sat_0), 15%)
+			)
+			100vh
 	);
 	background-attachment: fixed;
-	color: light-dark(
-		var(--ui-black),
-		var(--ui-white)
-	);
+	color: light-dark(var(--ui-black), var(--ui-white));
 	margin: 0;
 	padding: 0;
 	overflow-x: clip;
