@@ -10,11 +10,33 @@
 	import rhLogo from "../assets/RotorHazard_Logo.svg";
 
 	const adminNavItems = [
-		{ path: "/admin/settings", name: "Timer Setup" },
-		{ path: "/admin/event", name: "Event Setup" },
+		{
+			path: "/admin/settings",
+			name: "Timer Setup",
+			children: [
+				{ path: "/admin/settings/frequency", name: "Frequency Setup" },
+				{ path: "/admin/settings/tuning", name: "Sensor Tuning" },
+				{ path: "/admin/settings/actions", name: "Event Actions" },
+				{ path: "/admin/settings/leds", name: "LED Setup" },
+				{ path: "/admin/settings/audio", name: "Audio Defaults" },
+			],
+		},
+		{
+			path: "/admin/event",
+			name: "Event Setup",
+			children: [
+				{ path: "/admin/event/pilots", name: "Pilots" },
+				{ path: "/admin/event/heats", name: "Heats" },
+			],
+		},
 		{ path: "/admin/race", name: "Run Races" },
 		{ path: "/admin/marshal", name: "Marshal" },
 		{ path: "/admin/results", name: "Results" },
+		{
+			path: "/admin/plugins",
+			name: "Plugins",
+			children: [{ path: "/admin/plugins/add", name: "Add New" }],
+		},
 	];
 </script>
 
@@ -26,10 +48,17 @@
 			<RaceState />
 		</header>
 		<nav>
-			<RouterLink to="/admin"><img :src="rhLogo" alt="" /></RouterLink>
+			<RouterLink to="/admin"
+				><img :src="rhLogo" alt="RotorHazard Admin"
+			/></RouterLink>
 			<ul>
 				<li v-for="item in adminNavItems">
 					<RouterLink :to="item.path">{{ item.name }}</RouterLink>
+					<ul v-if="item.children">
+						<li v-for="sub_item in item.children">
+							<RouterLink :to="sub_item.path">{{ sub_item.name }}</RouterLink>
+						</li>
+					</ul>
 				</li>
 			</ul>
 			<RouterLink to="/">Public View</RouterLink>
@@ -84,7 +113,7 @@
 		display: block;
 	}
 
-	nav > ul {
+	nav ul {
 		list-style: none;
 		margin: 0;
 		padding: 0;
@@ -99,7 +128,7 @@
 		margin-top: 1rem;
 	}
 
-	nav > ul > li > a {
+	nav a {
 		display: block;
 		padding: 0.5rem;
 		text-decoration: none;
@@ -110,19 +139,33 @@
 			color 0.2s;
 	}
 
-	nav > ul > li > a:hover {
+	nav a:hover {
 		background: light-dark(
 			hsla(var(--hue_0), var(--sat_0), var(--lum_0_high), 15%),
-			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 30%)
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 40%)
 		);
 	}
 
-	nav > ul > li > a.router-link-active {
+	nav ul a.router-link-active {
 		background: light-dark(
 			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
 			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
 		);
 		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
+	}
+
+	nav > ul > li > ul > li a {
+		font-weight: 300;
+		margin-inline-start: 1rem;
+	}
+
+	nav ul a.router-link-exact-active,
+	nav ul > li > ul > li a.router-link-active {
+		background: light-dark(
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high))
+		);
+		color: light-dark(var(--contrast_0_low), var(--contrast_0_high));
 	}
 
 	nav > :last-child {
