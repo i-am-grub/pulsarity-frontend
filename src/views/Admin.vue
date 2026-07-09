@@ -19,6 +19,7 @@
 				{ path: "/admin/settings/actions", name: "Event Actions" },
 				{ path: "/admin/settings/leds", name: "LED Setup" },
 				{ path: "/admin/settings/audio", name: "Audio Defaults" },
+				{ path: "/admin/settings/users", name: "Users" },
 			],
 		},
 		{

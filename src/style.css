@@ -75,7 +75,8 @@ ol {
 * + h6,
 * + p,
 * + ul,
-* + ol {
+* + ol,
+* + label {
 	margin-top: 1rem;
 }
 
@@ -156,4 +157,13 @@ dialog::backdrop {
 	text-transform: none;
 	width: auto;
 	z-index: 100000;
+}
+
+label {
+	display: block;
+}
+
+button[type="submit"] {
+	display: block;
+	margin-block-start: 1rem;
 }

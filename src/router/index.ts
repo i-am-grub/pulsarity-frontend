@@ -8,6 +8,7 @@ import HomeView from "../views/Home.vue";
 import HomeOverview from "../views/HomeOverview.vue";
 import HomeCurrentRace from "../views/HomeCurrentRace.vue";
 import HomeResults from "../views/HomeResults.vue";
+import PasswordResetView from "../views/PasswordResetView.vue";
 import AdminView from "../views/Admin.vue";
 import AdminOverview from "../views/AdminOverview.vue";
 import AdminEventSetup from "../views/AdminEventSetup.vue";
@@ -36,6 +37,10 @@ const routes = [
 				component: HomeResults,
 			},
 		],
+	},
+	{
+		path: "/reset-password",
+		component: PasswordResetView,
 	},
 	{
 		path: "/admin/",

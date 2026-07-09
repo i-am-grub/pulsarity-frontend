@@ -3,12 +3,19 @@
 <script setup lang="ts">
 	import { useServerStore } from "../stores/server_data";
 	import { useAuthenticationStore } from "../stores/auth";
-	import LoginView from "./Login.vue";
+	import LoginComponent from "./Login.vue";
+	import PasswordResetComponent from "./PasswordReset.vue";
 
 	import rhLogo from "../assets/RotorHazard_Logo.svg";
 
 	const serverStore = useServerStore();
 	const authStore = useAuthenticationStore();
+
+	var password: String | undefined = undefined;
+
+	function loginSuccessCallback(usedPassword: String) {
+		password = usedPassword;
+	}
 </script>
 
 <template>
@@ -26,6 +33,10 @@
 		</div>
 
 		<div class="actions">
+			<div v-if="authStore.isAuthenticated">
+				<button>Restart</button>
+				<button>Shut Down</button>
+			</div>
 			<ul>
 				<li><a href="#">Documentation</a></li>
 				<li><a href="#">Frequency Chart</a></li>
@@ -35,13 +46,22 @@
 		</div>
 
 		<div class="user-state">
-			<LoginView v-if="!authStore.isAuthenticated" />
+			<LoginComponent
+				v-if="!authStore.isAuthenticated"
+				@success="loginSuccessCallback"
+			/>
 			<template v-else>
 				<p v-if="!serverStore.isLoading">
 					Logged in as <strong>{{ authStore.displayName }}</strong>
 				</p>
-				<p><a href="/admin/">Admin console</a></p>
-				<button @click="authStore.runLogoutUser">Logout</button>
+				<PasswordResetComponent
+					v-if="authStore.passwordResetRequired"
+					:old-password="password"
+				/>
+				<template v-else>
+					<p><RouterLink to="/admin">Admin console</RouterLink></p>
+					<button @click="authStore.runLogoutUser">Logout</button>
+				</template>
 			</template>
 		</div>
 	</div>
@@ -64,9 +84,9 @@
 		#system-menu {
 			grid-template-columns: 10.6rem 1fr 16rem;
 			grid-template-areas:
-				"branding branding actions"
-				"null info actions"
-				"null user actions";
+				"branding branding user"
+				"null info user"
+				"null actions user";
 		}
 	}
 
