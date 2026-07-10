@@ -12,16 +12,16 @@
 
 	const password = ref("");
 	const newPassword = ref("");
-	const error = ref("");
 
 	if (props.oldPassword) {
 		password.value = props.oldPassword;
 	}
 
 	const handleSubmit = async () => {
-		error.value = "";
 		authStore.runPasswordReset(password.value, newPassword.value);
 	};
+
+	authStore.serverErrorMsg = "";
 </script>
 
 <template>
@@ -60,7 +60,7 @@
 			required
 		/>
 
-		<div v-if="error" class="error">{{ error }}</div>
+		<div v-if="authStore.serverErrorMsg" class="error">{{ authStore.serverErrorMsg }}</div>
 
 		<button type="submit" :disabled="authStore.isLoading">
 			{{ authStore.isLoading ? "Setting password..." : "Set new password" }}

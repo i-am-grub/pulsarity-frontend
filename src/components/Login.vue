@@ -8,17 +8,17 @@
 
 	const username = ref("");
 	const password = ref("");
-	const error = ref("");
 
 	const emit = defineEmits(["success"]);
 
 	const handleSubmit = async () => {
-		error.value = "";
 		authStore.runLoginUser(username.value, password.value);
 		// if (authStore.isAuthenticated) {
 		emit("success", password.value);
 		// }
 	};
+
+	authStore.serverErrorMsg = "";
 </script>
 
 <template>
@@ -45,7 +45,7 @@
 			:disabled="authStore.isLoading"
 		/>
 
-		<div v-if="error" class="error">{{ error }}</div>
+		<div v-if="authStore.serverErrorMsg" class="error">{{ authStore.serverErrorMsg }}</div>
 
 		<button type="submit" :disabled="authStore.isLoading">
 			{{ authStore.isLoading ? "Logging in..." : "Log in" }}
