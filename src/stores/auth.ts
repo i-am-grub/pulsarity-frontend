@@ -21,7 +21,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	const permissions = reactive<Set<string>>(new Set());
 
 	const isLoading = ref(false);
-	const invalidCredentials = ref(false);
 	const serverErrorMsg = ref("");
 
 	/**
@@ -42,7 +41,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 				permissions.add(value),
 			);
 
-			invalidCredentials.value = false;
 			serverErrorMsg.value = "";
 		} catch (error) {
 			if (error instanceof Error) {
@@ -86,7 +84,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 
 			await checkUserAuthenticated();
 
-			invalidCredentials.value = false;
 			serverErrorMsg.value = "";
 		} catch (error) {
 			if (error instanceof Error) {
@@ -140,7 +137,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		authId,
 		username,
 		displayName,
-		invalidCredentials,
 		serverErrorMsg,
 		runLoginUser,
 		runLogoutUser,
