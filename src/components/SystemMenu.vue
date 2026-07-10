@@ -32,11 +32,7 @@
 			<p>License, github, support, etc. etc.</p>
 		</div>
 
-		<div class="actions">
-			<div v-if="authStore.isAuthenticated">
-				<button>Restart</button>
-				<button>Shut Down</button>
-			</div>
+		<div class="public-actions">
 			<ul>
 				<li><a href="#">Documentation</a></li>
 				<li><a href="#">Frequency Chart</a></li>
@@ -63,6 +59,11 @@
 					<button @click="authStore.runLogoutUser">Logout</button>
 				</template>
 			</template>
+
+			<div v-if="authStore.isAuthenticated" class="system-actions">
+				<button>Restart</button>
+				<button>Shut Down</button>
+			</div>
 		</div>
 	</div>
 </template>
@@ -102,11 +103,41 @@
 		max-width: 30rem;
 	}
 
-	.actions {
+	.public-actions {
 		grid-area: actions;
 	}
 
 	.user-state {
 		grid-area: user;
+		padding: 1rem;
+		border: solid thin
+			light-dark(
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
+			);
+		border-radius: 0.25rem;
+		background: linear-gradient(
+			light-dark(
+					hsl(var(--hue_0), var(--sat_0), 100%),
+					hsl(var(--hue_0), var(--sat_0), 0%)
+				)
+				0%,
+			90%,
+			light-dark(
+					hsl(var(--hue_0), var(--sat_0), 85%),
+					hsl(var(--hue_0), var(--sat_0), 15%)
+				)
+				100%
+		);
+	}
+
+	.system-actions {
+		margin-block-start: 1rem;
+		border-block-start: solid thin
+			light-dark(
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
+			);
+		padding-block-start: 1rem;
 	}
 </style>

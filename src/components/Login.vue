@@ -45,35 +45,12 @@
 			:disabled="authStore.isLoading"
 		/>
 
-		<div v-if="authStore.serverErrorMsg" class="error">{{ authStore.serverErrorMsg }}</div>
+		<p class="error" role="alert" aria-atomic="true">
+			{{ authStore.serverErrorMsg }}
+		</p>
 
 		<button type="submit" :disabled="authStore.isLoading">
 			{{ authStore.isLoading ? "Logging in..." : "Log in" }}
 		</button>
 	</form>
 </template>
-
-<style scoped>
-	form {
-		padding: 1rem;
-		border: solid thin
-			light-dark(
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
-			);
-		border-radius: 0.25rem;
-		background: linear-gradient(
-			light-dark(
-					hsl(var(--hue_0), var(--sat_0), 100%),
-					hsl(var(--hue_0), var(--sat_0), 0%)
-				)
-				0%,
-			90%,
-			light-dark(
-					hsl(var(--hue_0), var(--sat_0), 85%),
-					hsl(var(--hue_0), var(--sat_0), 15%)
-				)
-				100%
-		);
-	}
-</style>

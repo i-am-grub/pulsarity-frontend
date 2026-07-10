@@ -84,6 +84,13 @@ ol {
 	margin-top: 2rem;
 }
 
+a {
+	color: light-dark(
+		hsl(var(--hue_1), var(--sat_1), 20%),
+		hsl(var(--hue_1), var(--sat_1), 75%)
+	);
+}
+
 html {
 	background: linear-gradient(
 		light-dark(
@@ -127,7 +134,12 @@ footer {
 
 dialog {
 	padding: 1rem;
-	border: solid thin light-dark(var(--ui-black), var(--ui-white));
+	border: solid thin
+		light-dark(
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
+		);
+	border-radius: 0.25rem;
 }
 
 dialog::backdrop {
@@ -163,7 +175,15 @@ label {
 	display: block;
 }
 
-button[type="submit"] {
+button {
 	display: block;
+}
+
+* + button {
 	margin-block-start: 1rem;
+}
+
+.error {
+	color: light-dark(hsl(8.2, 86.5%, 40%), hsl(8.2, 86.5%, 55%));
+	font-weight: 700;
 }

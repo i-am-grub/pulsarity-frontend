@@ -23,5 +23,6 @@
 	.race-controls > button {
 		flex: 1;
 		padding: 0.5rem;
+		margin: 0;
 	}
 </style>
