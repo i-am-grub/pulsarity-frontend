@@ -25,10 +25,10 @@
 		</div>
 
 		<div class="timer-info">
-			<p v-if="!serverStore.isLoading">
+			<p>
 				{{ serverStore.systemName }} {{ serverStore.systemVersion }}
 			</p>
-			<p v-else>Loading...</p>
+			
 			<p>License, github, support, etc. etc.</p>
 		</div>
 
@@ -47,7 +47,7 @@
 				@success="loginSuccessCallback"
 			/>
 			<template v-else>
-				<p v-if="!serverStore.isLoading">
+				<p>
 					Logged in as <strong>{{ authStore.displayName }}</strong>
 				</p>
 				<PasswordResetComponent

@@ -345,3 +345,21 @@ export async function getServerData(): Promise<pulsarity.http.ServerData> {
 	const buffer = await response.arrayBuffer();
 	return pulsarity.http.ServerData.decode(new Uint8Array(buffer));
 }
+
+/**
+* Gets a localization pack from the server
+*/
+export async function getLocalizationPack(
+	key: string,
+): Promise<pulsarity.http.LocalizationData> {
+	const url = `/api/localization-pack/${key}`;
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.http.LocalizationData.decode(new Uint8Array(buffer));
+}
