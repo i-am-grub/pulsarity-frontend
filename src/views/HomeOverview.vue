@@ -60,10 +60,17 @@
 
 	.event-detail-panel {
 		border: solid 1px;
-		border-color: light-dark(#ccc, #555);
-		background-color: light-dark(#ddd, #333);
+		border-color: light-dark(
+			hsl(var(--hue_0), var(--sat_0), 90%),
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high))
+		);
+		background-color: light-dark(
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_high), 5%),
+			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 15%)
+		);
 		padding: 1rem;
 		margin: 1rem 0;
+		border-radius: 0.25rem;
 	}
 
 	.event-host-info {
