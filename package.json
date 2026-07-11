@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "@types/node": "25.9.1",
+    "@types/sharedworker": "0.0.227",
     "@vitejs/plugin-vue": "6.0.7",
     "@vue/tsconfig": "0.9.1",
     "protobufjs-cli": "2.4.2",

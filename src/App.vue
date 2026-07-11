@@ -1,11 +1,12 @@
 <!-- @format -->
 
 <script setup lang="ts">
-	import { onMounted, ref } from "vue";
+	import { onMounted, onUnmounted, ref } from "vue";
 	import { RouterView } from "vue-router";
 	import { useServerStore } from "./stores/server_data";
 	import { useAuthenticationStore } from "./stores/auth";
-    import { loadLocalizatioPack } from "./utils/i18n";
+	import { closeWebsocketConnection } from "./ws/ws_router";
+  import { loadLocalizatioPack } from "./utils/i18n";
 
 	const serverStore = useServerStore();
 	const authStore = useAuthenticationStore();
@@ -33,6 +34,10 @@
 	onMounted(() => {
 		mountedData();
         isLoading.value = false;
+	});
+
+	onUnmounted(() => {
+		closeWebsocketConnection();
 	});
 </script>
 

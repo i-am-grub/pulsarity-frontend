@@ -8,6 +8,8 @@ import {
 	logoutUser,
 	resetPassword,
 } from "../utils/http_api";
+import { setWebsocketMode } from "../ws/ws_router";
+import { WebSocketMode, type WebSocketModeType } from "../ws/ws_types";
 
 /**
  * The authentication store

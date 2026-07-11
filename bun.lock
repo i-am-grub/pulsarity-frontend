@@ -13,6 +13,7 @@
       },
       "devDependencies": {
         "@types/node": "25.9.1",
+        "@types/sharedworker": "^0.0.227",
         "@vitejs/plugin-vue": "6.0.7",
         "@vue/tsconfig": "0.9.1",
         "protobufjs-cli": "2.4.2",
@@ -106,6 +107,8 @@
     "@types/mdurl": ["@types/mdurl@2.0.0", "", {}, "sha512-RGdgjQUZba5p6QEFAVx2OGb8rQDL/cPRG7GiedRzMcJ1tYnUANBncjbSB1NRGwbvjcPeikRABz2nshyPk1bhWg=="],
 
     "@types/node": ["@types/node@25.9.1", "", { "dependencies": { "undici-types": ">=7.24.0 <7.24.7" } }, "sha512-xfrlY7UD5rMJk3ZVJP8BNzS28J36YJg+xp+LPXV1TdWxr8uMH5A860QNxYDGQe/ylDSgjxE52Q9VnO7p75tJxg=="],
+
+    "@types/sharedworker": ["@types/sharedworker@0.0.227", "", {}, "sha512-3G0cLIp6uml0u9oKnDjP+RbeQgqHdV918Fj7A3p32LaMJkh3Q+mqEYTEhusOT1bAfwxGoxwARf1ajZ1PZgxFhw=="],
 
     "@vitejs/plugin-vue": ["@vitejs/plugin-vue@6.0.7", "", { "dependencies": { "@rolldown/pluginutils": "^1.0.1" }, "peerDependencies": { "vite": "^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0", "vue": "^3.2.25" } }, "sha512-km+p+XdSz9Sxm5rqUbqcSfZYaAniKxWBj1KURl+Jr7UaPvvX7BmaWMdP69I5rrFDeQGyxAG7NXdc57vz+snhWg=="],
 
