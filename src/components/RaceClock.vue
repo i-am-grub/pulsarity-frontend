@@ -11,5 +11,6 @@
 <style>
 	.race-clock {
 		text-align: center;
+		font-weight: 700;
 	}
 </style>

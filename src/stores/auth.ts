@@ -23,6 +23,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	const permissions = reactive<Set<string>>(new Set());
 
 	const isLoading = ref(false);
+	const serverErrorMsg = ref("");
 
 	/**
 	 * Log the user into the system with the provided username and password
@@ -31,18 +32,23 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		isLoading.value = true;
 		try {
 			const response = await loginUser(username_, password);
-			passwordResetRequired.value =
-				response?.passwordResetRequired ?? passwordResetRequired.value;
-			isAuthenticated.value = response?.userinfo?.authenticated ?? false;
-			authId.value = response?.userinfo?.authId ?? "";
-			username.value = response?.userinfo?.username ?? "";
-			displayName.value = response?.userinfo?.dispayName ?? "";
+
+			passwordResetRequired.value = response.passwordResetRequired;
+			isAuthenticated.value = response.userinfo?.authenticated ?? false;
+			authId.value = response.userinfo?.authId ?? "";
+			username.value = response.userinfo?.username ?? "";
+			displayName.value = response.userinfo?.dispayName ?? "";
 			permissions.clear();
-			response?.userinfo?.permissions?.forEach((value) =>
+			response.userinfo?.permissions?.forEach((value) =>
 				permissions.add(value),
 			);
-			updateWebSocketMode();
+
+			serverErrorMsg.value = "";
 		} catch (error) {
+			if (error instanceof Error) {
+				serverErrorMsg.value = error.message;
+			}
+
 			isAuthenticated.value = false;
 		} finally {
 			isLoading.value = false;
@@ -57,7 +63,12 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		try {
 			await logoutUser();
 			await checkUserAuthenticated();
+
+			serverErrorMsg.value = "";
 		} catch (error) {
+			if (error instanceof Error) {
+				serverErrorMsg.value = error.message;
+			}
 		} finally {
 			isLoading.value = false;
 		}
@@ -70,8 +81,16 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		isLoading.value = true;
 		try {
 			await resetPassword(oldPassword, newPassword);
+
+			passwordResetRequired.value = false;
+
 			await checkUserAuthenticated();
+
+			serverErrorMsg.value = "";
 		} catch (error) {
+			if (error instanceof Error) {
+				serverErrorMsg.value = error.message;
+			}
 		} finally {
 			isLoading.value = false;
 		}
@@ -84,16 +103,22 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		isLoading.value = true;
 		try {
 			const response = await authCheck();
-			isAuthenticated.value = response?.userinfo?.authenticated ?? false;
-			authId.value = response?.userinfo?.authId ?? "";
-			username.value = response?.userinfo?.username ?? "";
-			displayName.value = response?.userinfo?.dispayName ?? "";
+
+			isAuthenticated.value = response.userinfo?.authenticated ?? false;
+			authId.value = response.userinfo?.authId ?? "";
+			username.value = response.userinfo?.username ?? "";
+			displayName.value = response.userinfo?.dispayName ?? "";
 			permissions.clear();
-			response?.userinfo?.permissions?.forEach((value) =>
+			response.userinfo?.permissions?.forEach((value) =>
 				permissions.add(value),
 			);
-			updateWebSocketMode();
+
+			serverErrorMsg.value = "";
 		} catch (error) {
+			if (error instanceof Error) {
+				serverErrorMsg.value = error.message;
+			}
+
 			isAuthenticated.value = false;
 		} finally {
 			isLoading.value = false;
@@ -107,24 +132,6 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		return permissions.has(permission);
 	}
 
-	/**
-	 * Changes the websocket mode to reflect the user's current
-	 * set of permissions
-	 */
-	function updateWebSocketMode() {
-		let mode: WebSocketModeType;
-
-		if (hasPermission("duplex_websocket")) {
-			mode = WebSocketMode.DUPLEX;
-		} else if (hasPermission("simplex_websocket")) {
-			mode = WebSocketMode.SIMPLEX;
-		} else {
-			mode = WebSocketMode.OFF;
-		}
-
-		setWebsocketMode(mode);
-	}
-
 	return {
 		isAuthenticated,
 		passwordResetRequired,
@@ -132,6 +139,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		authId,
 		username,
 		displayName,
+		serverErrorMsg,
 		runLoginUser,
 		runLogoutUser,
 		runPasswordReset,

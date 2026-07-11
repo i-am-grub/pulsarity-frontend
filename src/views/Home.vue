@@ -13,9 +13,9 @@
 	const eventName = "2026-06-14 Whoop Race at Generator";
 
 	const homeNavItems = [
-		{ path: "/", name: "Overview" },
-		{ path: "/current", name: "Current Race" },
-		{ path: "/results", name: "Results" },
+		{ path: "/", messageKey: 'messages.overview' },
+		{ path: "/current", messageKey: 'messages.current_race' },
+		{ path: "/results", messageKey: 'messages.results' },
 	];
 </script>
 
@@ -28,7 +28,7 @@
 		<nav id="nav-main">
 			<ul>
 				<li v-for="item in homeNavItems">
-					<RouterLink :to="item.path">{{ item.name }}</RouterLink>
+					<RouterLink :to="item.path">{{ $t(item.messageKey) }}</RouterLink>
 				</li>
 			</ul>
 		</nav>
@@ -42,7 +42,7 @@
 		<RouterView />
 	</main>
 	<footer>
-		<span v-if="!serverStore.isLoading"
+		<span
 			>Powered by {{ serverStore.systemName }}
 			{{ serverStore.systemVersion }}</span
 		>
@@ -69,17 +69,17 @@
 			to bottom,
 			light-dark(
 					hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-					hsl(var(--hue_1), var(--sat_1), var(--lum_1_high))
+					hsl(var(--hue_0), var(--sat_0), var(--lum_1_high))
 				)
 				0%,
 			25%,
 			light-dark(
 					hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
-					hsl(var(--hue_1), var(--sat_1), var(--lum_1_low))
+					hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
 				)
 				100%
 		);
-		color: light-dark(var(--contrast_0_high), var(--contrast_1_high));
+		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 	}
 
 	.title {
@@ -101,10 +101,11 @@
 	nav > ul > li {
 		margin: 0;
 		padding: 0;
+        text-transform: capitalize;
 	}
 
 	nav a {
-		color: light-dark(var(--contrast_0_high), var(--contrast_1_high));
+		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 		font-weight: 700;
 	}
 
@@ -156,4 +157,31 @@
   (20 - 16 = 4) / (65 - 42 = 23) = 0.1739
   16 - 42*0.1739 = 8.6962
   */
+
+	.event-details {
+		grid-area: eventinfo;
+	}
+
+    .event-details > h2 {
+        text-transform: capitalize;
+    }
+
+	.event-host-info {
+		grid-area: hostinfo;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.timer-logo {
+		order: -1;
+		aspect-ratio: 1;
+		background: light-dark(#ccc, #111);
+		max-width: 20rem;
+	}
+
+	.timer-logo img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
 </style>

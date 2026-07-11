@@ -162,8 +162,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -218,6 +220,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Attribute.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Attribute)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Attribute: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -479,8 +483,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -550,6 +556,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Pilot.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Pilot)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Pilot: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -569,7 +577,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.Pilot.attributes: array expected");
                     message.attributes = Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
-                        if (typeof object.attributes[i] !== "object")
+                        if (!$util.isObject(object.attributes[i]))
                             throw TypeError(".pulsarity.db.Pilot.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
@@ -781,8 +789,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -843,6 +853,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Pilots.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Pilots)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Pilots: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -853,7 +865,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.Pilots.pilots: array expected");
                     message.pilots = Array(object.pilots.length);
                     for (let i = 0; i < object.pilots.length; ++i) {
-                        if (typeof object.pilots[i] !== "object")
+                        if (!$util.isObject(object.pilots[i]))
                             throw TypeError(".pulsarity.db.Pilots.pilots: object expected");
                         message.pilots[i] = $root.pulsarity.db.Pilot.fromObject(object.pilots[i], _depth + 1);
                     }
@@ -1111,8 +1123,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -1184,6 +1198,8 @@ export const pulsarity = $root.pulsarity = (() => {
             RaceEvent.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceEvent)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.RaceEvent: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -1196,7 +1212,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     if (typeof object.name !== "string" || object.name.length)
                         message.name = String(object.name);
                 if (object.date != null) {
-                    if (typeof object.date !== "object")
+                    if (!$util.isObject(object.date))
                         throw TypeError(".pulsarity.db.RaceEvent.date: object expected");
                     message.date = $root.google.protobuf.Timestamp.fromObject(object.date, _depth + 1);
                 }
@@ -1205,7 +1221,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.RaceEvent.attributes: array expected");
                     message.attributes = Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
-                        if (typeof object.attributes[i] !== "object")
+                        if (!$util.isObject(object.attributes[i]))
                             throw TypeError(".pulsarity.db.RaceEvent.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
@@ -1417,8 +1433,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -1479,6 +1497,8 @@ export const pulsarity = $root.pulsarity = (() => {
             RaceEvents.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceEvents)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.RaceEvents: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -1489,7 +1509,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.RaceEvents.events: array expected");
                     message.events = Array(object.events.length);
                     for (let i = 0; i < object.events.length; ++i) {
-                        if (typeof object.events[i] !== "object")
+                        if (!$util.isObject(object.events[i]))
                             throw TypeError(".pulsarity.db.RaceEvents.events: object expected");
                         message.events[i] = $root.pulsarity.db.RaceEvent.fromObject(object.events[i], _depth + 1);
                     }
@@ -1730,8 +1750,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -1798,6 +1820,8 @@ export const pulsarity = $root.pulsarity = (() => {
             RaceClass.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceClass)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.RaceClass: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -1814,7 +1838,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.RaceClass.attributes: array expected");
                     message.attributes = Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
-                        if (typeof object.attributes[i] !== "object")
+                        if (!$util.isObject(object.attributes[i]))
                             throw TypeError(".pulsarity.db.RaceClass.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
@@ -2023,8 +2047,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -2085,6 +2111,8 @@ export const pulsarity = $root.pulsarity = (() => {
             RaceClasses.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceClasses)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.RaceClasses: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -2095,7 +2123,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.RaceClasses.raceclasses: array expected");
                     message.raceclasses = Array(object.raceclasses.length);
                     for (let i = 0; i < object.raceclasses.length; ++i) {
-                        if (typeof object.raceclasses[i] !== "object")
+                        if (!$util.isObject(object.raceclasses[i]))
                             throw TypeError(".pulsarity.db.RaceClasses.raceclasses: object expected");
                         message.raceclasses[i] = $root.pulsarity.db.RaceClass.fromObject(object.raceclasses[i], _depth + 1);
                     }
@@ -2336,8 +2364,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -2404,6 +2434,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Round.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Round)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Round: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -2420,7 +2452,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.Round.attributes: array expected");
                     message.attributes = Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
-                        if (typeof object.attributes[i] !== "object")
+                        if (!$util.isObject(object.attributes[i]))
                             throw TypeError(".pulsarity.db.Round.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
@@ -2629,8 +2661,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -2691,6 +2725,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Rounds.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Rounds)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Rounds: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -2701,7 +2737,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.Rounds.rounds: array expected");
                     message.rounds = Array(object.rounds.length);
                     for (let i = 0; i < object.rounds.length; ++i) {
-                        if (typeof object.rounds[i] !== "object")
+                        if (!$util.isObject(object.rounds[i]))
                             throw TypeError(".pulsarity.db.Rounds.rounds: object expected");
                         message.rounds[i] = $root.pulsarity.db.Round.fromObject(object.rounds[i], _depth + 1);
                     }
@@ -2942,8 +2978,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -3010,6 +3048,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Heat.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Heat)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Heat: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -3026,7 +3066,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.Heat.attributes: array expected");
                     message.attributes = Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
-                        if (typeof object.attributes[i] !== "object")
+                        if (!$util.isObject(object.attributes[i]))
                             throw TypeError(".pulsarity.db.Heat.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
@@ -3235,8 +3275,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -3297,6 +3339,8 @@ export const pulsarity = $root.pulsarity = (() => {
             Heats.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.Heats)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.Heats: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -3307,7 +3351,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.Heats.heats: array expected");
                     message.heats = Array(object.heats.length);
                     for (let i = 0; i < object.heats.length; ++i) {
-                        if (typeof object.heats[i] !== "object")
+                        if (!$util.isObject(object.heats[i]))
                             throw TypeError(".pulsarity.db.Heats.heats: object expected");
                         message.heats[i] = $root.pulsarity.db.Heat.fromObject(object.heats[i], _depth + 1);
                     }
@@ -3527,8 +3571,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -3586,6 +3632,8 @@ export const pulsarity = $root.pulsarity = (() => {
             SignalRecord.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.SignalRecord)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.SignalRecord: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -3794,8 +3842,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -3856,6 +3906,8 @@ export const pulsarity = $root.pulsarity = (() => {
             SignalHistory.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.db.SignalHistory)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.db.SignalHistory: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -3866,7 +3918,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         throw TypeError(".pulsarity.db.SignalHistory.records: array expected");
                     message.records = Array(object.records.length);
                     for (let i = 0; i < object.records.length; ++i) {
-                        if (typeof object.records[i] !== "object")
+                        if (!$util.isObject(object.records[i]))
                             throw TypeError(".pulsarity.db.SignalHistory.records: object expected");
                         message.records[i] = $root.pulsarity.db.SignalRecord.fromObject(object.records[i], _depth + 1);
                     }
@@ -4159,8 +4211,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -4231,6 +4285,8 @@ export const pulsarity = $root.pulsarity = (() => {
             UserInfo.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.http.UserInfo)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.UserInfo: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -4481,8 +4537,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -4542,6 +4600,8 @@ export const pulsarity = $root.pulsarity = (() => {
             AuthenticatedResponse.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.http.AuthenticatedResponse)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.AuthenticatedResponse: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -4551,7 +4611,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     if (object.status)
                         message.status = Boolean(object.status);
                 if (object.userinfo != null) {
-                    if (typeof object.userinfo !== "object")
+                    if (!$util.isObject(object.userinfo))
                         throw TypeError(".pulsarity.http.AuthenticatedResponse.userinfo: object expected");
                     message.userinfo = $root.pulsarity.http.UserInfo.fromObject(object.userinfo, _depth + 1);
                 }
@@ -4771,8 +4831,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -4830,6 +4892,8 @@ export const pulsarity = $root.pulsarity = (() => {
             LoginRequest.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.http.LoginRequest)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.LoginRequest: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -5054,8 +5118,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -5115,6 +5181,8 @@ export const pulsarity = $root.pulsarity = (() => {
             LoginResponse.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.http.LoginResponse)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.LoginResponse: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -5124,7 +5192,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     if (object.passwordResetRequired)
                         message.passwordResetRequired = Boolean(object.passwordResetRequired);
                 if (object.userinfo != null) {
-                    if (typeof object.userinfo !== "object")
+                    if (!$util.isObject(object.userinfo))
                         throw TypeError(".pulsarity.http.LoginResponse.userinfo: object expected");
                     message.userinfo = $root.pulsarity.http.UserInfo.fromObject(object.userinfo, _depth + 1);
                 }
@@ -5344,8 +5412,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -5403,6 +5473,8 @@ export const pulsarity = $root.pulsarity = (() => {
             ResetPasswordRequest.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.http.ResetPasswordRequest)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.ResetPasswordRequest: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -5480,6 +5552,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.http.ServerData.$Properties
              * @property {string|null} [version] ServerData version
              * @property {string|null} [serverName] ServerData serverName
+             * @property {string|null} [languageVersion] ServerData languageVersion
+             * @property {Array.<string>|null} [languagePacks] ServerData languagePacks
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
              */
 
@@ -5505,6 +5579,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
              */
             function ServerData(properties) {
+                this.languagePacks = [];
                 if (properties)
                     for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
@@ -5526,6 +5601,22 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              */
             ServerData.prototype.serverName = "";
+
+            /**
+             * ServerData languageVersion.
+             * @member {string} languageVersion
+             * @memberof pulsarity.http.ServerData
+             * @instance
+             */
+            ServerData.prototype.languageVersion = "";
+
+            /**
+             * ServerData languagePacks.
+             * @member {Array.<string>} languagePacks
+             * @memberof pulsarity.http.ServerData
+             * @instance
+             */
+            ServerData.prototype.languagePacks = $util.emptyArray;
 
             /**
              * Creates a new ServerData instance using the specified properties.
@@ -5563,6 +5654,11 @@ export const pulsarity = $root.pulsarity = (() => {
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.version);
                 if (message.serverName != null && Object.hasOwnProperty.call(message, "serverName"))
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.serverName);
+                if (message.languageVersion != null && Object.hasOwnProperty.call(message, "languageVersion"))
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.languageVersion);
+                if (message.languagePacks != null && message.languagePacks.length)
+                    for (let i = 0; i < message.languagePacks.length; ++i)
+                        writer.uint32(/* id 4, wireType 2 =*/34).string(message.languagePacks[i]);
                 if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
@@ -5628,10 +5724,29 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.serverName;
                             continue;
                         }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.string()).length)
+                                message.languageVersion = value;
+                            else
+                                delete message.languageVersion;
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.languagePacks && message.languagePacks.length))
+                                message.languagePacks = [];
+                            message.languagePacks.push(reader.string());
+                            continue;
+                        }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -5675,6 +5790,16 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (message.serverName != null && message.hasOwnProperty("serverName"))
                     if (!$util.isString(message.serverName))
                         return "serverName: string expected";
+                if (message.languageVersion != null && message.hasOwnProperty("languageVersion"))
+                    if (!$util.isString(message.languageVersion))
+                        return "languageVersion: string expected";
+                if (message.languagePacks != null && message.hasOwnProperty("languagePacks")) {
+                    if (!Array.isArray(message.languagePacks))
+                        return "languagePacks: array expected";
+                    for (let i = 0; i < message.languagePacks.length; ++i)
+                        if (!$util.isString(message.languagePacks[i]))
+                            return "languagePacks: string[] expected";
+                }
                 return null;
             };
 
@@ -5689,6 +5814,8 @@ export const pulsarity = $root.pulsarity = (() => {
             ServerData.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.http.ServerData)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.ServerData: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -5700,6 +5827,16 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (object.serverName != null)
                     if (typeof object.serverName !== "string" || object.serverName.length)
                         message.serverName = String(object.serverName);
+                if (object.languageVersion != null)
+                    if (typeof object.languageVersion !== "string" || object.languageVersion.length)
+                        message.languageVersion = String(object.languageVersion);
+                if (object.languagePacks) {
+                    if (!Array.isArray(object.languagePacks))
+                        throw TypeError(".pulsarity.http.ServerData.languagePacks: array expected");
+                    message.languagePacks = Array(object.languagePacks.length);
+                    for (let i = 0; i < object.languagePacks.length; ++i)
+                        message.languagePacks[i] = String(object.languagePacks[i]);
+                }
                 return message;
             };
 
@@ -5720,14 +5857,24 @@ export const pulsarity = $root.pulsarity = (() => {
                 if (_depth > $util.recursionLimit)
                     throw Error("max depth exceeded");
                 let object = {};
+                if (options.arrays || options.defaults)
+                    object.languagePacks = [];
                 if (options.defaults) {
                     object.version = "";
                     object.serverName = "";
+                    object.languageVersion = "";
                 }
                 if (message.version != null && message.hasOwnProperty("version"))
                     object.version = message.version;
                 if (message.serverName != null && message.hasOwnProperty("serverName"))
                     object.serverName = message.serverName;
+                if (message.languageVersion != null && message.hasOwnProperty("languageVersion"))
+                    object.languageVersion = message.languageVersion;
+                if (message.languagePacks && message.languagePacks.length) {
+                    object.languagePacks = Array(message.languagePacks.length);
+                    for (let j = 0; j < message.languagePacks.length; ++j)
+                        object.languagePacks[j] = message.languagePacks[j];
+                }
                 return object;
             };
 
@@ -5757,6 +5904,379 @@ export const pulsarity = $root.pulsarity = (() => {
             };
 
             return ServerData;
+        })();
+
+        http.LocalizationData = (function() {
+
+            /**
+             * Properties of a LocalizationData.
+             * @typedef {Object} pulsarity.http.LocalizationData.$Properties
+             * @property {Object.<string,string>|null} [messages] LocalizationData messages
+             * @property {Object.<string,string>|null} [pluralization] LocalizationData pluralization
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             */
+
+            /**
+             * Properties of a LocalizationData.
+             * @memberof pulsarity.http
+             * @interface ILocalizationData
+             * @augments pulsarity.http.LocalizationData.$Properties
+             * @deprecated Use pulsarity.http.LocalizationData.$Properties instead.
+             */
+
+            /**
+             * Shape of a LocalizationData.
+             * @typedef {pulsarity.http.LocalizationData.$Properties} pulsarity.http.LocalizationData.$Shape
+             */
+
+            /**
+             * Constructs a new LocalizationData.
+             * @memberof pulsarity.http
+             * @classdesc Represents a LocalizationData.
+             * @constructor
+             * @param {pulsarity.http.LocalizationData.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             */
+            function LocalizationData(properties) {
+                this.messages = {};
+                this.pluralization = {};
+                if (properties)
+                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            }
+
+            /**
+             * LocalizationData messages.
+             * @member {Object.<string,string>} messages
+             * @memberof pulsarity.http.LocalizationData
+             * @instance
+             */
+            LocalizationData.prototype.messages = $util.emptyObject;
+
+            /**
+             * LocalizationData pluralization.
+             * @member {Object.<string,string>} pluralization
+             * @memberof pulsarity.http.LocalizationData
+             * @instance
+             */
+            LocalizationData.prototype.pluralization = $util.emptyObject;
+
+            /**
+             * Creates a new LocalizationData instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {pulsarity.http.LocalizationData.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.http.LocalizationData} LocalizationData instance
+             * @type {{
+             *   (properties: pulsarity.http.LocalizationData.$Shape): pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape;
+             *   (properties?: pulsarity.http.LocalizationData.$Properties): pulsarity.http.LocalizationData;
+             * }}
+             */
+            LocalizationData.create = function create(properties) {
+                return new LocalizationData(properties);
+            };
+
+            /**
+             * Encodes the specified LocalizationData message. Does not implicitly {@link pulsarity.http.LocalizationData.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {pulsarity.http.LocalizationData.$Properties} message LocalizationData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            LocalizationData.encode = function encode(message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                if (message.messages != null && Object.hasOwnProperty.call(message, "messages"))
+                    for (let keys = Object.keys(message.messages), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.messages[keys[i]]).ldelim();
+                if (message.pluralization != null && Object.hasOwnProperty.call(message, "pluralization"))
+                    for (let keys = Object.keys(message.pluralization), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.pluralization[keys[i]]).ldelim();
+                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified LocalizationData message, length delimited. Does not implicitly {@link pulsarity.http.LocalizationData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {pulsarity.http.LocalizationData.$Properties} message LocalizationData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            LocalizationData.encodeDelimited = function encodeDelimited(message, writer) {
+                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            };
+
+            /**
+             * Decodes a LocalizationData message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape} LocalizationData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            LocalizationData.decode = function decode(reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw Error("max depth exceeded");
+                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.LocalizationData(), key, value;
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (message.messages === $util.emptyObject)
+                                message.messages = {};
+                            let end2 = reader.uint32() + reader.pos;
+                            key = "";
+                            value = "";
+                            while (reader.pos < end2) {
+                                let tag2 = reader.tag();
+                                wireType = tag2 & 7;
+                                switch (tag2 >>>= 3) {
+                                case 1:
+                                    if (wireType !== 2)
+                                        break;
+                                    key = reader.string();
+                                    continue;
+                                case 2:
+                                    if (wireType !== 2)
+                                        break;
+                                    value = reader.string();
+                                    continue;
+                                }
+                                reader.skipType(wireType, _depth, tag2);
+                            }
+                            if (key === "__proto__")
+                                $util.makeProp(message.messages, key);
+                            message.messages[key] = value;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if (message.pluralization === $util.emptyObject)
+                                message.pluralization = {};
+                            let end2 = reader.uint32() + reader.pos;
+                            key = "";
+                            value = "";
+                            while (reader.pos < end2) {
+                                let tag2 = reader.tag();
+                                wireType = tag2 & 7;
+                                switch (tag2 >>>= 3) {
+                                case 1:
+                                    if (wireType !== 2)
+                                        break;
+                                    key = reader.string();
+                                    continue;
+                                case 2:
+                                    if (wireType !== 2)
+                                        break;
+                                    value = reader.string();
+                                    continue;
+                                }
+                                reader.skipType(wireType, _depth, tag2);
+                            }
+                            if (key === "__proto__")
+                                $util.makeProp(message.pluralization, key);
+                            message.pluralization[key] = value;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (_end !== undefined)
+                    throw Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a LocalizationData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.http.LocalizationData & pulsarity.http.LocalizationData.$Shape} LocalizationData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            LocalizationData.decodeDelimited = function decodeDelimited(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a LocalizationData message.
+             * @function verify
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            LocalizationData.verify = function verify(message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.messages != null && message.hasOwnProperty("messages")) {
+                    if (!$util.isObject(message.messages))
+                        return "messages: object expected";
+                    let key = Object.keys(message.messages);
+                    for (let i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.messages[key[i]]))
+                            return "messages: string{k:string} expected";
+                }
+                if (message.pluralization != null && message.hasOwnProperty("pluralization")) {
+                    if (!$util.isObject(message.pluralization))
+                        return "pluralization: object expected";
+                    let key = Object.keys(message.pluralization);
+                    for (let i = 0; i < key.length; ++i)
+                        if (!$util.isString(message.pluralization[key[i]]))
+                            return "pluralization: string{k:string} expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a LocalizationData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.http.LocalizationData} LocalizationData
+             */
+            LocalizationData.fromObject = function fromObject(object, _depth) {
+                if (object instanceof $root.pulsarity.http.LocalizationData)
+                    return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.http.LocalizationData: object expected");
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                let message = new $root.pulsarity.http.LocalizationData();
+                if (object.messages) {
+                    if (!$util.isObject(object.messages))
+                        throw TypeError(".pulsarity.http.LocalizationData.messages: object expected");
+                    message.messages = {};
+                    for (let keys = Object.keys(object.messages), i = 0; i < keys.length; ++i) {
+                        if (keys[i] === "__proto__")
+                            $util.makeProp(message.messages, keys[i]);
+                        message.messages[keys[i]] = String(object.messages[keys[i]]);
+                    }
+                }
+                if (object.pluralization) {
+                    if (!$util.isObject(object.pluralization))
+                        throw TypeError(".pulsarity.http.LocalizationData.pluralization: object expected");
+                    message.pluralization = {};
+                    for (let keys = Object.keys(object.pluralization), i = 0; i < keys.length; ++i) {
+                        if (keys[i] === "__proto__")
+                            $util.makeProp(message.pluralization, keys[i]);
+                        message.pluralization[keys[i]] = String(object.pluralization[keys[i]]);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a LocalizationData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {pulsarity.http.LocalizationData} message LocalizationData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            LocalizationData.toObject = function toObject(message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw Error("max depth exceeded");
+                let object = {};
+                if (options.objects || options.defaults) {
+                    object.messages = {};
+                    object.pluralization = {};
+                }
+                let keys2;
+                if (message.messages && (keys2 = Object.keys(message.messages)).length) {
+                    object.messages = {};
+                    for (let j = 0; j < keys2.length; ++j) {
+                        if (keys2[j] === "__proto__")
+                            $util.makeProp(object.messages, keys2[j]);
+                        object.messages[keys2[j]] = message.messages[keys2[j]];
+                    }
+                }
+                if (message.pluralization && (keys2 = Object.keys(message.pluralization)).length) {
+                    object.pluralization = {};
+                    for (let j = 0; j < keys2.length; ++j) {
+                        if (keys2[j] === "__proto__")
+                            $util.makeProp(object.pluralization, keys2[j]);
+                        object.pluralization[keys2[j]] = message.pluralization[keys2[j]];
+                    }
+                }
+                return object;
+            };
+
+            /**
+             * Converts this LocalizationData to JSON.
+             * @function toJSON
+             * @memberof pulsarity.http.LocalizationData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            LocalizationData.prototype.toJSON = function toJSON() {
+                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for LocalizationData
+             * @function getTypeUrl
+             * @memberof pulsarity.http.LocalizationData
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            LocalizationData.getTypeUrl = function getTypeUrl(prefix) {
+                if (prefix === undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.http.LocalizationData";
+            };
+
+            return LocalizationData;
         })();
 
         return http;
@@ -5950,8 +6470,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -6006,6 +6528,8 @@ export const pulsarity = $root.pulsarity = (() => {
             PilotAddData.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.ws.PilotAddData)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.ws.PilotAddData: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -6206,8 +6730,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -6262,6 +6788,8 @@ export const pulsarity = $root.pulsarity = (() => {
             PilotAlterData.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.ws.PilotAlterData)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.ws.PilotAlterData: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -6462,8 +6990,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -6518,6 +7048,8 @@ export const pulsarity = $root.pulsarity = (() => {
             PilotDeleteData.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.ws.PilotDeleteData)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.ws.PilotDeleteData: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -6816,8 +7348,10 @@ export const pulsarity = $root.pulsarity = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -6923,6 +7457,8 @@ export const pulsarity = $root.pulsarity = (() => {
             WebsocketEvent.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.pulsarity.ws.WebsocketEvent)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".pulsarity.ws.WebsocketEvent: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
@@ -7008,17 +7544,17 @@ export const pulsarity = $root.pulsarity = (() => {
                         break;
                     }
                 if (object.pilotAdd != null) {
-                    if (typeof object.pilotAdd !== "object")
+                    if (!$util.isObject(object.pilotAdd))
                         throw TypeError(".pulsarity.ws.WebsocketEvent.pilotAdd: object expected");
                     message.pilotAdd = $root.pulsarity.ws.PilotAddData.fromObject(object.pilotAdd, _depth + 1);
                 }
                 if (object.pilotAlter != null) {
-                    if (typeof object.pilotAlter !== "object")
+                    if (!$util.isObject(object.pilotAlter))
                         throw TypeError(".pulsarity.ws.WebsocketEvent.pilotAlter: object expected");
                     message.pilotAlter = $root.pulsarity.ws.PilotAlterData.fromObject(object.pilotAlter, _depth + 1);
                 }
                 if (object.pilotDelete != null) {
-                    if (typeof object.pilotDelete !== "object")
+                    if (!$util.isObject(object.pilotDelete))
                         throw TypeError(".pulsarity.ws.WebsocketEvent.pilotDelete: object expected");
                     message.pilotDelete = $root.pulsarity.ws.PilotDeleteData.fromObject(object.pilotDelete, _depth + 1);
                 }
@@ -7283,8 +7819,10 @@ export const google = $root.google = (() => {
                         }
                     }
                     reader.skipType(wireType, _depth, tag);
-                    $util.makeProp(message, "$unknowns", false);
-                    (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
                 }
                 if (_end !== undefined)
                     throw Error("missing end group");
@@ -7342,6 +7880,8 @@ export const google = $root.google = (() => {
             Timestamp.fromObject = function fromObject(object, _depth) {
                 if (object instanceof $root.google.protobuf.Timestamp)
                     return object;
+                if (!$util.isObject(object))
+                    throw TypeError(".google.protobuf.Timestamp: object expected");
                 if (_depth === undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)

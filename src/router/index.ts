@@ -8,71 +8,106 @@ import HomeView from "../views/Home.vue";
 import HomeOverview from "../views/HomeOverview.vue";
 import HomeCurrentRace from "../views/HomeCurrentRace.vue";
 import HomeResults from "../views/HomeResults.vue";
+import PasswordResetView from "../views/PasswordResetView.vue";
 import AdminView from "../views/Admin.vue";
 import AdminOverview from "../views/AdminOverview.vue";
 import AdminEventSetup from "../views/AdminEventSetup.vue";
 import AdminMarshal from "../views/AdminMarshal.vue";
 import AdminPluginManager from "../views/AdminPluginManager.vue";
+import AdminPluginAdd from "../views/AdminPluginAdd.vue";
 import AdminResultsEditor from "../views/AdminResultsEditor.vue";
 import AdminRunRace from "../views/AdminRunRace.vue";
 import AdminTimerSettings from "../views/AdminTimerSettings.vue";
 
 const routes = [
-	{ 
-    path: "/", 
-    component: HomeView,
+	{
+		path: "/",
+		component: HomeView,
 		children: [
 			{
-				path: '',
+				path: "",
 				component: HomeOverview,
 			},
 			{
-				path: 'current',
+				path: "current",
 				component: HomeCurrentRace,
 			},
 			{
-				path: 'results',
+				path: "results",
 				component: HomeResults,
 			},
-    ]
-  },
+		],
+	},
 	{
-		path: "/admin/", 
+		path: "/reset-password",
+		component: PasswordResetView,
+	},
+	{
+		path: "/admin/",
 		component: AdminView,
 		children: [
 			{
-				path: '',
+				path: "",
 				component: AdminOverview,
 			},
 			{
-				path: 'event',
-				component: AdminEventSetup,
+				path: "event",
+
+				children: [
+					{
+						path: "",
+						component: AdminEventSetup,
+					},
+					{
+						path: ":page",
+						component: AdminEventSetup,
+						props: {
+							page: String,
+						},
+					},
+				],
 			},
 			{
-				path: 'plugins',
+				path: "plugins",
 				component: AdminPluginManager,
 			},
 			{
-				path: 'marshal',
+				path: "plugins/add",
+				component: AdminPluginAdd,
+			},
+			{
+				path: "marshal",
 				component: AdminMarshal,
 			},
 			{
-				path: 'results',
+				path: "results",
 				component: AdminResultsEditor,
 			},
 			{
-				path: 'race',
+				path: "race",
 				component: AdminRunRace,
 			},
 			{
-				path: 'settings',
-				component: AdminTimerSettings,
+				path: "settings",
+				children: [
+					{
+						path: "",
+						component: AdminTimerSettings,
+					},
+					{
+						path: ":page",
+						component: AdminTimerSettings,
+						props: {
+							page: String,
+						},
+					},
+				],
 			},
-		]
+		],
 	},
 ];
 
 export const router = createRouter({
-		history: createWebHistory(),
-		routes,
+	history: createWebHistory(),
+	routes,
 });

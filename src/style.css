@@ -1,3 +1,5 @@
+/** @format */
+
 @font-face {
 	font-family: "Barlow";
 	font-style: normal;
@@ -35,24 +37,35 @@
 }
 
 :root {
-  --hue_0: 212;
-  --sat_0: 55%;
-  --lum_0_low: 29.2%;
-  --lum_0_high: 46.7%;
-  --contrast_0_low: #ffffff;
-  --contrast_0_high: #ffffff;
-  --hue_1: 25;
-  --sat_1: 85.3%;
-  --lum_1_low: 37.6%;
-  --lum_1_high: 54.5%;
-  --contrast_1_low: #ffffff;
-  --contrast_1_high: #000000;
+	--hue_0: 212;
+	--sat_0: 55%;
+	--lum_0_low: 29.2%;
+	--lum_0_high: 46.7%;
+	--contrast_0_low: #ffffff;
+	--contrast_0_high: #ffffff;
+	--hue_1: 25;
+	--sat_1: 85.3%;
+	--lum_1_low: 37.6%;
+	--lum_1_high: 54.5%;
+	--contrast_1_low: #ffffff;
+	--contrast_1_high: #000000;
+
+	--ui-white: #eee;
+	--ui-black: #222;
 
 	--uses-color-scheme: light dark;
 	color-scheme: var(--uses-color-scheme);
 }
 
-h1, h2, h3, h4, h5, h6, p, ul, ol {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol {
 	margin: 0;
 }
 
@@ -62,7 +75,8 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
 * + h6,
 * + p,
 * + ul,
-* + ol {
+* + ol,
+* + label {
 	margin-top: 1rem;
 }
 
@@ -70,9 +84,29 @@ h1, h2, h3, h4, h5, h6, p, ul, ol {
 	margin-top: 2rem;
 }
 
+a {
+	color: light-dark(
+		hsl(var(--hue_1), var(--sat_1), 20%),
+		hsl(var(--hue_1), var(--sat_1), 75%)
+	);
+}
+
 html {
-	background: light-dark(#eee, #222);
-	color: light-dark(#222, #eee);
+	background: linear-gradient(
+		light-dark(
+				hsl(var(--hue_0), var(--sat_0), 100%),
+				hsl(var(--hue_0), var(--sat_0), 0%)
+			)
+			0%,
+		90%,
+		light-dark(
+				hsl(var(--hue_0), var(--sat_0), 85%),
+				hsl(var(--hue_0), var(--sat_0), 15%)
+			)
+			100vh
+	);
+	background-attachment: fixed;
+	color: light-dark(var(--ui-black), var(--ui-white));
 	margin: 0;
 	padding: 0;
 	overflow-x: clip;
@@ -100,7 +134,12 @@ footer {
 
 dialog {
 	padding: 1rem;
-	border: solid thin light-dark(#222, #eee);
+	border: solid thin
+		light-dark(
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
+			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
+		);
+	border-radius: 0.25rem;
 }
 
 dialog::backdrop {
@@ -130,4 +169,21 @@ dialog::backdrop {
 	text-transform: none;
 	width: auto;
 	z-index: 100000;
+}
+
+label {
+	display: block;
+}
+
+button {
+	display: block;
+}
+
+* + button {
+	margin-block-start: 1rem;
+}
+
+.error {
+	color: light-dark(hsl(8.2, 86.5%, 40%), hsl(8.2, 86.5%, 55%));
+	font-weight: 700;
 }

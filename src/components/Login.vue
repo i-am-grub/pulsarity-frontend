@@ -8,48 +8,49 @@
 
 	const username = ref("");
 	const password = ref("");
-	const error = ref("");
+
+	const emit = defineEmits(["success"]);
 
 	const handleSubmit = async () => {
-		error.value = "";
-		console.log(authStore.isAuthenticated);
 		authStore.runLoginUser(username.value, password.value);
-		console.log(authStore.isAuthenticated);
+		// if (authStore.isAuthenticated) {
+		emit("success", password.value);
+		// }
 	};
+
+	authStore.serverErrorMsg = "";
 </script>
 
 <template>
-	<div class="login-container">
-		<h1>Login</h1>
+	<form @submit.prevent="handleSubmit" id="login">
+		<label for="username">Username:</label>
+		<input
+			id="username"
+			v-model="username"
+			type="username"
+			name="username"
+			autocomplete="username"
+			required
+			:disabled="authStore.isLoading"
+		/>
 
-		<form @submit.prevent="handleSubmit">
-			<div class="form-group">
-				<label for="username">Username:</label>
-				<input
-					id="username"
-					v-model="username"
-					type="username"
-					required
-					:disabled="authStore.isLoading"
-				/>
-			</div>
+		<label for="password">Password:</label>
+		<input
+			id="password"
+			v-model="password"
+			type="password"
+			name="password"
+			autocomplete="current-password"
+			required
+			:disabled="authStore.isLoading"
+		/>
 
-			<div class="form-group">
-				<label for="password">Password:</label>
-				<input
-					id="password"
-					v-model="password"
-					type="password"
-					required
-					:disabled="authStore.isLoading"
-				/>
-			</div>
+		<p class="error" role="alert" aria-atomic="true">
+			{{ authStore.serverErrorMsg }}
+		</p>
 
-			<div v-if="error" class="error">{{ error }}</div>
-
-			<button type="submit" :disabled="authStore.isLoading">
-				{{ authStore.isLoading ? "Logging in..." : "Login" }}
-			</button>
-		</form>
-	</div>
+		<button type="submit" :disabled="authStore.isLoading">
+			{{ authStore.isLoading ? "Logging in..." : "Log in" }}
+		</button>
+	</form>
 </template>
