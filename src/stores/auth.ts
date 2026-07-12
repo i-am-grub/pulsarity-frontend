@@ -7,9 +7,9 @@ import {
 	authCheck,
 	logoutUser,
 	resetPassword,
-} from "../utils/http_api";
-import { setWebsocketMode } from "../ws/ws_router";
-import { WebSocketMode, type WebSocketModeType } from "../ws/ws_types";
+} from "@/utils/http_api";
+import { setWebsocketMode } from "@/ws/ws_router";
+import { WebSocketMode, type WebSocketModeType } from "@/ws/ws_types";
 
 /**
  * The authentication store
@@ -42,6 +42,8 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 			response.userinfo?.permissions?.forEach((value) =>
 				permissions.add(value),
 			);
+
+			updateWebSocketMode();
 
 			serverErrorMsg.value = "";
 		} catch (error) {
@@ -113,6 +115,8 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 				permissions.add(value),
 			);
 
+			updateWebSocketMode();
+
 			serverErrorMsg.value = "";
 		} catch (error) {
 			if (error instanceof Error) {
@@ -130,6 +134,24 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	 */
 	function hasPermission(permission: string): boolean {
 		return permissions.has(permission);
+	}
+
+	/**
+	 * Changes the websocket mode to reflect the user's current
+	 * set of permissions
+	 */
+	function updateWebSocketMode() {
+		let mode: WebSocketModeType;
+
+		if (hasPermission("duplex_websocket")) {
+			mode = WebSocketMode.DUPLEX;
+		} else if (hasPermission("simplex_websocket")) {
+			mode = WebSocketMode.SIMPLEX;
+		} else {
+			mode = WebSocketMode.OFF;
+		}
+
+		setWebsocketMode(mode);
 	}
 
 	return {

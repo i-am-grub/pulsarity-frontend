@@ -1,12 +1,12 @@
 <!-- @format -->
 
 <script setup lang="ts">
-	import { useServerStore } from "../stores/server_data";
-	import { useAuthenticationStore } from "../stores/auth";
-	import LoginComponent from "./Login.vue";
-	import PasswordResetComponent from "./PasswordReset.vue";
+	import { useServerStore } from "@stores/server_data";
+	import { useAuthenticationStore } from "@stores/auth";
+	import LoginComponent from "@components/Login.vue";
+	import PasswordResetComponent from "@components/PasswordReset.vue";
 
-	import rhLogo from "../assets/RotorHazard_Logo.svg";
+	import rhLogo from "@/assets/RotorHazard_Logo.svg";
 
 	const serverStore = useServerStore();
 	const authStore = useAuthenticationStore();
@@ -25,10 +25,8 @@
 		</div>
 
 		<div class="timer-info">
-			<p>
-				{{ serverStore.systemName }} {{ serverStore.systemVersion }}
-			</p>
-			
+			<p>{{ serverStore.systemName }} {{ serverStore.systemVersion }}</p>
+
 			<p>License, github, support, etc. etc.</p>
 		</div>
 

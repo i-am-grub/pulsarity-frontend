@@ -2,7 +2,7 @@
 
 import { defineStore } from "pinia";
 import { reactive, ref } from "vue";
-import { getServerData } from "../utils/http_api";
+import { getServerData } from "@/utils/http_api";
 
 /**
  * Store containing general server information

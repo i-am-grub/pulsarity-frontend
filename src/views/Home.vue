@@ -3,9 +3,9 @@
 <!-- The Root View -->
 
 <script setup lang="ts">
-	import { useServerStore } from "../stores/server_data";
-	import SystemMenuComponent from "../components/SystemMenu.vue";
-	import rhIcon from "../assets/RotorHazard_Icon.svg";
+	import { useServerStore } from "@stores/server_data";
+	import SystemMenuComponent from "@components/SystemMenu.vue";
+	import rhIcon from "@/assets/RotorHazard_Icon.svg";
 
 	const serverStore = useServerStore();
 
@@ -13,9 +13,9 @@
 	const eventName = "2026-06-14 Whoop Race at Generator";
 
 	const homeNavItems = [
-		{ path: "/", messageKey: 'messages.overview' },
-		{ path: "/current", messageKey: 'messages.current_race' },
-		{ path: "/results", messageKey: 'messages.results' },
+		{ path: "/", messageKey: "messages.overview" },
+		{ path: "/current", messageKey: "messages.current_race" },
+		{ path: "/results", messageKey: "messages.results" },
 	];
 </script>
 
@@ -101,7 +101,7 @@
 	nav > ul > li {
 		margin: 0;
 		padding: 0;
-        text-transform: capitalize;
+		text-transform: capitalize;
 	}
 
 	nav a {
@@ -162,9 +162,9 @@
 		grid-area: eventinfo;
 	}
 
-    .event-details > h2 {
-        text-transform: capitalize;
-    }
+	.event-details > h2 {
+		text-transform: capitalize;
+	}
 
 	.event-host-info {
 		grid-area: hostinfo;

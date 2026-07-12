@@ -1,6 +1,6 @@
 /** @format */
 
-import { pulsarity } from "../utils/pulsarity_pb";
+import { pulsarity } from "@/utils/pulsarity_pb";
 import {
 	isConnectEventMessage,
 	isWebSocketEventMessage,

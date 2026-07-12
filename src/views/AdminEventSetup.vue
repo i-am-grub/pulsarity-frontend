@@ -1,7 +1,7 @@
 <!-- @format -->
 
 <script setup lang="ts">
-	import SettingsPanel from "../components/SettingsPanel.vue";
+	import SettingsPanel from "@components/SettingsPanel.vue";
 </script>
 
 <template>

@@ -4,20 +4,20 @@
 
 import { createWebHistory, createRouter } from "vue-router";
 
-import HomeView from "../views/Home.vue";
-import HomeOverview from "../views/HomeOverview.vue";
-import HomeCurrentRace from "../views/HomeCurrentRace.vue";
-import HomeResults from "../views/HomeResults.vue";
-import PasswordResetView from "../views/PasswordResetView.vue";
-import AdminView from "../views/Admin.vue";
-import AdminOverview from "../views/AdminOverview.vue";
-import AdminEventSetup from "../views/AdminEventSetup.vue";
-import AdminMarshal from "../views/AdminMarshal.vue";
-import AdminPluginManager from "../views/AdminPluginManager.vue";
-import AdminPluginAdd from "../views/AdminPluginAdd.vue";
-import AdminResultsEditor from "../views/AdminResultsEditor.vue";
-import AdminRunRace from "../views/AdminRunRace.vue";
-import AdminTimerSettings from "../views/AdminTimerSettings.vue";
+import HomeView from "@/views/Home.vue";
+import HomeOverview from "@/views/HomeOverview.vue";
+import HomeCurrentRace from "@/views/HomeCurrentRace.vue";
+import HomeResults from "@/views/HomeResults.vue";
+import PasswordResetView from "@/views/PasswordResetView.vue";
+import AdminView from "@/views/Admin.vue";
+import AdminOverview from "@/views/AdminOverview.vue";
+import AdminEventSetup from "@/views/AdminEventSetup.vue";
+import AdminMarshal from "@/views/AdminMarshal.vue";
+import AdminPluginManager from "@/views/AdminPluginManager.vue";
+import AdminPluginAdd from "@/views/AdminPluginAdd.vue";
+import AdminResultsEditor from "@/views/AdminResultsEditor.vue";
+import AdminRunRace from "@/views/AdminRunRace.vue";
+import AdminTimerSettings from "@/views/AdminTimerSettings.vue";
 
 const routes = [
 	{

@@ -1,9 +1,11 @@
 <!-- @format -->
 
 <script setup lang="ts">
+	import rhLogo from "@/assets/RotorHazard_Logo.svg";
+
 	const eventHostName = "Multirotor Vermont";
 	const eventName = "2026-06-14 Whoop Race at Generator";
-	const timerLogo = "/src/assets/RotorHazard_Logo.svg";
+	const timerLogo = rhLogo;
 	const timerInfo = `
   		<p>
 				One of the oldest continuously running FPV racing communities, since

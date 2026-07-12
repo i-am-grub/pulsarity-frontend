@@ -2,7 +2,7 @@
 
 <script setup lang="ts">
 	import { ref } from "vue";
-	import { useAuthenticationStore } from "../stores/auth";
+	import { useAuthenticationStore } from "@stores/auth";
 
 	const props = defineProps({
 		oldPassword: String,
@@ -60,7 +60,9 @@
 			required
 		/>
 
-		<div v-if="authStore.serverErrorMsg" class="error">{{ authStore.serverErrorMsg }}</div>
+		<div v-if="authStore.serverErrorMsg" class="error">
+			{{ authStore.serverErrorMsg }}
+		</div>
 
 		<button type="submit" :disabled="authStore.isLoading">
 			{{ authStore.isLoading ? "Setting password..." : "Set new password" }}

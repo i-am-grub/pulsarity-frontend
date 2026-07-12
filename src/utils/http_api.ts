@@ -1,6 +1,6 @@
 /** @format */
 
-import { pulsarity } from "./pulsarity_pb";
+import { pulsarity } from "@/utils/pulsarity_pb";
 
 /**
  * Gets the current authentication status of the client as a StatusResponse
@@ -36,7 +36,7 @@ export async function loginUser(
 	});
 	const body = pulsarity.http.LoginRequest.encode(
 		message,
-	).finish() as Uint8Array;
+	).finish() as Uint8Array<ArrayBuffer>;
 
 	const response = await fetch(url, {
 		method: "POST",
@@ -88,7 +88,7 @@ export async function resetPassword(
 	});
 	const body = pulsarity.http.ResetPasswordRequest.encode(
 		message,
-	).finish() as Uint8Array;
+	).finish() as Uint8Array<ArrayBuffer>;
 
 	const response = await fetch(url, {
 		method: "POST",
@@ -96,8 +96,11 @@ export async function resetPassword(
 		body: body,
 	});
 
-	if (response.status === 401) {
-		throw new Error("Old Password is Invalid");
+	switch (response.status) {
+		case 400:
+			throw new Error("New password can not be the same as the old password");
+		case 401:
+			throw new Error("Old Password is invalid");
 	}
 
 	if (!response.ok) {
@@ -347,8 +350,8 @@ export async function getServerData(): Promise<pulsarity.http.ServerData> {
 }
 
 /**
-* Gets a localization pack from the server
-*/
+ * Gets a localization pack from the server
+ */
 export async function getLocalizationPack(
 	key: string,
 ): Promise<pulsarity.http.LocalizationData> {

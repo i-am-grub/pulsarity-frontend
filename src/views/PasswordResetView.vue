@@ -3,9 +3,8 @@
 <!-- The Root View -->
 
 <script setup lang="ts">
-	import PasswordResetComponent from "../components/PasswordReset.vue";
-
-	import rhLogo from "../assets/RotorHazard_Logo.svg";
+	import PasswordResetComponent from "@components/PasswordReset.vue";
+	import rhLogo from "@/assets/RotorHazard_Logo.svg";
 </script>
 
 <template>

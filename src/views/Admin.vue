@@ -3,11 +3,11 @@
 <!-- Admin/RD base view -->
 
 <script setup lang="ts">
-	import RaceControl from "../components/RaceControl.vue";
-	import RaceClock from "../components/RaceClock.vue";
-	import RaceState from "../components/RaceState.vue";
+	import RaceControl from "@components/RaceControl.vue";
+	import RaceClock from "@components/RaceClock.vue";
+	import RaceState from "@components/RaceState.vue";
 
-	import rhLogo from "../assets/RotorHazard_Logo.svg";
+	import rhLogo from "@/assets/RotorHazard_Logo.svg";
 
 	const adminNavItems = [
 		{

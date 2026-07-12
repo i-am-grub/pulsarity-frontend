@@ -1,7 +1,7 @@
 /** @format */
 /// <reference lib="WebWorker" />
 
-import { pulsarity } from "../utils/pulsarity_pb";
+import { pulsarity } from "@/utils/pulsarity_pb";
 import {
 	isConnectEventMessage,
 	isWebSocketEventMessage,
@@ -183,6 +183,9 @@ function handleWorkerClientEvt(evt: MessageEvent<WorkerMessage>) {
  */
 ctx.onconnect = (event: MessageEvent) => {
 	const port = event.ports[0];
+
+	if (port === undefined) return;
+
 	connections.add(port);
 
 	/**
