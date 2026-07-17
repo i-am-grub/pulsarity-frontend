@@ -3,42 +3,42 @@
 <!-- Admin/RD base view -->
 
 <script setup lang="ts">
-	import RaceControl from "@components/RaceControl.vue";
-	import RaceClock from "@components/RaceClock.vue";
-	import RaceState from "@components/RaceState.vue";
+import RaceControl from "@components/RaceControl.vue";
+import RaceClock from "@components/RaceClock.vue";
+import RaceState from "@components/RaceState.vue";
 
-	import rhLogo from "@/assets/RotorHazard_Logo.svg";
+import rhLogo from "@/assets/RotorHazard_Logo.svg";
 
-	const adminNavItems = [
-		{
-			path: "/admin/settings",
-			name: "Timer Setup",
-			children: [
-				{ path: "/admin/settings/frequency", name: "Frequency Setup" },
-				{ path: "/admin/settings/tuning", name: "Sensor Tuning" },
-				{ path: "/admin/settings/actions", name: "Event Actions" },
-				{ path: "/admin/settings/leds", name: "LED Setup" },
-				{ path: "/admin/settings/audio", name: "Audio Defaults" },
-				{ path: "/admin/settings/users", name: "Users" },
-			],
-		},
-		{
-			path: "/admin/event",
-			name: "Event Setup",
-			children: [
-				{ path: "/admin/event/pilots", name: "Pilots" },
-				{ path: "/admin/event/heats", name: "Heats" },
-			],
-		},
-		{ path: "/admin/race", name: "Run Races" },
-		{ path: "/admin/marshal", name: "Marshal" },
-		{ path: "/admin/results", name: "Results" },
-		{
-			path: "/admin/plugins",
-			name: "Plugins",
-			children: [{ path: "/admin/plugins/add", name: "Add New" }],
-		},
-	];
+const adminNavItems = [
+	{
+		path: "/admin/settings",
+		name: "Timer Setup",
+		children: [
+			{ path: "/admin/settings/frequency", name: "Frequency Setup" },
+			{ path: "/admin/settings/tuning", name: "Sensor Tuning" },
+			{ path: "/admin/settings/actions", name: "Event Actions" },
+			{ path: "/admin/settings/leds", name: "LED Setup" },
+			{ path: "/admin/settings/audio", name: "Audio Defaults" },
+			{ path: "/admin/settings/users", name: "Users" },
+		],
+	},
+	{
+		path: "/admin/event",
+		name: "Event Setup",
+		children: [
+			{ path: "/admin/event/pilots", name: "Pilots" },
+			{ path: "/admin/event/heats", name: "Heats" },
+		],
+	},
+	{ path: "/admin/race", name: "Run Races" },
+	{ path: "/admin/marshal", name: "Marshal" },
+	{ path: "/admin/results", name: "Results" },
+	{
+		path: "/admin/plugins",
+		name: "Plugins",
+		children: [{ path: "/admin/plugins/add", name: "Add New" }],
+	},
+];
 </script>
 
 <template>
@@ -71,65 +71,44 @@
 </template>
 
 <style scoped>
-	.temp-wrapper {
-		display: grid;
-		grid-template-areas:
-			"nav header"
-			"nav main";
-		grid-template-columns: 16em 1fr;
-		grid-template-rows: auto 1fr;
-		min-height: 100vh;
-	}
+.temp-wrapper {
+	display: grid;
+	grid-template-areas:
+		"nav header"
+		"nav main";
+	grid-template-columns: 16em 1fr;
+	grid-template-rows: auto 1fr;
+	min-height: 100vh;
+}
 
-	header {
-		grid-area: header;
-		display: flex;
-		gap: 1rem;
-		padding: 0.25rem 0.5rem;
-	}
+header {
+	grid-area: header;
+	display: flex;
+	gap: 1rem;
+	padding: 0.25rem 0.5rem;
+}
 
-	.race-state {
-		margin-inline-start: auto;
-	}
+.race-state {
+	margin-inline-start: auto;
+}
 
-	.race-clock {
-		order: 10;
-		flex-basis: 10rem;
-		font-size: 2rem;
-	}
+.race-clock {
+	order: 10;
+	flex-basis: 10rem;
+	font-size: 2rem;
+}
 
-	nav {
-		grid-area: nav;
-		border-inline-end: solid thin
-			light-dark(
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
-			);
-		display: flex;
-		flex-direction: column;
-	}
+nav {
+	grid-area: nav;
+	border-inline-end: solid thin
+		light-dark(
+			oklch(var(--lum_0_high) var(--chr_0) var(--hue_0)),
+			oklch(var(--lum_0_low) var(--chr_0) var(--hue_0))
+		);
+	display: flex;
+	flex-direction: column;
 
-	nav > a:first-child {
-		padding: 0.5rem 1rem;
-		display: block;
-	}
-
-	nav ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-	}
-
-	nav > ul > li {
-		list-style: none;
-		padding: 0;
-	}
-
-	nav > ul > li + li {
-		margin-top: 1rem;
-	}
-
-	nav a {
+	a {
 		display: block;
 		padding: 0.5rem;
 		text-decoration: none;
@@ -138,45 +117,66 @@
 		transition:
 			background-color 0.2s,
 			color 0.2s;
+
+		&:hover {
+			background: light-dark(
+				oklch(var(--lum_0_high) var(--chr_0) var(--hue_0) / 15%),
+				oklch(var(--lum_0_low) var(--chr_0) var(--hue_0) / 40%)
+			);
+		}
+
+		&:first-child {
+			padding: 0.5rem 1rem;
+			display: block;
+		}
 	}
 
-	nav a:hover {
-		background: light-dark(
-			hsla(var(--hue_0), var(--sat_0), var(--lum_0_high), 15%),
-			hsla(var(--hue_0), var(--sat_0), var(--lum_0_low), 40%)
-		);
+	ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 
-	nav ul a.router-link-active {
+	& > ul > li {
+		list-style: none;
+		padding: 0;
+	}
+
+	& > ul > li + li {
+		margin-top: 1rem;
+	}
+
+	ul a.router-link-active {
 		background: light-dark(
-			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
+			oklch(var(--lum_0_high) var(--chr_0) var(--hue_0)),
+			oklch(var(--lum_0_low) var(--chr_0) var(--hue_0))
 		);
 		color: light-dark(var(--contrast_0_high), var(--contrast_0_low));
 	}
 
-	nav > ul > li > ul > li a {
+	& > ul > li > ul > li a {
 		font-weight: 300;
 		margin-inline-start: 1rem;
 	}
 
-	nav ul a.router-link-exact-active,
-	nav ul > li > ul > li a.router-link-active {
+	ul a.router-link-exact-active,
+	ul > li > ul > li a.router-link-active {
 		background: light-dark(
-			hsl(var(--hue_0), var(--sat_0), var(--lum_0_low)),
-			hsl(var(--hue_0), var(--sat_0), var(--lum_0_high))
+			oklch(var(--lum_0_low) var(--chr_0) var(--hue_0)),
+			oklch(var(--lum_0_high) var(--chr_0) var(--hue_0))
 		);
 		color: light-dark(var(--contrast_0_low), var(--contrast_0_high));
 	}
 
-	nav > :last-child {
+	& > :last-child {
 		margin-block-start: auto;
 		display: block;
 		padding: 0.5rem;
 	}
+}
 
-	main {
-		grid-area: main;
-		padding: 1rem;
-	}
+main {
+	grid-area: main;
+	padding: 1rem;
+}
 </style>

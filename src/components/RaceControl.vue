@@ -12,13 +12,14 @@
 </template>
 
 <style>
-	.race-controls {
-		display: flex;
-		gap: 0.5rem;
-	}
-	.race-controls > button {
+.race-controls {
+	display: flex;
+	gap: 0.5rem;
+
+	& > button {
 		flex: 1;
 		padding: 0.5rem;
 		margin: 0;
 	}
+}
 </style>

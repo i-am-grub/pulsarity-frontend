@@ -1,21 +1,21 @@
 <!-- @format -->
 
 <script setup lang="ts">
-	import { useServerStore } from "@stores/server_data";
-	import { useAuthenticationStore } from "@stores/auth";
-	import LoginComponent from "@components/Login.vue";
-	import PasswordResetComponent from "@components/PasswordReset.vue";
+import { useServerStore } from "@stores/server_data";
+import { useAuthenticationStore } from "@stores/auth";
+import LoginComponent from "@components/Login.vue";
+import PasswordResetComponent from "@components/PasswordReset.vue";
 
-	import rhLogo from "@/assets/RotorHazard_Logo.svg";
+import rhLogo from "@/assets/RotorHazard_Logo.svg";
 
-	const serverStore = useServerStore();
-	const authStore = useAuthenticationStore();
+const serverStore = useServerStore();
+const authStore = useAuthenticationStore();
 
-	var password: String | undefined = undefined;
+var password: String | undefined = undefined;
 
-	function loginSuccessCallback(usedPassword: String) {
-		password = usedPassword;
-	}
+function loginSuccessCallback(usedPassword: String) {
+	password = usedPassword;
+}
 </script>
 
 <template>
@@ -67,75 +67,69 @@
 </template>
 
 <style>
-	#system-menu {
-		width: calc(100vw - 4rem);
-		max-width: 60rem;
-		display: grid;
-		gap: 1rem;
-		grid-template-areas:
-			"branding"
-			"user"
-			"info"
-			"actions";
-	}
+#system-menu {
+	width: calc(100vw - 4rem);
+	max-width: 60rem;
+	display: grid;
+	gap: 1rem;
+	grid-template-areas:
+		"branding"
+		"user"
+		"info"
+		"actions";
 
 	@media (min-width: 42em) {
-		#system-menu {
-			grid-template-columns: 10.6rem 1fr 16rem;
-			grid-template-areas:
-				"branding branding user"
-				"null info user"
-				"null actions user";
-		}
+		grid-template-columns: 10.6rem 1fr 16rem;
+		grid-template-areas:
+			"branding branding user"
+			"null info user"
+			"null actions user";
 	}
+}
 
-	.branding {
-		grid-area: branding;
-	}
+.branding {
+	grid-area: branding;
 
-	.timer-info {
-		grid-area: info;
-	}
-
-	.branding img {
+	img {
 		max-width: 30rem;
 	}
+}
 
-	.public-actions {
-		grid-area: actions;
-	}
+.timer-info {
+	grid-area: info;
+}
 
-	.user-state {
-		grid-area: user;
-		padding: 1rem;
-		border: solid thin
-			light-dark(
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
-			);
-		border-radius: 0.25rem;
-		background: linear-gradient(
-			light-dark(
-					hsl(var(--hue_0), var(--sat_0), 100%),
-					hsl(var(--hue_0), var(--sat_0), 0%)
-				)
-				0%,
-			90%,
-			light-dark(
-					hsl(var(--hue_0), var(--sat_0), 85%),
-					hsl(var(--hue_0), var(--sat_0), 15%)
-				)
-				100%
+.public-actions {
+	grid-area: actions;
+}
+
+.user-state {
+	grid-area: user;
+	padding: 1rem;
+	border: solid thin
+		light-dark(
+			oklch(var(--lum_0_high) var(--chr_0) var(--hue_0)),
+			oklch(var(--lum_0_low) var(--chr_0) var(--hue_0))
 		);
-	}
+	border-radius: 0.25rem;
+	background: linear-gradient(
+		light-dark(oklch(1 0 var(--hue_0)), oklch(0 0 var(--hue_0))) 0%,
+		90%,
+		light-dark(
+				oklch(0.85 calc(var(--chr_0) / 3) var(--hue_0)),
+				oklch(0.15 var(--chr_0) var(--hue_0))
+			)
+			100%
+	);
+}
 
-	.system-actions {
-		margin-block-start: 1rem;
-		border-block-start: solid thin
-			light-dark(
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_high)),
-				hsl(var(--hue_0), var(--sat_0), var(--lum_0_low))
-			);
-		padding-block-start: 1rem;
-	}
+.system-actions {
+	margin-block-start: 1rem;
+	border-block-start: solid thin
+		light-dark(
+			oklch(var(--lum_0_high) var(--chr_0) var(--hue_0))
+				oklch(var(--lum_0_low) var(--chr_0) var(--hue_0))
+		);
+	padding-block-start: 1rem;
+}
 </style>
