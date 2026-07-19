@@ -8,6 +8,7 @@
 	import RaceState from "@components/RaceState.vue";
 
 	import rhLogo from "@/assets/RotorHazard_Logo.svg";
+	import ElementTreeContainer from "@/components/elements/ElementTreeContainer.vue";
 
 	const adminNavItems = [
 		{
@@ -66,6 +67,7 @@
 		</nav>
 		<main>
 			<RouterView />
+			<ElementTreeContainer :elementKey="$route.params.page as string" />
 		</main>
 	</div>
 </template>

@@ -107,6 +107,7 @@ const wsRoutes: Record<pulsarity.ws.EventID, EventHandler> = {
 	[pulsarity.ws.EventID.EVENT_STARTUP]: logWebsocketEvent,
 	[pulsarity.ws.EventID.EVENT_RESTART]: logWebsocketEvent,
 	[pulsarity.ws.EventID.EVENT_SHUTDOWN]: logWebsocketEvent,
+	[pulsarity.ws.EventID.EVENT_UI_UPDATE]: logWebsocketEvent,
 
 	// Database Updates
 	[pulsarity.ws.EventID.EVENT_PILOT_ADD]: logWebsocketEvent,

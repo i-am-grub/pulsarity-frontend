@@ -23,7 +23,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Attribute.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Attribute name. */
@@ -116,7 +116,7 @@ export namespace pulsarity {
                 /** Attribute name */
                 name?: (string|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -140,7 +140,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Pilot.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Pilot id. */
@@ -251,7 +251,7 @@ export namespace pulsarity {
                 /** Pilot attributes */
                 attributes?: (pulsarity.db.Attribute.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -275,7 +275,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Pilots.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Pilots pilots. */
@@ -368,7 +368,7 @@ export namespace pulsarity {
                 /** Pilots pilots */
                 pilots?: (pulsarity.db.Pilot.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -392,7 +392,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.RaceEvent.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** RaceEvent id. */
@@ -503,7 +503,7 @@ export namespace pulsarity {
                 /** RaceEvent attributes */
                 attributes?: (pulsarity.db.Attribute.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -527,7 +527,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.RaceEvents.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** RaceEvents events. */
@@ -620,7 +620,7 @@ export namespace pulsarity {
                 /** RaceEvents events */
                 events?: (pulsarity.db.RaceEvent.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -644,7 +644,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.RaceClass.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** RaceClass id. */
@@ -749,7 +749,7 @@ export namespace pulsarity {
                 /** RaceClass attributes */
                 attributes?: (pulsarity.db.Attribute.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -773,7 +773,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.RaceClasses.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** RaceClasses raceclasses. */
@@ -866,7 +866,7 @@ export namespace pulsarity {
                 /** RaceClasses raceclasses */
                 raceclasses?: (pulsarity.db.RaceClass.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -890,7 +890,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Round.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Round id. */
@@ -995,7 +995,7 @@ export namespace pulsarity {
                 /** Round attributes */
                 attributes?: (pulsarity.db.Attribute.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1019,7 +1019,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Rounds.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Rounds rounds. */
@@ -1112,7 +1112,7 @@ export namespace pulsarity {
                 /** Rounds rounds */
                 rounds?: (pulsarity.db.Round.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1136,7 +1136,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Heat.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Heat id. */
@@ -1241,7 +1241,7 @@ export namespace pulsarity {
                 /** Heat attributes */
                 attributes?: (pulsarity.db.Attribute.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1265,7 +1265,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.Heats.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Heats heats. */
@@ -1358,7 +1358,7 @@ export namespace pulsarity {
                 /** Heats heats */
                 heats?: (pulsarity.db.Heat.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1382,7 +1382,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.SignalRecord.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** SignalRecord timedelta. */
@@ -1481,7 +1481,7 @@ export namespace pulsarity {
                 /** SignalRecord value */
                 value?: (number|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1505,7 +1505,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.db.SignalHistory.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** SignalHistory records. */
@@ -1598,7 +1598,7 @@ export namespace pulsarity {
                 /** SignalHistory records */
                 records?: (pulsarity.db.SignalRecord.$Properties[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1626,7 +1626,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.UserInfo.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** UserInfo authenticated. */
@@ -1743,7 +1743,7 @@ export namespace pulsarity {
                 /** UserInfo permissions */
                 permissions?: (string[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1767,7 +1767,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.AuthenticatedResponse.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** AuthenticatedResponse status. */
@@ -1866,7 +1866,7 @@ export namespace pulsarity {
                 /** AuthenticatedResponse userinfo */
                 userinfo?: (pulsarity.http.UserInfo.$Properties|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -1890,7 +1890,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.LoginRequest.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** LoginRequest username. */
@@ -1989,7 +1989,7 @@ export namespace pulsarity {
                 /** LoginRequest password */
                 password?: (string|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2013,7 +2013,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.LoginResponse.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** LoginResponse passwordResetRequired. */
@@ -2112,7 +2112,7 @@ export namespace pulsarity {
                 /** LoginResponse userinfo */
                 userinfo?: (pulsarity.http.UserInfo.$Properties|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2136,7 +2136,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.ResetPasswordRequest.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** ResetPasswordRequest oldPassword. */
@@ -2235,7 +2235,7 @@ export namespace pulsarity {
                 /** ResetPasswordRequest newPassword */
                 newPassword?: (string|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2259,7 +2259,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.ServerData.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** ServerData version. */
@@ -2370,7 +2370,7 @@ export namespace pulsarity {
                 /** ServerData languagePacks */
                 languagePacks?: (string[]|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2394,7 +2394,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.http.LocalizationData.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** LocalizationData messages. */
@@ -2493,12 +2493,1713 @@ export namespace pulsarity {
                 /** LocalizationData pluralization */
                 pluralization?: ({ [k: string]: string }|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
             /** Shape of a LocalizationData. */
             type $Shape = pulsarity.http.LocalizationData.$Properties;
+        }
+    }
+
+    /** Namespace ui. */
+    namespace ui {
+
+        /** UIElementType enum. */
+        enum UIElementType {
+
+            /** ELEMENT_TYPE_UNKNOWN value */
+            ELEMENT_TYPE_UNKNOWN = 0,
+
+            /** ELEMENT_TYPE_ETREE value */
+            ELEMENT_TYPE_ETREE = 1,
+
+            /** ELEMENT_TYPE_MARKDOWN value */
+            ELEMENT_TYPE_MARKDOWN = 2,
+
+            /** ELEMENT_TYPE_BUTTON value */
+            ELEMENT_TYPE_BUTTON = 3,
+
+            /** ELEMENT_TYPE_VALUE value */
+            ELEMENT_TYPE_VALUE = 4
+        }
+
+        /**
+         * Properties of a UIElementTreeEntry.
+         * @deprecated Use pulsarity.ui.UIElementTreeEntry.$Properties instead.
+         */
+        interface IUIElementTreeEntry extends pulsarity.ui.UIElementTreeEntry.$Properties {
+        }
+
+        /** Represents a UIElementTreeEntry. */
+        class UIElementTreeEntry {
+
+            /**
+             * Constructs a new UIElementTreeEntry.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIElementTreeEntry.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIElementTreeEntry type. */
+            type: pulsarity.ui.UIElementType;
+
+            /** UIElementTreeEntry elementId. */
+            elementId: number;
+
+            /**
+             * Creates a new UIElementTreeEntry instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIElementTreeEntry instance
+             */
+            static create(properties: pulsarity.ui.UIElementTreeEntry.$Shape): pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape;
+            static create(properties?: pulsarity.ui.UIElementTreeEntry.$Properties): pulsarity.ui.UIElementTreeEntry;
+
+            /**
+             * Encodes the specified UIElementTreeEntry message. Does not implicitly {@link pulsarity.ui.UIElementTreeEntry.verify|verify} messages.
+             * @param message UIElementTreeEntry message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIElementTreeEntry.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIElementTreeEntry message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementTreeEntry.verify|verify} messages.
+             * @param message UIElementTreeEntry message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIElementTreeEntry.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIElementTreeEntry message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape} UIElementTreeEntry
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape;
+
+            /**
+             * Decodes a UIElementTreeEntry message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape} UIElementTreeEntry
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape;
+
+            /**
+             * Verifies a UIElementTreeEntry message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIElementTreeEntry message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIElementTreeEntry
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIElementTreeEntry;
+
+            /**
+             * Creates a plain object from a UIElementTreeEntry message. Also converts values to other types if specified.
+             * @param message UIElementTreeEntry
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIElementTreeEntry, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIElementTreeEntry to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIElementTreeEntry
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIElementTreeEntry {
+
+            /** Properties of a UIElementTreeEntry. */
+            interface $Properties {
+
+                /** UIElementTreeEntry type */
+                type?: (pulsarity.ui.UIElementType|null);
+
+                /** UIElementTreeEntry elementId */
+                elementId?: (number|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIElementTreeEntry. */
+            type $Shape = pulsarity.ui.UIElementTreeEntry.$Properties;
+        }
+
+        /**
+         * Properties of a UIElementTree.
+         * @deprecated Use pulsarity.ui.UIElementTree.$Properties instead.
+         */
+        interface IUIElementTree extends pulsarity.ui.UIElementTree.$Properties {
+        }
+
+        /** Represents a UIElementTree. */
+        class UIElementTree {
+
+            /**
+             * Constructs a new UIElementTree.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIElementTree.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIElementTree elementId. */
+            elementId: number;
+
+            /** UIElementTree elements. */
+            elements: pulsarity.ui.UIElementTreeEntry.$Properties[];
+
+            /**
+             * Creates a new UIElementTree instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIElementTree instance
+             */
+            static create(properties: pulsarity.ui.UIElementTree.$Shape): pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape;
+            static create(properties?: pulsarity.ui.UIElementTree.$Properties): pulsarity.ui.UIElementTree;
+
+            /**
+             * Encodes the specified UIElementTree message. Does not implicitly {@link pulsarity.ui.UIElementTree.verify|verify} messages.
+             * @param message UIElementTree message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIElementTree.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIElementTree message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementTree.verify|verify} messages.
+             * @param message UIElementTree message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIElementTree.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIElementTree message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape} UIElementTree
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape;
+
+            /**
+             * Decodes a UIElementTree message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape} UIElementTree
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape;
+
+            /**
+             * Verifies a UIElementTree message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIElementTree message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIElementTree
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIElementTree;
+
+            /**
+             * Creates a plain object from a UIElementTree message. Also converts values to other types if specified.
+             * @param message UIElementTree
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIElementTree, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIElementTree to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIElementTree
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIElementTree {
+
+            /** Properties of a UIElementTree. */
+            interface $Properties {
+
+                /** UIElementTree elementId */
+                elementId?: (number|null);
+
+                /** UIElementTree elements */
+                elements?: (pulsarity.ui.UIElementTreeEntry.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIElementTree. */
+            type $Shape = pulsarity.ui.UIElementTree.$Properties;
+        }
+
+        /**
+         * Properties of a UIElementTrees.
+         * @deprecated Use pulsarity.ui.UIElementTrees.$Properties instead.
+         */
+        interface IUIElementTrees extends pulsarity.ui.UIElementTrees.$Properties {
+        }
+
+        /** Represents a UIElementTrees. */
+        class UIElementTrees {
+
+            /**
+             * Constructs a new UIElementTrees.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIElementTrees.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIElementTrees etrees. */
+            etrees: pulsarity.ui.UIElementTree.$Properties[];
+
+            /**
+             * Creates a new UIElementTrees instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIElementTrees instance
+             */
+            static create(properties: pulsarity.ui.UIElementTrees.$Shape): pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape;
+            static create(properties?: pulsarity.ui.UIElementTrees.$Properties): pulsarity.ui.UIElementTrees;
+
+            /**
+             * Encodes the specified UIElementTrees message. Does not implicitly {@link pulsarity.ui.UIElementTrees.verify|verify} messages.
+             * @param message UIElementTrees message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIElementTrees.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIElementTrees message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementTrees.verify|verify} messages.
+             * @param message UIElementTrees message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIElementTrees.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIElementTrees message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape} UIElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape;
+
+            /**
+             * Decodes a UIElementTrees message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape} UIElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape;
+
+            /**
+             * Verifies a UIElementTrees message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIElementTrees message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIElementTrees
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIElementTrees;
+
+            /**
+             * Creates a plain object from a UIElementTrees message. Also converts values to other types if specified.
+             * @param message UIElementTrees
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIElementTrees, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIElementTrees to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIElementTrees
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIElementTrees {
+
+            /** Properties of a UIElementTrees. */
+            interface $Properties {
+
+                /** UIElementTrees etrees */
+                etrees?: (pulsarity.ui.UIElementTree.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIElementTrees. */
+            type $Shape = pulsarity.ui.UIElementTrees.$Properties;
+        }
+
+        /**
+         * Properties of a MappedElementTrees.
+         * @deprecated Use pulsarity.ui.MappedElementTrees.$Properties instead.
+         */
+        interface IMappedElementTrees extends pulsarity.ui.MappedElementTrees.$Properties {
+        }
+
+        /** Represents a MappedElementTrees. */
+        class MappedElementTrees {
+
+            /**
+             * Constructs a new MappedElementTrees.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.MappedElementTrees.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** MappedElementTrees elementIds. */
+            elementIds: number[];
+
+            /**
+             * Creates a new MappedElementTrees instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns MappedElementTrees instance
+             */
+            static create(properties: pulsarity.ui.MappedElementTrees.$Shape): pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape;
+            static create(properties?: pulsarity.ui.MappedElementTrees.$Properties): pulsarity.ui.MappedElementTrees;
+
+            /**
+             * Encodes the specified MappedElementTrees message. Does not implicitly {@link pulsarity.ui.MappedElementTrees.verify|verify} messages.
+             * @param message MappedElementTrees message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.MappedElementTrees.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified MappedElementTrees message, length delimited. Does not implicitly {@link pulsarity.ui.MappedElementTrees.verify|verify} messages.
+             * @param message MappedElementTrees message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.MappedElementTrees.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a MappedElementTrees message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape} MappedElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape;
+
+            /**
+             * Decodes a MappedElementTrees message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape} MappedElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape;
+
+            /**
+             * Verifies a MappedElementTrees message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a MappedElementTrees message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns MappedElementTrees
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.MappedElementTrees;
+
+            /**
+             * Creates a plain object from a MappedElementTrees message. Also converts values to other types if specified.
+             * @param message MappedElementTrees
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.MappedElementTrees, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this MappedElementTrees to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for MappedElementTrees
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace MappedElementTrees {
+
+            /** Properties of a MappedElementTrees. */
+            interface $Properties {
+
+                /** MappedElementTrees elementIds */
+                elementIds?: (number[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a MappedElementTrees. */
+            type $Shape = pulsarity.ui.MappedElementTrees.$Properties;
+        }
+
+        /**
+         * Properties of a UIETreeMapping.
+         * @deprecated Use pulsarity.ui.UIETreeMapping.$Properties instead.
+         */
+        interface IUIETreeMapping extends pulsarity.ui.UIETreeMapping.$Properties {
+        }
+
+        /** Represents a UIETreeMapping. */
+        class UIETreeMapping {
+
+            /**
+             * Constructs a new UIETreeMapping.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIETreeMapping.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIETreeMapping mapping. */
+            mapping: { [k: string]: pulsarity.ui.MappedElementTrees.$Properties };
+
+            /**
+             * Creates a new UIETreeMapping instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIETreeMapping instance
+             */
+            static create(properties: pulsarity.ui.UIETreeMapping.$Shape): pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape;
+            static create(properties?: pulsarity.ui.UIETreeMapping.$Properties): pulsarity.ui.UIETreeMapping;
+
+            /**
+             * Encodes the specified UIETreeMapping message. Does not implicitly {@link pulsarity.ui.UIETreeMapping.verify|verify} messages.
+             * @param message UIETreeMapping message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIETreeMapping.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIETreeMapping message, length delimited. Does not implicitly {@link pulsarity.ui.UIETreeMapping.verify|verify} messages.
+             * @param message UIETreeMapping message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIETreeMapping.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIETreeMapping message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape} UIETreeMapping
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape;
+
+            /**
+             * Decodes a UIETreeMapping message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape} UIETreeMapping
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape;
+
+            /**
+             * Verifies a UIETreeMapping message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIETreeMapping message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIETreeMapping
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIETreeMapping;
+
+            /**
+             * Creates a plain object from a UIETreeMapping message. Also converts values to other types if specified.
+             * @param message UIETreeMapping
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIETreeMapping, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIETreeMapping to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIETreeMapping
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIETreeMapping {
+
+            /** Properties of a UIETreeMapping. */
+            interface $Properties {
+
+                /** UIETreeMapping mapping */
+                mapping?: ({ [k: string]: pulsarity.ui.MappedElementTrees.$Properties }|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIETreeMapping. */
+            type $Shape = pulsarity.ui.UIETreeMapping.$Properties;
+        }
+
+        /**
+         * Properties of a UIMarkdownField.
+         * @deprecated Use pulsarity.ui.UIMarkdownField.$Properties instead.
+         */
+        interface IUIMarkdownField extends pulsarity.ui.UIMarkdownField.$Properties {
+        }
+
+        /** Represents a UIMarkdownField. */
+        class UIMarkdownField {
+
+            /**
+             * Constructs a new UIMarkdownField.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIMarkdownField.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIMarkdownField elementId. */
+            elementId: number;
+
+            /** UIMarkdownField text. */
+            text: string;
+
+            /**
+             * Creates a new UIMarkdownField instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIMarkdownField instance
+             */
+            static create(properties: pulsarity.ui.UIMarkdownField.$Shape): pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape;
+            static create(properties?: pulsarity.ui.UIMarkdownField.$Properties): pulsarity.ui.UIMarkdownField;
+
+            /**
+             * Encodes the specified UIMarkdownField message. Does not implicitly {@link pulsarity.ui.UIMarkdownField.verify|verify} messages.
+             * @param message UIMarkdownField message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIMarkdownField.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIMarkdownField message, length delimited. Does not implicitly {@link pulsarity.ui.UIMarkdownField.verify|verify} messages.
+             * @param message UIMarkdownField message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIMarkdownField.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIMarkdownField message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape} UIMarkdownField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape;
+
+            /**
+             * Decodes a UIMarkdownField message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape} UIMarkdownField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape;
+
+            /**
+             * Verifies a UIMarkdownField message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIMarkdownField message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIMarkdownField
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIMarkdownField;
+
+            /**
+             * Creates a plain object from a UIMarkdownField message. Also converts values to other types if specified.
+             * @param message UIMarkdownField
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIMarkdownField, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIMarkdownField to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIMarkdownField
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIMarkdownField {
+
+            /** Properties of a UIMarkdownField. */
+            interface $Properties {
+
+                /** UIMarkdownField elementId */
+                elementId?: (number|null);
+
+                /** UIMarkdownField text */
+                text?: (string|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIMarkdownField. */
+            type $Shape = pulsarity.ui.UIMarkdownField.$Properties;
+        }
+
+        /**
+         * Properties of a UIMarkdownFields.
+         * @deprecated Use pulsarity.ui.UIMarkdownFields.$Properties instead.
+         */
+        interface IUIMarkdownFields extends pulsarity.ui.UIMarkdownFields.$Properties {
+        }
+
+        /** Represents a UIMarkdownFields. */
+        class UIMarkdownFields {
+
+            /**
+             * Constructs a new UIMarkdownFields.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIMarkdownFields.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIMarkdownFields fields. */
+            fields: pulsarity.ui.UIMarkdownField.$Properties[];
+
+            /**
+             * Creates a new UIMarkdownFields instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIMarkdownFields instance
+             */
+            static create(properties: pulsarity.ui.UIMarkdownFields.$Shape): pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape;
+            static create(properties?: pulsarity.ui.UIMarkdownFields.$Properties): pulsarity.ui.UIMarkdownFields;
+
+            /**
+             * Encodes the specified UIMarkdownFields message. Does not implicitly {@link pulsarity.ui.UIMarkdownFields.verify|verify} messages.
+             * @param message UIMarkdownFields message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIMarkdownFields.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIMarkdownFields message, length delimited. Does not implicitly {@link pulsarity.ui.UIMarkdownFields.verify|verify} messages.
+             * @param message UIMarkdownFields message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIMarkdownFields.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIMarkdownFields message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape} UIMarkdownFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape;
+
+            /**
+             * Decodes a UIMarkdownFields message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape} UIMarkdownFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape;
+
+            /**
+             * Verifies a UIMarkdownFields message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIMarkdownFields message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIMarkdownFields
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIMarkdownFields;
+
+            /**
+             * Creates a plain object from a UIMarkdownFields message. Also converts values to other types if specified.
+             * @param message UIMarkdownFields
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIMarkdownFields, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIMarkdownFields to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIMarkdownFields
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIMarkdownFields {
+
+            /** Properties of a UIMarkdownFields. */
+            interface $Properties {
+
+                /** UIMarkdownFields fields */
+                fields?: (pulsarity.ui.UIMarkdownField.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIMarkdownFields. */
+            type $Shape = pulsarity.ui.UIMarkdownFields.$Properties;
+        }
+
+        /**
+         * Properties of a UIButtonField.
+         * @deprecated Use pulsarity.ui.UIButtonField.$Properties instead.
+         */
+        interface IUIButtonField extends pulsarity.ui.UIButtonField.$Properties {
+        }
+
+        /** Represents a UIButtonField. */
+        class UIButtonField {
+
+            /**
+             * Constructs a new UIButtonField.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIButtonField.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIButtonField elementId. */
+            elementId: number;
+
+            /** UIButtonField text. */
+            text: string;
+
+            /**
+             * Creates a new UIButtonField instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIButtonField instance
+             */
+            static create(properties: pulsarity.ui.UIButtonField.$Shape): pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape;
+            static create(properties?: pulsarity.ui.UIButtonField.$Properties): pulsarity.ui.UIButtonField;
+
+            /**
+             * Encodes the specified UIButtonField message. Does not implicitly {@link pulsarity.ui.UIButtonField.verify|verify} messages.
+             * @param message UIButtonField message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIButtonField.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIButtonField message, length delimited. Does not implicitly {@link pulsarity.ui.UIButtonField.verify|verify} messages.
+             * @param message UIButtonField message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIButtonField.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIButtonField message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape} UIButtonField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape;
+
+            /**
+             * Decodes a UIButtonField message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape} UIButtonField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape;
+
+            /**
+             * Verifies a UIButtonField message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIButtonField message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIButtonField
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIButtonField;
+
+            /**
+             * Creates a plain object from a UIButtonField message. Also converts values to other types if specified.
+             * @param message UIButtonField
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIButtonField, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIButtonField to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIButtonField
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIButtonField {
+
+            /** Properties of a UIButtonField. */
+            interface $Properties {
+
+                /** UIButtonField elementId */
+                elementId?: (number|null);
+
+                /** UIButtonField text */
+                text?: (string|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIButtonField. */
+            type $Shape = pulsarity.ui.UIButtonField.$Properties;
+        }
+
+        /**
+         * Properties of a UIButtonFields.
+         * @deprecated Use pulsarity.ui.UIButtonFields.$Properties instead.
+         */
+        interface IUIButtonFields extends pulsarity.ui.UIButtonFields.$Properties {
+        }
+
+        /** Represents a UIButtonFields. */
+        class UIButtonFields {
+
+            /**
+             * Constructs a new UIButtonFields.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIButtonFields.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIButtonFields fields. */
+            fields: pulsarity.ui.UIButtonField.$Properties[];
+
+            /**
+             * Creates a new UIButtonFields instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIButtonFields instance
+             */
+            static create(properties: pulsarity.ui.UIButtonFields.$Shape): pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape;
+            static create(properties?: pulsarity.ui.UIButtonFields.$Properties): pulsarity.ui.UIButtonFields;
+
+            /**
+             * Encodes the specified UIButtonFields message. Does not implicitly {@link pulsarity.ui.UIButtonFields.verify|verify} messages.
+             * @param message UIButtonFields message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIButtonFields.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIButtonFields message, length delimited. Does not implicitly {@link pulsarity.ui.UIButtonFields.verify|verify} messages.
+             * @param message UIButtonFields message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIButtonFields.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIButtonFields message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape} UIButtonFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape;
+
+            /**
+             * Decodes a UIButtonFields message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape} UIButtonFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape;
+
+            /**
+             * Verifies a UIButtonFields message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIButtonFields message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIButtonFields
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIButtonFields;
+
+            /**
+             * Creates a plain object from a UIButtonFields message. Also converts values to other types if specified.
+             * @param message UIButtonFields
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIButtonFields, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIButtonFields to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIButtonFields
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIButtonFields {
+
+            /** Properties of a UIButtonFields. */
+            interface $Properties {
+
+                /** UIButtonFields fields */
+                fields?: (pulsarity.ui.UIButtonField.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIButtonFields. */
+            type $Shape = pulsarity.ui.UIButtonFields.$Properties;
+        }
+
+        /** FieldType enum. */
+        enum FieldType {
+
+            /** FIELD_TYPE_UNKNOWN value */
+            FIELD_TYPE_UNKNOWN = 0,
+
+            /** FIELD_TYPE_TEXT value */
+            FIELD_TYPE_TEXT = 1,
+
+            /** FIELD_TYPE_BASIC_INT value */
+            FIELD_TYPE_BASIC_INT = 2,
+
+            /** FIELD_TYPE_NUMBER value */
+            FIELD_TYPE_NUMBER = 3,
+
+            /** FIELD_TYPE_RANGE value */
+            FIELD_TYPE_RANGE = 4,
+
+            /** FIELD_TYPE_SELECT value */
+            FIELD_TYPE_SELECT = 5,
+
+            /** FIELD_TYPE_CHECKBOX value */
+            FIELD_TYPE_CHECKBOX = 6,
+
+            /** FIELD_TYPE_PASSWORD value */
+            FIELD_TYPE_PASSWORD = 7,
+
+            /** FIELD_TYPE_DATE value */
+            FIELD_TYPE_DATE = 8,
+
+            /** FIELD_TYPE_TIME value */
+            FIELD_TYPE_TIME = 9,
+
+            /** FIELD_TYPE_DATETIME value */
+            FIELD_TYPE_DATETIME = 16,
+
+            /** FIELD_TYPE_EMAIL value */
+            FIELD_TYPE_EMAIL = 17,
+
+            /** FIELD_TYPE_TEL value */
+            FIELD_TYPE_TEL = 18,
+
+            /** FIELD_TYPE_URL value */
+            FIELD_TYPE_URL = 19
+        }
+
+        /**
+         * Properties of a RangeData.
+         * @deprecated Use pulsarity.ui.RangeData.$Properties instead.
+         */
+        interface IRangeData extends pulsarity.ui.RangeData.$Properties {
+        }
+
+        /** Represents a RangeData. */
+        class RangeData {
+
+            /**
+             * Constructs a new RangeData.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.RangeData.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** RangeData min. */
+            min: number;
+
+            /** RangeData max. */
+            max: number;
+
+            /** RangeData value. */
+            value: number;
+
+            /** RangeData scale. */
+            scale?: (number|null);
+
+            /**
+             * Creates a new RangeData instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns RangeData instance
+             */
+            static create(properties: pulsarity.ui.RangeData.$Shape): pulsarity.ui.RangeData & pulsarity.ui.RangeData.$Shape;
+            static create(properties?: pulsarity.ui.RangeData.$Properties): pulsarity.ui.RangeData;
+
+            /**
+             * Encodes the specified RangeData message. Does not implicitly {@link pulsarity.ui.RangeData.verify|verify} messages.
+             * @param message RangeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.RangeData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified RangeData message, length delimited. Does not implicitly {@link pulsarity.ui.RangeData.verify|verify} messages.
+             * @param message RangeData message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.RangeData.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a RangeData message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.RangeData & pulsarity.ui.RangeData.$Shape} RangeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.RangeData & pulsarity.ui.RangeData.$Shape;
+
+            /**
+             * Decodes a RangeData message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.RangeData & pulsarity.ui.RangeData.$Shape} RangeData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.RangeData & pulsarity.ui.RangeData.$Shape;
+
+            /**
+             * Verifies a RangeData message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a RangeData message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns RangeData
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.RangeData;
+
+            /**
+             * Creates a plain object from a RangeData message. Also converts values to other types if specified.
+             * @param message RangeData
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.RangeData, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this RangeData to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for RangeData
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace RangeData {
+
+            /** Properties of a RangeData. */
+            interface $Properties {
+
+                /** RangeData min */
+                min?: (number|null);
+
+                /** RangeData max */
+                max?: (number|null);
+
+                /** RangeData value */
+                value?: (number|null);
+
+                /** RangeData scale */
+                scale?: (number|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a RangeData. */
+            type $Shape = pulsarity.ui.RangeData.$Properties;
+        }
+
+        /**
+         * Properties of a UIValueField.
+         * @deprecated Use pulsarity.ui.UIValueField.$Properties instead.
+         */
+        interface IUIValueField extends pulsarity.ui.UIValueField.$Properties {
+        }
+
+        /** Represents a UIValueField. */
+        class UIValueField {
+
+            /**
+             * Constructs a new UIValueField.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIValueField.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIValueField elementId. */
+            elementId: number;
+
+            /** UIValueField fieldType. */
+            fieldType: pulsarity.ui.FieldType;
+
+            /** UIValueField text. */
+            text?: (string|null);
+
+            /** UIValueField boolean. */
+            boolean?: (boolean|null);
+
+            /** UIValueField integar. */
+            integar?: (number|null);
+
+            /** UIValueField decimal. */
+            decimal?: (number|null);
+
+            /** UIValueField datetime. */
+            datetime?: (google.protobuf.Timestamp.$Properties|null);
+
+            /** UIValueField range. */
+            range?: (pulsarity.ui.RangeData.$Properties|null);
+
+            /** UIValueField value. */
+            value?: ("text"|"boolean"|"integar"|"decimal"|"datetime"|"range");
+
+            /**
+             * Creates a new UIValueField instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIValueField instance
+             */
+            static create(properties: pulsarity.ui.UIValueField.$Shape): pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape;
+            static create(properties?: pulsarity.ui.UIValueField.$Properties): pulsarity.ui.UIValueField;
+
+            /**
+             * Encodes the specified UIValueField message. Does not implicitly {@link pulsarity.ui.UIValueField.verify|verify} messages.
+             * @param message UIValueField message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIValueField.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIValueField message, length delimited. Does not implicitly {@link pulsarity.ui.UIValueField.verify|verify} messages.
+             * @param message UIValueField message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIValueField.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIValueField message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape} UIValueField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape;
+
+            /**
+             * Decodes a UIValueField message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape} UIValueField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape;
+
+            /**
+             * Verifies a UIValueField message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIValueField message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIValueField
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIValueField;
+
+            /**
+             * Creates a plain object from a UIValueField message. Also converts values to other types if specified.
+             * @param message UIValueField
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIValueField, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIValueField to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIValueField
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIValueField {
+
+            /** Properties of a UIValueField. */
+            interface $Properties {
+
+                /** UIValueField elementId */
+                elementId?: (number|null);
+
+                /** UIValueField fieldType */
+                fieldType?: (pulsarity.ui.FieldType|null);
+
+                /** UIValueField text */
+                text?: (string|null);
+
+                /** UIValueField boolean */
+                boolean?: (boolean|null);
+
+                /** UIValueField integar */
+                integar?: (number|null);
+
+                /** UIValueField decimal */
+                decimal?: (number|null);
+
+                /** UIValueField datetime */
+                datetime?: (google.protobuf.Timestamp.$Properties|null);
+
+                /** UIValueField range */
+                range?: (pulsarity.ui.RangeData.$Properties|null);
+
+                /** UIValueField value */
+                value?: ("text"|"boolean"|"integar"|"decimal"|"datetime"|"range");
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Narrowed shape of a UIValueField. */
+            type $Shape = {
+              elementId?: number|null;
+              fieldType?: pulsarity.ui.FieldType|null;
+              text?: string|null;
+              boolean?: boolean|null;
+              integar?: number|null;
+              decimal?: number|null;
+              datetime?: google.protobuf.Timestamp.$Shape|null;
+              range?: pulsarity.ui.RangeData.$Shape|null;
+              $unknowns?: Uint8Array[];
+            } & (
+              ({ value?: undefined; text?: null; boolean?: null; integar?: null; decimal?: null; datetime?: null; range?: null }|{ value?: "text"; text: string; boolean?: null; integar?: null; decimal?: null; datetime?: null; range?: null }|{ value?: "boolean"; text?: null; boolean: boolean; integar?: null; decimal?: null; datetime?: null; range?: null }|{ value?: "integar"; text?: null; boolean?: null; integar: number; decimal?: null; datetime?: null; range?: null }|{ value?: "decimal"; text?: null; boolean?: null; integar?: null; decimal: number; datetime?: null; range?: null }|{ value?: "datetime"; text?: null; boolean?: null; integar?: null; decimal?: null; datetime: google.protobuf.Timestamp.$Shape; range?: null }|{ value?: "range"; text?: null; boolean?: null; integar?: null; decimal?: null; datetime?: null; range: pulsarity.ui.RangeData.$Shape })
+            );
+        }
+
+        /**
+         * Properties of a UIValueFields.
+         * @deprecated Use pulsarity.ui.UIValueFields.$Properties instead.
+         */
+        interface IUIValueFields extends pulsarity.ui.UIValueFields.$Properties {
+        }
+
+        /** Represents a UIValueFields. */
+        class UIValueFields {
+
+            /**
+             * Constructs a new UIValueFields.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIValueFields.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIValueFields fields. */
+            fields: pulsarity.ui.UIValueField.$Properties[];
+
+            /**
+             * Creates a new UIValueFields instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIValueFields instance
+             */
+            static create(properties: pulsarity.ui.UIValueFields.$Shape): pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape;
+            static create(properties?: pulsarity.ui.UIValueFields.$Properties): pulsarity.ui.UIValueFields;
+
+            /**
+             * Encodes the specified UIValueFields message. Does not implicitly {@link pulsarity.ui.UIValueFields.verify|verify} messages.
+             * @param message UIValueFields message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIValueFields.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIValueFields message, length delimited. Does not implicitly {@link pulsarity.ui.UIValueFields.verify|verify} messages.
+             * @param message UIValueFields message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIValueFields.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIValueFields message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape} UIValueFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape;
+
+            /**
+             * Decodes a UIValueFields message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape} UIValueFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape;
+
+            /**
+             * Verifies a UIValueFields message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIValueFields message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIValueFields
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIValueFields;
+
+            /**
+             * Creates a plain object from a UIValueFields message. Also converts values to other types if specified.
+             * @param message UIValueFields
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIValueFields, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIValueFields to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIValueFields
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIValueFields {
+
+            /** Properties of a UIValueFields. */
+            interface $Properties {
+
+                /** UIValueFields fields */
+                fields?: (pulsarity.ui.UIValueField.$Properties[]|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIValueFields. */
+            type $Shape = {
+              fields?: pulsarity.ui.UIValueField.$Shape[]|null;
+              $unknowns?: Uint8Array[];
+            };
+        }
+
+        /**
+         * Properties of a UIElementUpdate.
+         * @deprecated Use pulsarity.ui.UIElementUpdate.$Properties instead.
+         */
+        interface IUIElementUpdate extends pulsarity.ui.UIElementUpdate.$Properties {
+        }
+
+        /** Represents a UIElementUpdate. */
+        class UIElementUpdate {
+
+            /**
+             * Constructs a new UIElementUpdate.
+             * @param [properties] Properties to set
+             */
+            constructor(properties?: pulsarity.ui.UIElementUpdate.$Properties);
+
+            /** Unknown fields preserved while decoding when enabled */
+            $unknowns?: Uint8Array[];
+
+            /** UIElementUpdate elementType. */
+            elementType: pulsarity.ui.UIElementType;
+
+            /** UIElementUpdate elementId. */
+            elementId: number;
+
+            /**
+             * Creates a new UIElementUpdate instance using the specified properties.
+             * @param [properties] Properties to set
+             * @returns UIElementUpdate instance
+             */
+            static create(properties: pulsarity.ui.UIElementUpdate.$Shape): pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape;
+            static create(properties?: pulsarity.ui.UIElementUpdate.$Properties): pulsarity.ui.UIElementUpdate;
+
+            /**
+             * Encodes the specified UIElementUpdate message. Does not implicitly {@link pulsarity.ui.UIElementUpdate.verify|verify} messages.
+             * @param message UIElementUpdate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encode(message: pulsarity.ui.UIElementUpdate.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Encodes the specified UIElementUpdate message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementUpdate.verify|verify} messages.
+             * @param message UIElementUpdate message or plain object to encode
+             * @param [writer] Writer to encode to
+             * @returns Writer
+             */
+            static encodeDelimited(message: pulsarity.ui.UIElementUpdate.$Properties, writer?: $protobuf.Writer): $protobuf.Writer;
+
+            /**
+             * Decodes a UIElementUpdate message from the specified reader or buffer.
+             * @param reader Reader or buffer to decode from
+             * @param [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape} UIElementUpdate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decode(reader: ($protobuf.Reader|Uint8Array), length?: number): pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape;
+
+            /**
+             * Decodes a UIElementUpdate message from the specified reader or buffer, length delimited.
+             * @param reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape} UIElementUpdate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            static decodeDelimited(reader: ($protobuf.Reader|Uint8Array)): pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape;
+
+            /**
+             * Verifies a UIElementUpdate message.
+             * @param message Plain object to verify
+             * @returns `null` if valid, otherwise the reason why it is not
+             */
+            static verify(message: { [k: string]: any }): (string|null);
+
+            /**
+             * Creates a UIElementUpdate message from a plain object. Also converts values to their respective internal types.
+             * @param object Plain object
+             * @returns UIElementUpdate
+             */
+            static fromObject(object: { [k: string]: any }): pulsarity.ui.UIElementUpdate;
+
+            /**
+             * Creates a plain object from a UIElementUpdate message. Also converts values to other types if specified.
+             * @param message UIElementUpdate
+             * @param [options] Conversion options
+             * @returns Plain object
+             */
+            static toObject(message: pulsarity.ui.UIElementUpdate, options?: $protobuf.IConversionOptions): { [k: string]: any };
+
+            /**
+             * Converts this UIElementUpdate to JSON.
+             * @returns JSON object
+             */
+            toJSON(): { [k: string]: any };
+
+            /**
+             * Gets the type url for UIElementUpdate
+             * @param [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns The type url
+             */
+            static getTypeUrl(prefix?: string): string;
+        }
+
+        namespace UIElementUpdate {
+
+            /** Properties of a UIElementUpdate. */
+            interface $Properties {
+
+                /** UIElementUpdate elementType */
+                elementType?: (pulsarity.ui.UIElementType|null);
+
+                /** UIElementUpdate elementId */
+                elementId?: (number|null);
+
+                /** Unknown fields preserved while decoding when enabled */
+                $unknowns?: Uint8Array[];
+            }
+
+            /** Shape of a UIElementUpdate. */
+            type $Shape = pulsarity.ui.UIElementUpdate.$Properties;
         }
     }
 
@@ -2525,6 +4226,9 @@ export namespace pulsarity {
 
             /** EVENT_RESTART value */
             EVENT_RESTART = 5,
+
+            /** EVENT_UI_UPDATE value */
+            EVENT_UI_UPDATE = 6,
 
             /** EVENT_RACE_SCHEDULE value */
             EVENT_RACE_SCHEDULE = 32,
@@ -2573,7 +4277,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.ws.PilotAddData.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** PilotAddData pilotId. */
@@ -2666,7 +4370,7 @@ export namespace pulsarity {
                 /** PilotAddData pilotId */
                 pilotId?: (number|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2690,7 +4394,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.ws.PilotAlterData.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** PilotAlterData pilotId. */
@@ -2783,7 +4487,7 @@ export namespace pulsarity {
                 /** PilotAlterData pilotId */
                 pilotId?: (number|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2807,7 +4511,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.ws.PilotDeleteData.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** PilotDeleteData pilotId. */
@@ -2900,7 +4604,7 @@ export namespace pulsarity {
                 /** PilotDeleteData pilotId */
                 pilotId?: (number|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
@@ -2924,7 +4628,7 @@ export namespace pulsarity {
              */
             constructor(properties?: pulsarity.ws.WebsocketEvent.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** WebsocketEvent uuid. */
@@ -2932,6 +4636,9 @@ export namespace pulsarity {
 
             /** WebsocketEvent eventId. */
             eventId: pulsarity.ws.EventID;
+
+            /** WebsocketEvent uiElementUpdate. */
+            uiElementUpdate?: (pulsarity.ui.UIElementUpdate.$Properties|null);
 
             /** WebsocketEvent pilotAdd. */
             pilotAdd?: (pulsarity.ws.PilotAddData.$Properties|null);
@@ -2943,7 +4650,7 @@ export namespace pulsarity {
             pilotDelete?: (pulsarity.ws.PilotDeleteData.$Properties|null);
 
             /** WebsocketEvent eventData. */
-            eventData?: ("pilotAdd"|"pilotAlter"|"pilotDelete");
+            eventData?: ("uiElementUpdate"|"pilotAdd"|"pilotAlter"|"pilotDelete");
 
             /**
              * Creates a new WebsocketEvent instance using the specified properties.
@@ -3035,6 +4742,9 @@ export namespace pulsarity {
                 /** WebsocketEvent eventId */
                 eventId?: (pulsarity.ws.EventID|null);
 
+                /** WebsocketEvent uiElementUpdate */
+                uiElementUpdate?: (pulsarity.ui.UIElementUpdate.$Properties|null);
+
                 /** WebsocketEvent pilotAdd */
                 pilotAdd?: (pulsarity.ws.PilotAddData.$Properties|null);
 
@@ -3045,23 +4755,24 @@ export namespace pulsarity {
                 pilotDelete?: (pulsarity.ws.PilotDeleteData.$Properties|null);
 
                 /** WebsocketEvent eventData */
-                eventData?: ("pilotAdd"|"pilotAlter"|"pilotDelete");
+                eventData?: ("uiElementUpdate"|"pilotAdd"|"pilotAlter"|"pilotDelete");
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
             /** Narrowed shape of a WebsocketEvent. */
             type $Shape = {
-  uuid?: Uint8Array|null;
-  eventId?: pulsarity.ws.EventID|null;
-  pilotAdd?: pulsarity.ws.PilotAddData.$Shape|null;
-  pilotAlter?: pulsarity.ws.PilotAlterData.$Shape|null;
-  pilotDelete?: pulsarity.ws.PilotDeleteData.$Shape|null;
-  $unknowns?: Uint8Array[];
-} & (
-  ({ eventData?: undefined; pilotAdd?: null; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAdd"; pilotAdd: pulsarity.ws.PilotAddData.$Shape; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAlter"; pilotAdd?: null; pilotAlter: pulsarity.ws.PilotAlterData.$Shape; pilotDelete?: null }|{ eventData?: "pilotDelete"; pilotAdd?: null; pilotAlter?: null; pilotDelete: pulsarity.ws.PilotDeleteData.$Shape })
-);
+              uuid?: Uint8Array|null;
+              eventId?: pulsarity.ws.EventID|null;
+              uiElementUpdate?: pulsarity.ui.UIElementUpdate.$Shape|null;
+              pilotAdd?: pulsarity.ws.PilotAddData.$Shape|null;
+              pilotAlter?: pulsarity.ws.PilotAlterData.$Shape|null;
+              pilotDelete?: pulsarity.ws.PilotDeleteData.$Shape|null;
+              $unknowns?: Uint8Array[];
+            } & (
+              ({ eventData?: undefined; uiElementUpdate?: null; pilotAdd?: null; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "uiElementUpdate"; uiElementUpdate: pulsarity.ui.UIElementUpdate.$Shape; pilotAdd?: null; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAdd"; uiElementUpdate?: null; pilotAdd: pulsarity.ws.PilotAddData.$Shape; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAlter"; uiElementUpdate?: null; pilotAdd?: null; pilotAlter: pulsarity.ws.PilotAlterData.$Shape; pilotDelete?: null }|{ eventData?: "pilotDelete"; uiElementUpdate?: null; pilotAdd?: null; pilotAlter?: null; pilotDelete: pulsarity.ws.PilotDeleteData.$Shape })
+            );
         }
     }
 }
@@ -3088,7 +4799,7 @@ export namespace google {
              */
             constructor(properties?: google.protobuf.Timestamp.$Properties);
 
-            /** Unknown fields preserved while decoding */
+            /** Unknown fields preserved while decoding when enabled */
             $unknowns?: Uint8Array[];
 
             /** Timestamp seconds. */
@@ -3187,7 +4898,7 @@ export namespace google {
                 /** Timestamp nanos */
                 nanos?: (number|null);
 
-                /** Unknown fields preserved while decoding */
+                /** Unknown fields preserved while decoding when enabled */
                 $unknowns?: Uint8Array[];
             }
 
