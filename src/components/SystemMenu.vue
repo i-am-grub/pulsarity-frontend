@@ -54,7 +54,7 @@
 				/>
 				<template v-else>
 					<p><RouterLink to="/admin">Admin console</RouterLink></p>
-					<button @click="authStore.runLogoutUser">Logout</button>
+					<button @click="authStore.runLogoutClient">Logout</button>
 				</template>
 			</template>
 

@@ -8,6 +8,7 @@
 	import { closeWebsocketConnection } from "@/ws/ws_router";
 	import { loadLocalizatioPack } from "@/utils/i18n";
 	import { useUIElementStore } from "./stores/ui_elements";
+	import { loadDynamicRoutes } from "./router";
 
 	const serverStore = useServerStore();
 	const authStore = useAuthenticationStore();
@@ -23,6 +24,7 @@
 			serverStore.fetchServerData(),
 			authStore.checkUserAuthenticated(),
 			uiStore.loadElementsFromServer(),
+			loadDynamicRoutes(),
 			loadLocalizatioPack(),
 		];
 
@@ -40,5 +42,5 @@
 </script>
 
 <template>
-	<RouterView v-if="!isLoading" />
+	<div v-if="!isLoading"><RouterView v-if="!isLoading" /></div>
 </template>

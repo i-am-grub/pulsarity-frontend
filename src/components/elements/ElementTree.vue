@@ -1,5 +1,7 @@
 <!-- @format -->
 
+<!-- Component for rendering an element tree -->
+
 <script setup lang="ts">
 	import { computed, type Component, type ComputedRef } from "vue";
 	import { useUIElementStore } from "@/stores/ui_elements.ts";

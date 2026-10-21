@@ -1,5 +1,7 @@
 <!-- @format -->
 
+<!-- Component for rendering element trees attached to a route -->
+
 <script setup lang="ts">
 	import { computed, type ComputedRef } from "vue";
 	import { useUIElementStore } from "@/stores/ui_elements";

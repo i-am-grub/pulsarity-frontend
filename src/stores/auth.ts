@@ -26,7 +26,8 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	const serverErrorMsg = ref("");
 
 	/**
-	 * Log the user into the system with the provided username and password
+	 * Send a request to log the user into the
+	 * system with the provided username and password
 	 */
 	async function runLoginUser(username_: string, password: string) {
 		isLoading.value = true;
@@ -58,9 +59,9 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	}
 
 	/**
-	 * Logout the user
+	 * Send a request to log the client out of the server.
 	 */
-	async function runLogoutUser() {
+	async function runLogoutClient() {
 		isLoading.value = true;
 		try {
 			await logoutUser();
@@ -77,7 +78,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	}
 
 	/**
-	 * Reset the user's password
+	 * Send a request to reset the client's password.
 	 */
 	async function runPasswordReset(oldPassword: string, newPassword: string) {
 		isLoading.value = true;
@@ -99,7 +100,9 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	}
 
 	/**
-	 * Get the current authentication status of the user
+	 * Send a request to get the current authentication status of the user.
+	 * Checks if a user is authenticated to the server. On a successful
+	 * response, update the websocket mode of the user.
 	 */
 	async function checkUserAuthenticated() {
 		isLoading.value = true;
@@ -130,7 +133,11 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 	}
 
 	/**
-	 * Check if the user has a specific permission
+	 * Check if the user has a specific permission.
+	 *
+	 * TODO: Potentially set up a protobuf structure
+	 * to allow for default persmissions to be identified
+	 * by an enum.
 	 */
 	function hasPermission(permission: string): boolean {
 		return permissions.has(permission);
@@ -138,15 +145,19 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 
 	/**
 	 * Changes the websocket mode to reflect the user's current
-	 * set of permissions
+	 * set of permissions. Note: The permissions on the server
+	 * will dictate whether the client will actually be able to
+	 * connect in the respective mode or not.
 	 */
 	function updateWebSocketMode() {
 		let mode: WebSocketModeType;
 
-		if (hasPermission("duplex_websocket")) {
-			mode = WebSocketMode.DUPLEX;
-		} else if (hasPermission("simplex_websocket")) {
-			mode = WebSocketMode.SIMPLEX;
+		if (hasPermission("read_websocket")) {
+			if (hasPermission("write_websocket")) {
+				mode = WebSocketMode.DUPLEX;
+			} else {
+				mode = WebSocketMode.SIMPLEX;
+			}
 		} else {
 			mode = WebSocketMode.OFF;
 		}
@@ -163,7 +174,7 @@ export const useAuthenticationStore = defineStore("authStore", () => {
 		displayName,
 		serverErrorMsg,
 		runLoginUser,
-		runLogoutUser,
+		runLogoutClient,
 		runPasswordReset,
 		checkUserAuthenticated,
 		hasPermission,
