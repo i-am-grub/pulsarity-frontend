@@ -78,8 +78,10 @@
 			<RouterLink to="/">Public View</RouterLink>
 		</nav>
 		<main>
+			<!-- Route view -->
 			<RouterView />
-			<ElementTreeContainer :elementKey="$route.params.page as string" />
+			<!-- Tack on dynamic rendering to every admin path -->
+			<ElementTreeContainer :elementKey="$route.name as string" />
 		</main>
 	</div>
 </template>

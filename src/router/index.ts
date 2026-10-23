@@ -17,7 +17,7 @@ import AdminPluginAdd from "@/views/AdminPluginAdd.vue";
 import AdminResultsEditor from "@/views/AdminResultsEditor.vue";
 import AdminRunRace from "@/views/AdminRunRace.vue";
 import { getPages } from "@/utils/http_api";
-import DynamicView from "@/views/DynamicView.vue";
+import BlankView from "@/views/BlankView.vue";
 
 const routes = [
 	{
@@ -132,7 +132,7 @@ async function loadDynamicRoutes() {
 					path: `${val.name}`,
 					name: val.name,
 					meta: { title: val.name },
-					component: DynamicView,
+					component: BlankView,
 				});
 			}
 		});

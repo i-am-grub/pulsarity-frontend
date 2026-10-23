@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 	import { type ComputedRef } from "vue";
-	import { pulsarity } from "@/utils/pulsarity_pb";
 	import { useUIElementStore } from "@/stores/ui_elements";
 	import { computed } from "vue";
+	import { VueMarkdown } from "@crazydos/vue-markdown";
 
 	const uiStore = useUIElementStore();
 
@@ -15,8 +15,11 @@
 		depth: { type: Number, required: true },
 	});
 
-	const fieldData: ComputedRef<pulsarity.ui.UIMarkdownField | undefined> =
-		computed(() => uiStore.markdownFields.get(props.id));
+	const rawMarkdown: ComputedRef<string> = computed(
+		() => uiStore.markdownFields.get(props.id)?.text || "",
+	);
 </script>
 
-<template></template>
+<template>
+	<VueMarkdown :markdown="rawMarkdown" :sanitize="true" />
+</template>
