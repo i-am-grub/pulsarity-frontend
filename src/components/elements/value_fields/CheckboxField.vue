@@ -12,11 +12,18 @@
 		id: { type: Number, required: true },
 	});
 
+	const ckbx_id = "ckbx_" + props.id.toString();
+
 	const fieldData: ComputedRef<pulsarity.ui.UIValueField | undefined> =
 		computed(() => uiStore.valueFields.get(props.id));
 </script>
 
 <template>
-	<label for="quantity">Quantity:</label>
-	<input type="checkbox" id="quantity" />
+	<label :for="ckbx_id">{{ fieldData?.description || "" }}</label>
+	<input
+		type="checkbox"
+		:id="ckbx_id"
+		:value="fieldData?.boolean?.valueOf() || false"
+		:checked="fieldData?.boolean?.valueOf() || false"
+	/>
 </template>

@@ -12,15 +12,17 @@
 		id: { type: Number, required: true },
 	});
 
+	const range_id = "range_" + props.id.toString();
+
 	const fieldData: ComputedRef<pulsarity.ui.UIValueField | undefined> =
 		computed(() => uiStore.valueFields.get(props.id));
 </script>
 
 <template>
-	<label for="quantity">Quantity:</label>
+	<label :for="range_id">{{ fieldData?.description || "" }}</label>
 	<input
 		type="range"
-		id="quantity"
+		:id="range_id"
 		:value="fieldData?.number?.value ?? ''"
 		:min="fieldData?.number?.min ?? ''"
 		:max="fieldData?.number?.max ?? ''"

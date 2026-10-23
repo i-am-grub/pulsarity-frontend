@@ -4,7 +4,6 @@
 
 <script setup lang="ts">
 	import { type ComputedRef } from "vue";
-	import { pulsarity } from "@/utils/pulsarity_pb";
 	import { useUIElementStore } from "@/stores/ui_elements";
 	import { computed } from "vue";
 
@@ -15,8 +14,12 @@
 		depth: { type: Number, required: true },
 	});
 
-	const fieldData: ComputedRef<pulsarity.ui.UIButtonField | undefined> =
-		computed(() => uiStore.buttonFields.get(props.id));
+	const buttonName: ComputedRef<string> = computed(() => {
+		const field = uiStore.buttonFields.get(props.id);
+		return field?.text || "";
+	});
 </script>
 
-<template></template>
+<template>
+	<button type="button">{{ buttonName }}</button>
+</template>

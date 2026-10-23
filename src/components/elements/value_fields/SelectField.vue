@@ -12,15 +12,15 @@
 		id: { type: Number, required: true },
 	});
 
+	const sel_id = "sel_id" + props.id.toString();
+
 	const fieldData: ComputedRef<pulsarity.ui.UIValueField | undefined> =
 		computed(() => uiStore.valueFields.get(props.id));
-
-	fieldData?.value?.select?.mapping;
 </script>
 
 <template>
-	<label for="quantity">Quantity:</label>
-	<select id="quantity">
+	<label :for="sel_id">{{ fieldData?.description || "" }}</label>
+	<select :id="sel_id">
 		<option
 			v-for="(value, key) in fieldData?.select?.mapping"
 			:key="key"

@@ -24,28 +24,40 @@
 	// Populate parent and child route data for admin navigation
 	router.getRoutes().forEach((r) => {
 		const split = r.path.split("/");
-		if (split[1] === "admin") {
-			if (split.length === 3) {
-				parentRoutes.push({
-					path: r.path,
-					title: r.meta?.title as string | undefined,
-					name: r.name as string,
-				});
+		const len = split.length;
+		if (len < 3) return;
+
+		// Skip wildcards
+		const last = split[len - 1] as string;
+		if (last.endsWith("*")) return;
+
+		// Skip non-admin routes
+		if (split[1] !== "admin") return;
+
+		// Register admin parent routes
+		if (split.length === 3) {
+			parentRoutes.push({
+				path: r.path,
+				title: r.meta?.title as string | undefined,
+				name: r.name as string,
+			});
+		}
+
+		// Register admin child routes
+		if (split.length === 4) {
+			const key = split[2] as string;
+
+			// Create a mapping for the parent if it doesn't exist
+			if (!childRoutes.has(key)) {
+				childRoutes.set(key, []);
 			}
 
-			if (split.length === 4) {
-				const key = split[2] as string;
-
-				if (!childRoutes.has(key)) {
-					childRoutes.set(key, []);
-				}
-
-				childRoutes.get(key)?.push({
-					path: r.path,
-					title: r.meta?.title as string | undefined,
-					name: r.name as string,
-				});
-			}
+			// Map the child under the parent
+			childRoutes.get(key)?.push({
+				path: r.path,
+				title: r.meta?.title as string | undefined,
+				name: r.name as string,
+			});
 		}
 	});
 </script>

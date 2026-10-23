@@ -12,11 +12,13 @@
 		id: { type: Number, required: true },
 	});
 
+	const email_id = "email_" + props.id.toString();
+
 	const fieldData: ComputedRef<pulsarity.ui.UIValueField | undefined> =
 		computed(() => uiStore.valueFields.get(props.id));
 </script>
 
 <template>
-	<label for="quantity">Quantity:</label>
-	<input type="email" id="quantity" />
+	<label :for="email_id">{{ fieldData?.description || "" }}</label>
+	<input type="email" :id="email_id" :value="fieldData?.text || ''" />
 </template>

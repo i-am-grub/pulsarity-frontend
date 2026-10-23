@@ -12,11 +12,13 @@
 		id: { type: Number, required: true },
 	});
 
+	const txt_id = "txt_" + props.id.toString();
+
 	const fieldData: ComputedRef<pulsarity.ui.UIValueField | undefined> =
 		computed(() => uiStore.valueFields.get(props.id));
 </script>
 
 <template>
-	<label for="quantity">Quantity:</label>
-	<input type="text" id="quantity" :value="fieldData?.number?.value ?? ''" />
+	<label :for="txt_id">{{ fieldData?.description || "" }}</label>
+	<input type="text" :id="txt_id" :value="fieldData?.text || ''" />
 </template>

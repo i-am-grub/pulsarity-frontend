@@ -15,9 +15,10 @@
 		depth: { type: Number, required: true },
 	});
 
-	const rawMarkdown: ComputedRef<string> = computed(
-		() => uiStore.markdownFields.get(props.id)?.text || "",
-	);
+	const rawMarkdown: ComputedRef<string> = computed(() => {
+		const field = uiStore.markdownFields.get(props.id);
+		return field?.text || "";
+	});
 </script>
 
 <template>
