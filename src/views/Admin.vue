@@ -8,37 +8,58 @@
 	import RaceState from "@components/RaceState.vue";
 
 	import rhLogo from "@/assets/RotorHazard_Logo.svg";
+	import ElementTreeContainer from "@/components/elements/ElementTreeContainer.vue";
+	import { router } from "@/router";
+	import { reactive } from "vue";
 
-	const adminNavItems = [
-		{
-			path: "/admin/settings",
-			name: "Timer Setup",
-			children: [
-				{ path: "/admin/settings/frequency", name: "Frequency Setup" },
-				{ path: "/admin/settings/tuning", name: "Sensor Tuning" },
-				{ path: "/admin/settings/actions", name: "Event Actions" },
-				{ path: "/admin/settings/leds", name: "LED Setup" },
-				{ path: "/admin/settings/audio", name: "Audio Defaults" },
-				{ path: "/admin/settings/users", name: "Users" },
-			],
-		},
-		{
-			path: "/admin/event",
-			name: "Event Setup",
-			children: [
-				{ path: "/admin/event/pilots", name: "Pilots" },
-				{ path: "/admin/event/heats", name: "Heats" },
-			],
-		},
-		{ path: "/admin/race", name: "Run Races" },
-		{ path: "/admin/marshal", name: "Marshal" },
-		{ path: "/admin/results", name: "Results" },
-		{
-			path: "/admin/plugins",
-			name: "Plugins",
-			children: [{ path: "/admin/plugins/add", name: "Add New" }],
-		},
-	];
+	interface RouteData {
+		path: string;
+		title: string | undefined | null;
+		name: string;
+	}
+
+	const parentRoutes = reactive(new Array<RouteData>());
+	const childRoutes = reactive(new Map<string, Array<RouteData>>());
+
+	// Populate parent and child route data for admin navigation
+	router.getRoutes().forEach((r) => {
+		const split = r.path.split("/");
+		const len = split.length;
+		if (len < 3) return;
+
+		// Skip wildcards
+		const last = split[len - 1] as string;
+		if (last.endsWith("*")) return;
+
+		// Skip non-admin routes
+		if (split[1] !== "admin") return;
+
+		// Register admin parent routes
+		if (split.length === 3) {
+			parentRoutes.push({
+				path: r.path,
+				title: r.meta?.title as string | undefined,
+				name: r.name as string,
+			});
+		}
+
+		// Register admin child routes
+		if (split.length === 4) {
+			const key = split[2] as string;
+
+			// Create a mapping for the parent if it doesn't exist
+			if (!childRoutes.has(key)) {
+				childRoutes.set(key, []);
+			}
+
+			// Map the child under the parent
+			childRoutes.get(key)?.push({
+				path: r.path,
+				title: r.meta?.title as string | undefined,
+				name: r.name as string,
+			});
+		}
+	});
 </script>
 
 <template>
@@ -53,11 +74,15 @@
 				><img :src="rhLogo" alt="RotorHazard Admin"
 			/></RouterLink>
 			<ul>
-				<li v-for="item in adminNavItems">
-					<RouterLink :to="item.path">{{ item.name }}</RouterLink>
-					<ul v-if="item.children">
-						<li v-for="sub_item in item.children">
-							<RouterLink :to="sub_item.path">{{ sub_item.name }}</RouterLink>
+				<li v-for="item in parentRoutes">
+					<RouterLink :key="item.name" :to="item.path">{{
+						item.title || item.name
+					}}</RouterLink>
+					<ul v-if="childRoutes.has(item.name)">
+						<li v-for="sub_item in childRoutes.get(item.name)">
+							<RouterLink :key="sub_item.name" :to="sub_item.path">{{
+								sub_item.title || sub_item.name
+							}}</RouterLink>
 						</li>
 					</ul>
 				</li>
@@ -65,7 +90,10 @@
 			<RouterLink to="/">Public View</RouterLink>
 		</nav>
 		<main>
+			<!-- Route view -->
 			<RouterView />
+			<!-- Tack on dynamic rendering to every admin path -->
+			<ElementTreeContainer :elementKey="$route.name as string" />
 		</main>
 	</div>
 </template>

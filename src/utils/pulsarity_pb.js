@@ -3,6 +3,7 @@ import $protobuf from "protobufjs/minimal.js";
 
 // Common aliases
 const $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+const $Object = $util.global.Object, $undefined = $util.global.undefined, $Error = $util.global.Error, $RangeError = $util.global.RangeError, $TypeError = $util.global.TypeError, $String = $util.global.String, $Array = $util.global.Array, $Number = $util.global.Number, $isFinite = $util.global.isFinite, $Boolean = $util.global.Boolean, $parseInt = $util.global.parseInt, $BigInt = $util.global.BigInt;
 
 // Exported root namespace
 const $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
@@ -31,7 +32,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of an Attribute.
              * @typedef {Object} pulsarity.db.Attribute.$Properties
              * @property {string|null} [name] Attribute name
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -53,14 +54,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents an Attribute.
              * @constructor
              * @param {pulsarity.db.Attribute.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Attribute(properties) {
+            const Attribute = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Attribute name.
@@ -82,7 +83,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Attribute.$Properties): pulsarity.db.Attribute;
              * }}
              */
-            Attribute.create = function create(properties) {
+            Attribute.create = function(properties) {
                 return new Attribute(properties);
             };
 
@@ -95,16 +96,16 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Attribute.encode = function encode(message, writer, _depth) {
+            Attribute.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                    throw $Error("max depth exceeded");
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name") && message.name !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -119,8 +120,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Attribute.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Attribute.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -134,19 +135,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Attribute.decode = function decode(reader, length, _end, _depth, _target) {
+            Attribute.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Attribute(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Attribute();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -154,7 +165,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.name = value;
                             else
                                 delete message.name;
@@ -167,8 +178,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -182,7 +198,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Attribute.decodeDelimited = function decodeDelimited(reader) {
+            Attribute.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -196,14 +212,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Attribute.verify = function verify(message, _depth) {
+            Attribute.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
                 return null;
@@ -217,19 +233,19 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Attribute} Attribute
              */
-            Attribute.fromObject = function fromObject(object, _depth) {
+            Attribute.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Attribute)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Attribute: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Attribute: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Attribute();
                 if (object.name != null)
                     if (typeof object.name !== "string" || object.name.length)
-                        message.name = String(object.name);
+                        message.name = $String(object.name);
                 return message;
             };
 
@@ -242,17 +258,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Attribute.toObject = function toObject(message, options, _depth) {
+            Attribute.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults)
                     object.name = "";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
                 return object;
             };
@@ -264,8 +280,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Attribute.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Attribute.prototype.toJSON = function() {
+                return Attribute.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -276,8 +292,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Attribute.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Attribute.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Attribute";
             };
@@ -294,7 +310,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {string|null} [displayCallsign] Pilot displayCallsign
              * @property {string|null} [displayName] Pilot displayName
              * @property {Array.<pulsarity.db.Attribute.$Properties>|null} [attributes] Pilot attributes
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -316,15 +332,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a Pilot.
              * @constructor
              * @param {pulsarity.db.Pilot.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Pilot(properties) {
+            const Pilot = function (properties) {
                 this.attributes = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Pilot id.
@@ -370,7 +386,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Pilot.$Properties): pulsarity.db.Pilot;
              * }}
              */
-            Pilot.create = function create(properties) {
+            Pilot.create = function(properties) {
                 return new Pilot(properties);
             };
 
@@ -383,23 +399,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Pilot.encode = function encode(message, writer, _depth) {
+            Pilot.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
-                if (message.displayCallsign != null && Object.hasOwnProperty.call(message, "displayCallsign"))
+                    throw $Error("max depth exceeded");
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id") && message.id !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+                if (message.displayCallsign != null && $Object.hasOwnProperty.call(message, "displayCallsign") && message.displayCallsign !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.displayCallsign);
-                if (message.displayName != null && Object.hasOwnProperty.call(message, "displayName"))
+                if (message.displayName != null && $Object.hasOwnProperty.call(message, "displayName") && message.displayName !== "")
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.displayName);
                 if (message.attributes != null && message.attributes.length)
                     for (let i = 0; i < message.attributes.length; ++i)
                         $root.pulsarity.db.Attribute.encode(message.attributes[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -414,8 +430,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Pilot.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Pilot.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -429,19 +445,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Pilot.decode = function decode(reader, length, _end, _depth, _target) {
+            Pilot.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Pilot(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Pilot();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -449,7 +475,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.id = value;
                             else
                                 delete message.id;
@@ -458,7 +484,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.displayCallsign = value;
                             else
                                 delete message.displayCallsign;
@@ -467,7 +493,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 3: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.displayName = value;
                             else
                                 delete message.displayName;
@@ -478,7 +504,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.attributes && message.attributes.length))
                                 message.attributes = [];
-                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -488,8 +514,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -503,7 +534,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Pilot.decodeDelimited = function decodeDelimited(reader) {
+            Pilot.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -517,24 +548,24 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Pilot.verify = function verify(message, _depth) {
+            Pilot.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     if (!$util.isInteger(message.id))
                         return "id: integer expected";
-                if (message.displayCallsign != null && message.hasOwnProperty("displayCallsign"))
+                if (message.displayCallsign != null && $Object.hasOwnProperty.call(message, "displayCallsign"))
                     if (!$util.isString(message.displayCallsign))
                         return "displayCallsign: string expected";
-                if (message.displayName != null && message.hasOwnProperty("displayName"))
+                if (message.displayName != null && $Object.hasOwnProperty.call(message, "displayName"))
                     if (!$util.isString(message.displayName))
                         return "displayName: string expected";
-                if (message.attributes != null && message.hasOwnProperty("attributes")) {
-                    if (!Array.isArray(message.attributes))
+                if (message.attributes != null && $Object.hasOwnProperty.call(message, "attributes")) {
+                    if (!$Array.isArray(message.attributes))
                         return "attributes: array expected";
                     for (let i = 0; i < message.attributes.length; ++i) {
                         let error = $root.pulsarity.db.Attribute.verify(message.attributes[i], _depth + 1);
@@ -553,32 +584,32 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Pilot} Pilot
              */
-            Pilot.fromObject = function fromObject(object, _depth) {
+            Pilot.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Pilot)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Pilot: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Pilot: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Pilot();
                 if (object.id != null)
-                    if (Number(object.id) !== 0)
-                        message.id = object.id | 0;
+                    if ($Number(object.id) !== 0)
+                        message.id = object.id >>> 0;
                 if (object.displayCallsign != null)
                     if (typeof object.displayCallsign !== "string" || object.displayCallsign.length)
-                        message.displayCallsign = String(object.displayCallsign);
+                        message.displayCallsign = $String(object.displayCallsign);
                 if (object.displayName != null)
                     if (typeof object.displayName !== "string" || object.displayName.length)
-                        message.displayName = String(object.displayName);
+                        message.displayName = $String(object.displayName);
                 if (object.attributes) {
-                    if (!Array.isArray(object.attributes))
-                        throw TypeError(".pulsarity.db.Pilot.attributes: array expected");
-                    message.attributes = Array(object.attributes.length);
+                    if (!$Array.isArray(object.attributes))
+                        throw $TypeError(".pulsarity.db.Pilot.attributes: array expected");
+                    message.attributes = $Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
                         if (!$util.isObject(object.attributes[i]))
-                            throw TypeError(".pulsarity.db.Pilot.attributes: object expected");
+                            throw $TypeError(".pulsarity.db.Pilot.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
                 }
@@ -594,13 +625,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Pilot.toObject = function toObject(message, options, _depth) {
+            Pilot.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.attributes = [];
@@ -609,14 +640,14 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.displayCallsign = "";
                     object.displayName = "";
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     object.id = message.id;
-                if (message.displayCallsign != null && message.hasOwnProperty("displayCallsign"))
+                if (message.displayCallsign != null && $Object.hasOwnProperty.call(message, "displayCallsign"))
                     object.displayCallsign = message.displayCallsign;
-                if (message.displayName != null && message.hasOwnProperty("displayName"))
+                if (message.displayName != null && $Object.hasOwnProperty.call(message, "displayName"))
                     object.displayName = message.displayName;
                 if (message.attributes && message.attributes.length) {
-                    object.attributes = Array(message.attributes.length);
+                    object.attributes = $Array(message.attributes.length);
                     for (let j = 0; j < message.attributes.length; ++j)
                         object.attributes[j] = $root.pulsarity.db.Attribute.toObject(message.attributes[j], options, _depth + 1);
                 }
@@ -630,8 +661,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Pilot.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Pilot.prototype.toJSON = function() {
+                return Pilot.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -642,8 +673,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Pilot.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Pilot.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Pilot";
             };
@@ -657,7 +688,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a Pilots.
              * @typedef {Object} pulsarity.db.Pilots.$Properties
              * @property {Array.<pulsarity.db.Pilot.$Properties>|null} [pilots] Pilots pilots
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -679,15 +710,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a Pilots.
              * @constructor
              * @param {pulsarity.db.Pilots.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Pilots(properties) {
+            const Pilots = function (properties) {
                 this.pilots = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Pilots pilots.
@@ -709,7 +740,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Pilots.$Properties): pulsarity.db.Pilots;
              * }}
              */
-            Pilots.create = function create(properties) {
+            Pilots.create = function(properties) {
                 return new Pilots(properties);
             };
 
@@ -722,17 +753,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Pilots.encode = function encode(message, writer, _depth) {
+            Pilots.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 if (message.pilots != null && message.pilots.length)
                     for (let i = 0; i < message.pilots.length; ++i)
                         $root.pulsarity.db.Pilot.encode(message.pilots[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -747,8 +778,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Pilots.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Pilots.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -762,19 +793,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Pilots.decode = function decode(reader, length, _end, _depth, _target) {
+            Pilots.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Pilots();
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Pilots();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -784,7 +825,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.pilots && message.pilots.length))
                                 message.pilots = [];
-                            message.pilots.push($root.pulsarity.db.Pilot.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.pilots.push($root.pulsarity.db.Pilot.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -794,8 +835,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -809,7 +855,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Pilots.decodeDelimited = function decodeDelimited(reader) {
+            Pilots.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -823,15 +869,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Pilots.verify = function verify(message, _depth) {
+            Pilots.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.pilots != null && message.hasOwnProperty("pilots")) {
-                    if (!Array.isArray(message.pilots))
+                if (message.pilots != null && $Object.hasOwnProperty.call(message, "pilots")) {
+                    if (!$Array.isArray(message.pilots))
                         return "pilots: array expected";
                     for (let i = 0; i < message.pilots.length; ++i) {
                         let error = $root.pulsarity.db.Pilot.verify(message.pilots[i], _depth + 1);
@@ -850,23 +896,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Pilots} Pilots
              */
-            Pilots.fromObject = function fromObject(object, _depth) {
+            Pilots.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Pilots)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Pilots: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Pilots: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Pilots();
                 if (object.pilots) {
-                    if (!Array.isArray(object.pilots))
-                        throw TypeError(".pulsarity.db.Pilots.pilots: array expected");
-                    message.pilots = Array(object.pilots.length);
+                    if (!$Array.isArray(object.pilots))
+                        throw $TypeError(".pulsarity.db.Pilots.pilots: array expected");
+                    message.pilots = $Array(object.pilots.length);
                     for (let i = 0; i < object.pilots.length; ++i) {
                         if (!$util.isObject(object.pilots[i]))
-                            throw TypeError(".pulsarity.db.Pilots.pilots: object expected");
+                            throw $TypeError(".pulsarity.db.Pilots.pilots: object expected");
                         message.pilots[i] = $root.pulsarity.db.Pilot.fromObject(object.pilots[i], _depth + 1);
                     }
                 }
@@ -882,18 +928,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Pilots.toObject = function toObject(message, options, _depth) {
+            Pilots.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.pilots = [];
                 if (message.pilots && message.pilots.length) {
-                    object.pilots = Array(message.pilots.length);
+                    object.pilots = $Array(message.pilots.length);
                     for (let j = 0; j < message.pilots.length; ++j)
                         object.pilots[j] = $root.pulsarity.db.Pilot.toObject(message.pilots[j], options, _depth + 1);
                 }
@@ -907,8 +953,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Pilots.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Pilots.prototype.toJSON = function() {
+                return Pilots.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -919,8 +965,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Pilots.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Pilots.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Pilots";
             };
@@ -937,7 +983,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {string|null} [name] RaceEvent name
              * @property {google.protobuf.Timestamp.$Properties|null} [date] RaceEvent date
              * @property {Array.<pulsarity.db.Attribute.$Properties>|null} [attributes] RaceEvent attributes
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -959,15 +1005,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a RaceEvent.
              * @constructor
              * @param {pulsarity.db.RaceEvent.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function RaceEvent(properties) {
+            const RaceEvent = function (properties) {
                 this.attributes = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * RaceEvent id.
@@ -1013,7 +1059,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.RaceEvent.$Properties): pulsarity.db.RaceEvent;
              * }}
              */
-            RaceEvent.create = function create(properties) {
+            RaceEvent.create = function(properties) {
                 return new RaceEvent(properties);
             };
 
@@ -1026,23 +1072,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceEvent.encode = function encode(message, writer, _depth) {
+            RaceEvent.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                    throw $Error("max depth exceeded");
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id") && message.id !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name") && message.name !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
-                if (message.date != null && Object.hasOwnProperty.call(message, "date"))
+                if (message.date != null && $Object.hasOwnProperty.call(message, "date"))
                     $root.google.protobuf.Timestamp.encode(message.date, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
                 if (message.attributes != null && message.attributes.length)
                     for (let i = 0; i < message.attributes.length; ++i)
                         $root.pulsarity.db.Attribute.encode(message.attributes[i], writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -1057,8 +1103,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceEvent.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            RaceEvent.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -1072,19 +1118,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceEvent.decode = function decode(reader, length, _end, _depth, _target) {
+            RaceEvent.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.RaceEvent(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.RaceEvent();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -1092,7 +1148,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.id = value;
                             else
                                 delete message.id;
@@ -1101,7 +1157,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.name = value;
                             else
                                 delete message.name;
@@ -1110,7 +1166,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 3: {
                             if (wireType !== 2)
                                 break;
-                            message.date = $root.google.protobuf.Timestamp.decode(reader, reader.uint32(), undefined, _depth + 1, message.date);
+                            message.date = $root.google.protobuf.Timestamp.decode(reader, reader.uint32(), $undefined, _depth + 1, message.date);
                             continue;
                         }
                     case 4: {
@@ -1118,7 +1174,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.attributes && message.attributes.length))
                                 message.attributes = [];
-                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -1128,8 +1184,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -1143,7 +1204,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceEvent.decodeDelimited = function decodeDelimited(reader) {
+            RaceEvent.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -1157,26 +1218,26 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            RaceEvent.verify = function verify(message, _depth) {
+            RaceEvent.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     if (!$util.isInteger(message.id))
                         return "id: integer expected";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
-                if (message.date != null && message.hasOwnProperty("date")) {
+                if (message.date != null && $Object.hasOwnProperty.call(message, "date")) {
                     let error = $root.google.protobuf.Timestamp.verify(message.date, _depth + 1);
                     if (error)
                         return "date." + error;
                 }
-                if (message.attributes != null && message.hasOwnProperty("attributes")) {
-                    if (!Array.isArray(message.attributes))
+                if (message.attributes != null && $Object.hasOwnProperty.call(message, "attributes")) {
+                    if (!$Array.isArray(message.attributes))
                         return "attributes: array expected";
                     for (let i = 0; i < message.attributes.length; ++i) {
                         let error = $root.pulsarity.db.Attribute.verify(message.attributes[i], _depth + 1);
@@ -1195,34 +1256,34 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.RaceEvent} RaceEvent
              */
-            RaceEvent.fromObject = function fromObject(object, _depth) {
+            RaceEvent.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceEvent)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.RaceEvent: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.RaceEvent: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.RaceEvent();
                 if (object.id != null)
-                    if (Number(object.id) !== 0)
-                        message.id = object.id | 0;
+                    if ($Number(object.id) !== 0)
+                        message.id = object.id >>> 0;
                 if (object.name != null)
                     if (typeof object.name !== "string" || object.name.length)
-                        message.name = String(object.name);
+                        message.name = $String(object.name);
                 if (object.date != null) {
                     if (!$util.isObject(object.date))
-                        throw TypeError(".pulsarity.db.RaceEvent.date: object expected");
+                        throw $TypeError(".pulsarity.db.RaceEvent.date: object expected");
                     message.date = $root.google.protobuf.Timestamp.fromObject(object.date, _depth + 1);
                 }
                 if (object.attributes) {
-                    if (!Array.isArray(object.attributes))
-                        throw TypeError(".pulsarity.db.RaceEvent.attributes: array expected");
-                    message.attributes = Array(object.attributes.length);
+                    if (!$Array.isArray(object.attributes))
+                        throw $TypeError(".pulsarity.db.RaceEvent.attributes: array expected");
+                    message.attributes = $Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
                         if (!$util.isObject(object.attributes[i]))
-                            throw TypeError(".pulsarity.db.RaceEvent.attributes: object expected");
+                            throw $TypeError(".pulsarity.db.RaceEvent.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
                 }
@@ -1238,13 +1299,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            RaceEvent.toObject = function toObject(message, options, _depth) {
+            RaceEvent.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.attributes = [];
@@ -1253,14 +1314,14 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.name = "";
                     object.date = null;
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     object.id = message.id;
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
-                if (message.date != null && message.hasOwnProperty("date"))
+                if (message.date != null && $Object.hasOwnProperty.call(message, "date"))
                     object.date = $root.google.protobuf.Timestamp.toObject(message.date, options, _depth + 1);
                 if (message.attributes && message.attributes.length) {
-                    object.attributes = Array(message.attributes.length);
+                    object.attributes = $Array(message.attributes.length);
                     for (let j = 0; j < message.attributes.length; ++j)
                         object.attributes[j] = $root.pulsarity.db.Attribute.toObject(message.attributes[j], options, _depth + 1);
                 }
@@ -1274,8 +1335,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            RaceEvent.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            RaceEvent.prototype.toJSON = function() {
+                return RaceEvent.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -1286,8 +1347,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            RaceEvent.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            RaceEvent.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.RaceEvent";
             };
@@ -1301,7 +1362,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a RaceEvents.
              * @typedef {Object} pulsarity.db.RaceEvents.$Properties
              * @property {Array.<pulsarity.db.RaceEvent.$Properties>|null} [events] RaceEvents events
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -1323,15 +1384,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a RaceEvents.
              * @constructor
              * @param {pulsarity.db.RaceEvents.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function RaceEvents(properties) {
+            const RaceEvents = function (properties) {
                 this.events = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * RaceEvents events.
@@ -1353,7 +1414,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.RaceEvents.$Properties): pulsarity.db.RaceEvents;
              * }}
              */
-            RaceEvents.create = function create(properties) {
+            RaceEvents.create = function(properties) {
                 return new RaceEvents(properties);
             };
 
@@ -1366,17 +1427,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceEvents.encode = function encode(message, writer, _depth) {
+            RaceEvents.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 if (message.events != null && message.events.length)
                     for (let i = 0; i < message.events.length; ++i)
                         $root.pulsarity.db.RaceEvent.encode(message.events[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -1391,8 +1452,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceEvents.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            RaceEvents.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -1406,19 +1467,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceEvents.decode = function decode(reader, length, _end, _depth, _target) {
+            RaceEvents.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.RaceEvents();
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.RaceEvents();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -1428,7 +1499,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.events && message.events.length))
                                 message.events = [];
-                            message.events.push($root.pulsarity.db.RaceEvent.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.events.push($root.pulsarity.db.RaceEvent.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -1438,8 +1509,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -1453,7 +1529,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceEvents.decodeDelimited = function decodeDelimited(reader) {
+            RaceEvents.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -1467,15 +1543,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            RaceEvents.verify = function verify(message, _depth) {
+            RaceEvents.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.events != null && message.hasOwnProperty("events")) {
-                    if (!Array.isArray(message.events))
+                if (message.events != null && $Object.hasOwnProperty.call(message, "events")) {
+                    if (!$Array.isArray(message.events))
                         return "events: array expected";
                     for (let i = 0; i < message.events.length; ++i) {
                         let error = $root.pulsarity.db.RaceEvent.verify(message.events[i], _depth + 1);
@@ -1494,23 +1570,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.RaceEvents} RaceEvents
              */
-            RaceEvents.fromObject = function fromObject(object, _depth) {
+            RaceEvents.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceEvents)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.RaceEvents: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.RaceEvents: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.RaceEvents();
                 if (object.events) {
-                    if (!Array.isArray(object.events))
-                        throw TypeError(".pulsarity.db.RaceEvents.events: array expected");
-                    message.events = Array(object.events.length);
+                    if (!$Array.isArray(object.events))
+                        throw $TypeError(".pulsarity.db.RaceEvents.events: array expected");
+                    message.events = $Array(object.events.length);
                     for (let i = 0; i < object.events.length; ++i) {
                         if (!$util.isObject(object.events[i]))
-                            throw TypeError(".pulsarity.db.RaceEvents.events: object expected");
+                            throw $TypeError(".pulsarity.db.RaceEvents.events: object expected");
                         message.events[i] = $root.pulsarity.db.RaceEvent.fromObject(object.events[i], _depth + 1);
                     }
                 }
@@ -1526,18 +1602,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            RaceEvents.toObject = function toObject(message, options, _depth) {
+            RaceEvents.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.events = [];
                 if (message.events && message.events.length) {
-                    object.events = Array(message.events.length);
+                    object.events = $Array(message.events.length);
                     for (let j = 0; j < message.events.length; ++j)
                         object.events[j] = $root.pulsarity.db.RaceEvent.toObject(message.events[j], options, _depth + 1);
                 }
@@ -1551,8 +1627,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            RaceEvents.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            RaceEvents.prototype.toJSON = function() {
+                return RaceEvents.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -1563,8 +1639,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            RaceEvents.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            RaceEvents.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.RaceEvents";
             };
@@ -1580,7 +1656,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {number|null} [id] RaceClass id
              * @property {string|null} [name] RaceClass name
              * @property {Array.<pulsarity.db.Attribute.$Properties>|null} [attributes] RaceClass attributes
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -1602,15 +1678,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a RaceClass.
              * @constructor
              * @param {pulsarity.db.RaceClass.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function RaceClass(properties) {
+            const RaceClass = function (properties) {
                 this.attributes = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * RaceClass id.
@@ -1648,7 +1724,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.RaceClass.$Properties): pulsarity.db.RaceClass;
              * }}
              */
-            RaceClass.create = function create(properties) {
+            RaceClass.create = function(properties) {
                 return new RaceClass(properties);
             };
 
@@ -1661,21 +1737,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceClass.encode = function encode(message, writer, _depth) {
+            RaceClass.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
-                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
+                    throw $Error("max depth exceeded");
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id") && message.id !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name") && message.name !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.name);
                 if (message.attributes != null && message.attributes.length)
                     for (let i = 0; i < message.attributes.length; ++i)
                         $root.pulsarity.db.Attribute.encode(message.attributes[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -1690,8 +1766,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceClass.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            RaceClass.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -1705,19 +1781,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceClass.decode = function decode(reader, length, _end, _depth, _target) {
+            RaceClass.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.RaceClass(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.RaceClass();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -1725,7 +1811,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.id = value;
                             else
                                 delete message.id;
@@ -1734,7 +1820,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.name = value;
                             else
                                 delete message.name;
@@ -1745,7 +1831,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.attributes && message.attributes.length))
                                 message.attributes = [];
-                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -1755,8 +1841,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -1770,7 +1861,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceClass.decodeDelimited = function decodeDelimited(reader) {
+            RaceClass.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -1784,21 +1875,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            RaceClass.verify = function verify(message, _depth) {
+            RaceClass.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     if (!$util.isInteger(message.id))
                         return "id: integer expected";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
-                if (message.attributes != null && message.hasOwnProperty("attributes")) {
-                    if (!Array.isArray(message.attributes))
+                if (message.attributes != null && $Object.hasOwnProperty.call(message, "attributes")) {
+                    if (!$Array.isArray(message.attributes))
                         return "attributes: array expected";
                     for (let i = 0; i < message.attributes.length; ++i) {
                         let error = $root.pulsarity.db.Attribute.verify(message.attributes[i], _depth + 1);
@@ -1817,29 +1908,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.RaceClass} RaceClass
              */
-            RaceClass.fromObject = function fromObject(object, _depth) {
+            RaceClass.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceClass)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.RaceClass: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.RaceClass: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.RaceClass();
                 if (object.id != null)
-                    if (Number(object.id) !== 0)
-                        message.id = object.id | 0;
+                    if ($Number(object.id) !== 0)
+                        message.id = object.id >>> 0;
                 if (object.name != null)
                     if (typeof object.name !== "string" || object.name.length)
-                        message.name = String(object.name);
+                        message.name = $String(object.name);
                 if (object.attributes) {
-                    if (!Array.isArray(object.attributes))
-                        throw TypeError(".pulsarity.db.RaceClass.attributes: array expected");
-                    message.attributes = Array(object.attributes.length);
+                    if (!$Array.isArray(object.attributes))
+                        throw $TypeError(".pulsarity.db.RaceClass.attributes: array expected");
+                    message.attributes = $Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
                         if (!$util.isObject(object.attributes[i]))
-                            throw TypeError(".pulsarity.db.RaceClass.attributes: object expected");
+                            throw $TypeError(".pulsarity.db.RaceClass.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
                 }
@@ -1855,13 +1946,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            RaceClass.toObject = function toObject(message, options, _depth) {
+            RaceClass.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.attributes = [];
@@ -1869,12 +1960,12 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.id = 0;
                     object.name = "";
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     object.id = message.id;
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
                 if (message.attributes && message.attributes.length) {
-                    object.attributes = Array(message.attributes.length);
+                    object.attributes = $Array(message.attributes.length);
                     for (let j = 0; j < message.attributes.length; ++j)
                         object.attributes[j] = $root.pulsarity.db.Attribute.toObject(message.attributes[j], options, _depth + 1);
                 }
@@ -1888,8 +1979,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            RaceClass.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            RaceClass.prototype.toJSON = function() {
+                return RaceClass.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -1900,8 +1991,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            RaceClass.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            RaceClass.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.RaceClass";
             };
@@ -1915,7 +2006,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a RaceClasses.
              * @typedef {Object} pulsarity.db.RaceClasses.$Properties
              * @property {Array.<pulsarity.db.RaceClass.$Properties>|null} [raceclasses] RaceClasses raceclasses
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -1937,15 +2028,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a RaceClasses.
              * @constructor
              * @param {pulsarity.db.RaceClasses.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function RaceClasses(properties) {
+            const RaceClasses = function (properties) {
                 this.raceclasses = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * RaceClasses raceclasses.
@@ -1967,7 +2058,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.RaceClasses.$Properties): pulsarity.db.RaceClasses;
              * }}
              */
-            RaceClasses.create = function create(properties) {
+            RaceClasses.create = function(properties) {
                 return new RaceClasses(properties);
             };
 
@@ -1980,17 +2071,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceClasses.encode = function encode(message, writer, _depth) {
+            RaceClasses.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 if (message.raceclasses != null && message.raceclasses.length)
                     for (let i = 0; i < message.raceclasses.length; ++i)
                         $root.pulsarity.db.RaceClass.encode(message.raceclasses[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -2005,8 +2096,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            RaceClasses.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            RaceClasses.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -2020,19 +2111,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceClasses.decode = function decode(reader, length, _end, _depth, _target) {
+            RaceClasses.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.RaceClasses();
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.RaceClasses();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -2042,7 +2143,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.raceclasses && message.raceclasses.length))
                                 message.raceclasses = [];
-                            message.raceclasses.push($root.pulsarity.db.RaceClass.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.raceclasses.push($root.pulsarity.db.RaceClass.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -2052,8 +2153,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -2067,7 +2173,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            RaceClasses.decodeDelimited = function decodeDelimited(reader) {
+            RaceClasses.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -2081,15 +2187,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            RaceClasses.verify = function verify(message, _depth) {
+            RaceClasses.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.raceclasses != null && message.hasOwnProperty("raceclasses")) {
-                    if (!Array.isArray(message.raceclasses))
+                if (message.raceclasses != null && $Object.hasOwnProperty.call(message, "raceclasses")) {
+                    if (!$Array.isArray(message.raceclasses))
                         return "raceclasses: array expected";
                     for (let i = 0; i < message.raceclasses.length; ++i) {
                         let error = $root.pulsarity.db.RaceClass.verify(message.raceclasses[i], _depth + 1);
@@ -2108,23 +2214,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.RaceClasses} RaceClasses
              */
-            RaceClasses.fromObject = function fromObject(object, _depth) {
+            RaceClasses.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.RaceClasses)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.RaceClasses: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.RaceClasses: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.RaceClasses();
                 if (object.raceclasses) {
-                    if (!Array.isArray(object.raceclasses))
-                        throw TypeError(".pulsarity.db.RaceClasses.raceclasses: array expected");
-                    message.raceclasses = Array(object.raceclasses.length);
+                    if (!$Array.isArray(object.raceclasses))
+                        throw $TypeError(".pulsarity.db.RaceClasses.raceclasses: array expected");
+                    message.raceclasses = $Array(object.raceclasses.length);
                     for (let i = 0; i < object.raceclasses.length; ++i) {
                         if (!$util.isObject(object.raceclasses[i]))
-                            throw TypeError(".pulsarity.db.RaceClasses.raceclasses: object expected");
+                            throw $TypeError(".pulsarity.db.RaceClasses.raceclasses: object expected");
                         message.raceclasses[i] = $root.pulsarity.db.RaceClass.fromObject(object.raceclasses[i], _depth + 1);
                     }
                 }
@@ -2140,18 +2246,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            RaceClasses.toObject = function toObject(message, options, _depth) {
+            RaceClasses.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.raceclasses = [];
                 if (message.raceclasses && message.raceclasses.length) {
-                    object.raceclasses = Array(message.raceclasses.length);
+                    object.raceclasses = $Array(message.raceclasses.length);
                     for (let j = 0; j < message.raceclasses.length; ++j)
                         object.raceclasses[j] = $root.pulsarity.db.RaceClass.toObject(message.raceclasses[j], options, _depth + 1);
                 }
@@ -2165,8 +2271,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            RaceClasses.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            RaceClasses.prototype.toJSON = function() {
+                return RaceClasses.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -2177,8 +2283,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            RaceClasses.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            RaceClasses.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.RaceClasses";
             };
@@ -2194,7 +2300,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {number|null} [id] Round id
              * @property {number|null} [roundNum] Round roundNum
              * @property {Array.<pulsarity.db.Attribute.$Properties>|null} [attributes] Round attributes
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -2216,15 +2322,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a Round.
              * @constructor
              * @param {pulsarity.db.Round.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Round(properties) {
+            const Round = function (properties) {
                 this.attributes = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Round id.
@@ -2262,7 +2368,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Round.$Properties): pulsarity.db.Round;
              * }}
              */
-            Round.create = function create(properties) {
+            Round.create = function(properties) {
                 return new Round(properties);
             };
 
@@ -2275,21 +2381,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Round.encode = function encode(message, writer, _depth) {
+            Round.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
-                if (message.roundNum != null && Object.hasOwnProperty.call(message, "roundNum"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.roundNum);
+                    throw $Error("max depth exceeded");
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id") && message.id !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+                if (message.roundNum != null && $Object.hasOwnProperty.call(message, "roundNum") && message.roundNum !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.roundNum);
                 if (message.attributes != null && message.attributes.length)
                     for (let i = 0; i < message.attributes.length; ++i)
                         $root.pulsarity.db.Attribute.encode(message.attributes[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -2304,8 +2410,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Round.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Round.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -2319,19 +2425,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Round.decode = function decode(reader, length, _end, _depth, _target) {
+            Round.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Round(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Round();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -2339,7 +2455,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.id = value;
                             else
                                 delete message.id;
@@ -2348,7 +2464,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.roundNum = value;
                             else
                                 delete message.roundNum;
@@ -2359,7 +2475,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.attributes && message.attributes.length))
                                 message.attributes = [];
-                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -2369,8 +2485,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -2384,7 +2505,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Round.decodeDelimited = function decodeDelimited(reader) {
+            Round.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -2398,21 +2519,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Round.verify = function verify(message, _depth) {
+            Round.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     if (!$util.isInteger(message.id))
                         return "id: integer expected";
-                if (message.roundNum != null && message.hasOwnProperty("roundNum"))
+                if (message.roundNum != null && $Object.hasOwnProperty.call(message, "roundNum"))
                     if (!$util.isInteger(message.roundNum))
                         return "roundNum: integer expected";
-                if (message.attributes != null && message.hasOwnProperty("attributes")) {
-                    if (!Array.isArray(message.attributes))
+                if (message.attributes != null && $Object.hasOwnProperty.call(message, "attributes")) {
+                    if (!$Array.isArray(message.attributes))
                         return "attributes: array expected";
                     for (let i = 0; i < message.attributes.length; ++i) {
                         let error = $root.pulsarity.db.Attribute.verify(message.attributes[i], _depth + 1);
@@ -2431,29 +2552,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Round} Round
              */
-            Round.fromObject = function fromObject(object, _depth) {
+            Round.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Round)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Round: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Round: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Round();
                 if (object.id != null)
-                    if (Number(object.id) !== 0)
-                        message.id = object.id | 0;
+                    if ($Number(object.id) !== 0)
+                        message.id = object.id >>> 0;
                 if (object.roundNum != null)
-                    if (Number(object.roundNum) !== 0)
-                        message.roundNum = object.roundNum | 0;
+                    if ($Number(object.roundNum) !== 0)
+                        message.roundNum = object.roundNum >>> 0;
                 if (object.attributes) {
-                    if (!Array.isArray(object.attributes))
-                        throw TypeError(".pulsarity.db.Round.attributes: array expected");
-                    message.attributes = Array(object.attributes.length);
+                    if (!$Array.isArray(object.attributes))
+                        throw $TypeError(".pulsarity.db.Round.attributes: array expected");
+                    message.attributes = $Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
                         if (!$util.isObject(object.attributes[i]))
-                            throw TypeError(".pulsarity.db.Round.attributes: object expected");
+                            throw $TypeError(".pulsarity.db.Round.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
                 }
@@ -2469,13 +2590,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Round.toObject = function toObject(message, options, _depth) {
+            Round.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.attributes = [];
@@ -2483,12 +2604,12 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.id = 0;
                     object.roundNum = 0;
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     object.id = message.id;
-                if (message.roundNum != null && message.hasOwnProperty("roundNum"))
+                if (message.roundNum != null && $Object.hasOwnProperty.call(message, "roundNum"))
                     object.roundNum = message.roundNum;
                 if (message.attributes && message.attributes.length) {
-                    object.attributes = Array(message.attributes.length);
+                    object.attributes = $Array(message.attributes.length);
                     for (let j = 0; j < message.attributes.length; ++j)
                         object.attributes[j] = $root.pulsarity.db.Attribute.toObject(message.attributes[j], options, _depth + 1);
                 }
@@ -2502,8 +2623,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Round.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Round.prototype.toJSON = function() {
+                return Round.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -2514,8 +2635,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Round.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Round.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Round";
             };
@@ -2529,7 +2650,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a Rounds.
              * @typedef {Object} pulsarity.db.Rounds.$Properties
              * @property {Array.<pulsarity.db.Round.$Properties>|null} [rounds] Rounds rounds
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -2551,15 +2672,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a Rounds.
              * @constructor
              * @param {pulsarity.db.Rounds.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Rounds(properties) {
+            const Rounds = function (properties) {
                 this.rounds = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Rounds rounds.
@@ -2581,7 +2702,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Rounds.$Properties): pulsarity.db.Rounds;
              * }}
              */
-            Rounds.create = function create(properties) {
+            Rounds.create = function(properties) {
                 return new Rounds(properties);
             };
 
@@ -2594,17 +2715,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Rounds.encode = function encode(message, writer, _depth) {
+            Rounds.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 if (message.rounds != null && message.rounds.length)
                     for (let i = 0; i < message.rounds.length; ++i)
                         $root.pulsarity.db.Round.encode(message.rounds[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -2619,8 +2740,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Rounds.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Rounds.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -2634,19 +2755,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Rounds.decode = function decode(reader, length, _end, _depth, _target) {
+            Rounds.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Rounds();
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Rounds();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -2656,7 +2787,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.rounds && message.rounds.length))
                                 message.rounds = [];
-                            message.rounds.push($root.pulsarity.db.Round.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.rounds.push($root.pulsarity.db.Round.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -2666,8 +2797,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -2681,7 +2817,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Rounds.decodeDelimited = function decodeDelimited(reader) {
+            Rounds.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -2695,15 +2831,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Rounds.verify = function verify(message, _depth) {
+            Rounds.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.rounds != null && message.hasOwnProperty("rounds")) {
-                    if (!Array.isArray(message.rounds))
+                if (message.rounds != null && $Object.hasOwnProperty.call(message, "rounds")) {
+                    if (!$Array.isArray(message.rounds))
                         return "rounds: array expected";
                     for (let i = 0; i < message.rounds.length; ++i) {
                         let error = $root.pulsarity.db.Round.verify(message.rounds[i], _depth + 1);
@@ -2722,23 +2858,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Rounds} Rounds
              */
-            Rounds.fromObject = function fromObject(object, _depth) {
+            Rounds.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Rounds)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Rounds: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Rounds: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Rounds();
                 if (object.rounds) {
-                    if (!Array.isArray(object.rounds))
-                        throw TypeError(".pulsarity.db.Rounds.rounds: array expected");
-                    message.rounds = Array(object.rounds.length);
+                    if (!$Array.isArray(object.rounds))
+                        throw $TypeError(".pulsarity.db.Rounds.rounds: array expected");
+                    message.rounds = $Array(object.rounds.length);
                     for (let i = 0; i < object.rounds.length; ++i) {
                         if (!$util.isObject(object.rounds[i]))
-                            throw TypeError(".pulsarity.db.Rounds.rounds: object expected");
+                            throw $TypeError(".pulsarity.db.Rounds.rounds: object expected");
                         message.rounds[i] = $root.pulsarity.db.Round.fromObject(object.rounds[i], _depth + 1);
                     }
                 }
@@ -2754,18 +2890,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Rounds.toObject = function toObject(message, options, _depth) {
+            Rounds.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.rounds = [];
                 if (message.rounds && message.rounds.length) {
-                    object.rounds = Array(message.rounds.length);
+                    object.rounds = $Array(message.rounds.length);
                     for (let j = 0; j < message.rounds.length; ++j)
                         object.rounds[j] = $root.pulsarity.db.Round.toObject(message.rounds[j], options, _depth + 1);
                 }
@@ -2779,8 +2915,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Rounds.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Rounds.prototype.toJSON = function() {
+                return Rounds.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -2791,8 +2927,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Rounds.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Rounds.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Rounds";
             };
@@ -2808,7 +2944,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {number|null} [id] Heat id
              * @property {number|null} [heatNum] Heat heatNum
              * @property {Array.<pulsarity.db.Attribute.$Properties>|null} [attributes] Heat attributes
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -2830,15 +2966,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a Heat.
              * @constructor
              * @param {pulsarity.db.Heat.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Heat(properties) {
+            const Heat = function (properties) {
                 this.attributes = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Heat id.
@@ -2876,7 +3012,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Heat.$Properties): pulsarity.db.Heat;
              * }}
              */
-            Heat.create = function create(properties) {
+            Heat.create = function(properties) {
                 return new Heat(properties);
             };
 
@@ -2889,21 +3025,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Heat.encode = function encode(message, writer, _depth) {
+            Heat.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.id);
-                if (message.heatNum != null && Object.hasOwnProperty.call(message, "heatNum"))
-                    writer.uint32(/* id 2, wireType 0 =*/16).int32(message.heatNum);
+                    throw $Error("max depth exceeded");
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id") && message.id !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.id);
+                if (message.heatNum != null && $Object.hasOwnProperty.call(message, "heatNum") && message.heatNum !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.heatNum);
                 if (message.attributes != null && message.attributes.length)
                     for (let i = 0; i < message.attributes.length; ++i)
                         $root.pulsarity.db.Attribute.encode(message.attributes[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -2918,8 +3054,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Heat.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Heat.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -2933,19 +3069,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Heat.decode = function decode(reader, length, _end, _depth, _target) {
+            Heat.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Heat(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Heat();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -2953,7 +3099,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.id = value;
                             else
                                 delete message.id;
@@ -2962,7 +3108,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.heatNum = value;
                             else
                                 delete message.heatNum;
@@ -2973,7 +3119,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.attributes && message.attributes.length))
                                 message.attributes = [];
-                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.attributes.push($root.pulsarity.db.Attribute.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -2983,8 +3129,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -2998,7 +3149,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Heat.decodeDelimited = function decodeDelimited(reader) {
+            Heat.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -3012,21 +3163,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Heat.verify = function verify(message, _depth) {
+            Heat.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     if (!$util.isInteger(message.id))
                         return "id: integer expected";
-                if (message.heatNum != null && message.hasOwnProperty("heatNum"))
+                if (message.heatNum != null && $Object.hasOwnProperty.call(message, "heatNum"))
                     if (!$util.isInteger(message.heatNum))
                         return "heatNum: integer expected";
-                if (message.attributes != null && message.hasOwnProperty("attributes")) {
-                    if (!Array.isArray(message.attributes))
+                if (message.attributes != null && $Object.hasOwnProperty.call(message, "attributes")) {
+                    if (!$Array.isArray(message.attributes))
                         return "attributes: array expected";
                     for (let i = 0; i < message.attributes.length; ++i) {
                         let error = $root.pulsarity.db.Attribute.verify(message.attributes[i], _depth + 1);
@@ -3045,29 +3196,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Heat} Heat
              */
-            Heat.fromObject = function fromObject(object, _depth) {
+            Heat.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Heat)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Heat: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Heat: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Heat();
                 if (object.id != null)
-                    if (Number(object.id) !== 0)
-                        message.id = object.id | 0;
+                    if ($Number(object.id) !== 0)
+                        message.id = object.id >>> 0;
                 if (object.heatNum != null)
-                    if (Number(object.heatNum) !== 0)
-                        message.heatNum = object.heatNum | 0;
+                    if ($Number(object.heatNum) !== 0)
+                        message.heatNum = object.heatNum >>> 0;
                 if (object.attributes) {
-                    if (!Array.isArray(object.attributes))
-                        throw TypeError(".pulsarity.db.Heat.attributes: array expected");
-                    message.attributes = Array(object.attributes.length);
+                    if (!$Array.isArray(object.attributes))
+                        throw $TypeError(".pulsarity.db.Heat.attributes: array expected");
+                    message.attributes = $Array(object.attributes.length);
                     for (let i = 0; i < object.attributes.length; ++i) {
                         if (!$util.isObject(object.attributes[i]))
-                            throw TypeError(".pulsarity.db.Heat.attributes: object expected");
+                            throw $TypeError(".pulsarity.db.Heat.attributes: object expected");
                         message.attributes[i] = $root.pulsarity.db.Attribute.fromObject(object.attributes[i], _depth + 1);
                     }
                 }
@@ -3083,13 +3234,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Heat.toObject = function toObject(message, options, _depth) {
+            Heat.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.attributes = [];
@@ -3097,12 +3248,12 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.id = 0;
                     object.heatNum = 0;
                 }
-                if (message.id != null && message.hasOwnProperty("id"))
+                if (message.id != null && $Object.hasOwnProperty.call(message, "id"))
                     object.id = message.id;
-                if (message.heatNum != null && message.hasOwnProperty("heatNum"))
+                if (message.heatNum != null && $Object.hasOwnProperty.call(message, "heatNum"))
                     object.heatNum = message.heatNum;
                 if (message.attributes && message.attributes.length) {
-                    object.attributes = Array(message.attributes.length);
+                    object.attributes = $Array(message.attributes.length);
                     for (let j = 0; j < message.attributes.length; ++j)
                         object.attributes[j] = $root.pulsarity.db.Attribute.toObject(message.attributes[j], options, _depth + 1);
                 }
@@ -3116,8 +3267,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Heat.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Heat.prototype.toJSON = function() {
+                return Heat.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -3128,8 +3279,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Heat.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Heat.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Heat";
             };
@@ -3143,7 +3294,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a Heats.
              * @typedef {Object} pulsarity.db.Heats.$Properties
              * @property {Array.<pulsarity.db.Heat.$Properties>|null} [heats] Heats heats
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -3165,15 +3316,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a Heats.
              * @constructor
              * @param {pulsarity.db.Heats.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Heats(properties) {
+            const Heats = function (properties) {
                 this.heats = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Heats heats.
@@ -3195,7 +3346,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.Heats.$Properties): pulsarity.db.Heats;
              * }}
              */
-            Heats.create = function create(properties) {
+            Heats.create = function(properties) {
                 return new Heats(properties);
             };
 
@@ -3208,17 +3359,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Heats.encode = function encode(message, writer, _depth) {
+            Heats.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 if (message.heats != null && message.heats.length)
                     for (let i = 0; i < message.heats.length; ++i)
                         $root.pulsarity.db.Heat.encode(message.heats[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -3233,8 +3384,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Heats.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Heats.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -3248,19 +3399,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Heats.decode = function decode(reader, length, _end, _depth, _target) {
+            Heats.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.Heats();
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.Heats();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -3270,7 +3431,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.heats && message.heats.length))
                                 message.heats = [];
-                            message.heats.push($root.pulsarity.db.Heat.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            message.heats.push($root.pulsarity.db.Heat.decode(reader, reader.uint32(), $undefined, _depth + 1));
                             continue;
                         }
                     }
@@ -3280,8 +3441,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -3295,7 +3461,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Heats.decodeDelimited = function decodeDelimited(reader) {
+            Heats.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -3309,15 +3475,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Heats.verify = function verify(message, _depth) {
+            Heats.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.heats != null && message.hasOwnProperty("heats")) {
-                    if (!Array.isArray(message.heats))
+                if (message.heats != null && $Object.hasOwnProperty.call(message, "heats")) {
+                    if (!$Array.isArray(message.heats))
                         return "heats: array expected";
                     for (let i = 0; i < message.heats.length; ++i) {
                         let error = $root.pulsarity.db.Heat.verify(message.heats[i], _depth + 1);
@@ -3336,23 +3502,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.Heats} Heats
              */
-            Heats.fromObject = function fromObject(object, _depth) {
+            Heats.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.Heats)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.Heats: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.Heats: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.Heats();
                 if (object.heats) {
-                    if (!Array.isArray(object.heats))
-                        throw TypeError(".pulsarity.db.Heats.heats: array expected");
-                    message.heats = Array(object.heats.length);
+                    if (!$Array.isArray(object.heats))
+                        throw $TypeError(".pulsarity.db.Heats.heats: array expected");
+                    message.heats = $Array(object.heats.length);
                     for (let i = 0; i < object.heats.length; ++i) {
                         if (!$util.isObject(object.heats[i]))
-                            throw TypeError(".pulsarity.db.Heats.heats: object expected");
+                            throw $TypeError(".pulsarity.db.Heats.heats: object expected");
                         message.heats[i] = $root.pulsarity.db.Heat.fromObject(object.heats[i], _depth + 1);
                     }
                 }
@@ -3368,18 +3534,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Heats.toObject = function toObject(message, options, _depth) {
+            Heats.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.heats = [];
                 if (message.heats && message.heats.length) {
-                    object.heats = Array(message.heats.length);
+                    object.heats = $Array(message.heats.length);
                     for (let j = 0; j < message.heats.length; ++j)
                         object.heats[j] = $root.pulsarity.db.Heat.toObject(message.heats[j], options, _depth + 1);
                 }
@@ -3393,8 +3559,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Heats.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Heats.prototype.toJSON = function() {
+                return Heats.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -3405,8 +3571,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Heats.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Heats.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.Heats";
             };
@@ -3414,303 +3580,14 @@ export const pulsarity = $root.pulsarity = (() => {
             return Heats;
         })();
 
-        db.SignalRecord = (function() {
-
-            /**
-             * Properties of a SignalRecord.
-             * @typedef {Object} pulsarity.db.SignalRecord.$Properties
-             * @property {number|null} [timedelta] SignalRecord timedelta
-             * @property {number|null} [value] SignalRecord value
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
-             */
-
-            /**
-             * Properties of a SignalRecord.
-             * @memberof pulsarity.db
-             * @interface ISignalRecord
-             * @augments pulsarity.db.SignalRecord.$Properties
-             * @deprecated Use pulsarity.db.SignalRecord.$Properties instead.
-             */
-
-            /**
-             * Shape of a SignalRecord.
-             * @typedef {pulsarity.db.SignalRecord.$Properties} pulsarity.db.SignalRecord.$Shape
-             */
-
-            /**
-             * Constructs a new SignalRecord.
-             * @memberof pulsarity.db
-             * @classdesc Represents a SignalRecord.
-             * @constructor
-             * @param {pulsarity.db.SignalRecord.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
-             */
-            function SignalRecord(properties) {
-                if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
-                            this[keys[i]] = properties[keys[i]];
-            }
-
-            /**
-             * SignalRecord timedelta.
-             * @member {number} timedelta
-             * @memberof pulsarity.db.SignalRecord
-             * @instance
-             */
-            SignalRecord.prototype.timedelta = 0;
-
-            /**
-             * SignalRecord value.
-             * @member {number} value
-             * @memberof pulsarity.db.SignalRecord
-             * @instance
-             */
-            SignalRecord.prototype.value = 0;
-
-            /**
-             * Creates a new SignalRecord instance using the specified properties.
-             * @function create
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {pulsarity.db.SignalRecord.$Properties=} [properties] Properties to set
-             * @returns {pulsarity.db.SignalRecord} SignalRecord instance
-             * @type {{
-             *   (properties: pulsarity.db.SignalRecord.$Shape): pulsarity.db.SignalRecord & pulsarity.db.SignalRecord.$Shape;
-             *   (properties?: pulsarity.db.SignalRecord.$Properties): pulsarity.db.SignalRecord;
-             * }}
-             */
-            SignalRecord.create = function create(properties) {
-                return new SignalRecord(properties);
-            };
-
-            /**
-             * Encodes the specified SignalRecord message. Does not implicitly {@link pulsarity.db.SignalRecord.verify|verify} messages.
-             * @function encode
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {pulsarity.db.SignalRecord.$Properties} message SignalRecord message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SignalRecord.encode = function encode(message, writer, _depth) {
-                if (!writer)
-                    writer = $Writer.create();
-                if (_depth === undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.timedelta != null && Object.hasOwnProperty.call(message, "timedelta"))
-                    writer.uint32(/* id 1, wireType 5 =*/13).float(message.timedelta);
-                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
-                    writer.uint32(/* id 2, wireType 5 =*/21).float(message.value);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
-                    for (let i = 0; i < message.$unknowns.length; ++i)
-                        writer.raw(message.$unknowns[i]);
-                return writer;
-            };
-
-            /**
-             * Encodes the specified SignalRecord message, length delimited. Does not implicitly {@link pulsarity.db.SignalRecord.verify|verify} messages.
-             * @function encodeDelimited
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {pulsarity.db.SignalRecord.$Properties} message SignalRecord message or plain object to encode
-             * @param {$protobuf.Writer} [writer] Writer to encode to
-             * @returns {$protobuf.Writer} Writer
-             */
-            SignalRecord.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
-            };
-
-            /**
-             * Decodes a SignalRecord message from the specified reader or buffer.
-             * @function decode
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @param {number} [length] Message length if known beforehand
-             * @returns {pulsarity.db.SignalRecord & pulsarity.db.SignalRecord.$Shape} SignalRecord
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SignalRecord.decode = function decode(reader, length, _end, _depth, _target) {
-                if (!(reader instanceof $Reader))
-                    reader = $Reader.create(reader);
-                if (_depth === undefined)
-                    _depth = 0;
-                if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.SignalRecord(), value;
-                while (reader.pos < end) {
-                    let start = reader.pos;
-                    let tag = reader.tag();
-                    if (tag === _end) {
-                        _end = undefined;
-                        break;
-                    }
-                    let wireType = tag & 7;
-                    switch (tag >>>= 3) {
-                    case 1: {
-                            if (wireType !== 5)
-                                break;
-                            if ((value = reader.float()) !== 0)
-                                message.timedelta = value;
-                            else
-                                delete message.timedelta;
-                            continue;
-                        }
-                    case 2: {
-                            if (wireType !== 5)
-                                break;
-                            if ((value = reader.float()) !== 0)
-                                message.value = value;
-                            else
-                                delete message.value;
-                            continue;
-                        }
-                    }
-                    reader.skipType(wireType, _depth, tag);
-                    if (!reader.discardUnknown) {
-                        $util.makeProp(message, "$unknowns", false);
-                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
-                    }
-                }
-                if (_end !== undefined)
-                    throw Error("missing end group");
-                return message;
-            };
-
-            /**
-             * Decodes a SignalRecord message from the specified reader or buffer, length delimited.
-             * @function decodeDelimited
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
-             * @returns {pulsarity.db.SignalRecord & pulsarity.db.SignalRecord.$Shape} SignalRecord
-             * @throws {Error} If the payload is not a reader or valid buffer
-             * @throws {$protobuf.util.ProtocolError} If required fields are missing
-             */
-            SignalRecord.decodeDelimited = function decodeDelimited(reader) {
-                if (!(reader instanceof $Reader))
-                    reader = new $Reader(reader);
-                return this.decode(reader, reader.uint32());
-            };
-
-            /**
-             * Verifies a SignalRecord message.
-             * @function verify
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {Object.<string,*>} message Plain object to verify
-             * @returns {string|null} `null` if valid, otherwise the reason why it is not
-             */
-            SignalRecord.verify = function verify(message, _depth) {
-                if (typeof message !== "object" || message === null)
-                    return "object expected";
-                if (_depth === undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    return "max depth exceeded";
-                if (message.timedelta != null && message.hasOwnProperty("timedelta"))
-                    if (typeof message.timedelta !== "number")
-                        return "timedelta: number expected";
-                if (message.value != null && message.hasOwnProperty("value"))
-                    if (typeof message.value !== "number")
-                        return "value: number expected";
-                return null;
-            };
-
-            /**
-             * Creates a SignalRecord message from a plain object. Also converts values to their respective internal types.
-             * @function fromObject
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {Object.<string,*>} object Plain object
-             * @returns {pulsarity.db.SignalRecord} SignalRecord
-             */
-            SignalRecord.fromObject = function fromObject(object, _depth) {
-                if (object instanceof $root.pulsarity.db.SignalRecord)
-                    return object;
-                if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.SignalRecord: object expected");
-                if (_depth === undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                let message = new $root.pulsarity.db.SignalRecord();
-                if (object.timedelta != null)
-                    if (Number(object.timedelta) !== 0)
-                        message.timedelta = Number(object.timedelta);
-                if (object.value != null)
-                    if (Number(object.value) !== 0)
-                        message.value = Number(object.value);
-                return message;
-            };
-
-            /**
-             * Creates a plain object from a SignalRecord message. Also converts values to other types if specified.
-             * @function toObject
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {pulsarity.db.SignalRecord} message SignalRecord
-             * @param {$protobuf.IConversionOptions} [options] Conversion options
-             * @returns {Object.<string,*>} Plain object
-             */
-            SignalRecord.toObject = function toObject(message, options, _depth) {
-                if (!options)
-                    options = {};
-                if (_depth === undefined)
-                    _depth = 0;
-                if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                let object = {};
-                if (options.defaults) {
-                    object.timedelta = 0;
-                    object.value = 0;
-                }
-                if (message.timedelta != null && message.hasOwnProperty("timedelta"))
-                    object.timedelta = options.json && !isFinite(message.timedelta) ? String(message.timedelta) : message.timedelta;
-                if (message.value != null && message.hasOwnProperty("value"))
-                    object.value = options.json && !isFinite(message.value) ? String(message.value) : message.value;
-                return object;
-            };
-
-            /**
-             * Converts this SignalRecord to JSON.
-             * @function toJSON
-             * @memberof pulsarity.db.SignalRecord
-             * @instance
-             * @returns {Object.<string,*>} JSON object
-             */
-            SignalRecord.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
-            };
-
-            /**
-             * Gets the type url for SignalRecord
-             * @function getTypeUrl
-             * @memberof pulsarity.db.SignalRecord
-             * @static
-             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
-             * @returns {string} The type url
-             */
-            SignalRecord.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
-                    prefix = "type.googleapis.com";
-                return prefix + "/pulsarity.db.SignalRecord";
-            };
-
-            return SignalRecord;
-        })();
-
         db.SignalHistory = (function() {
 
             /**
              * Properties of a SignalHistory.
              * @typedef {Object} pulsarity.db.SignalHistory.$Properties
-             * @property {Array.<pulsarity.db.SignalRecord.$Properties>|null} [records] SignalHistory records
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<number>|null} [millis] SignalHistory millis
+             * @property {Array.<number>|null} [value] SignalHistory value
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -3732,23 +3609,32 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a SignalHistory.
              * @constructor
              * @param {pulsarity.db.SignalHistory.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function SignalHistory(properties) {
-                this.records = [];
+            const SignalHistory = function (properties) {
+                this.millis = [];
+                this.value = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
-             * SignalHistory records.
-             * @member {Array.<pulsarity.db.SignalRecord.$Properties>} records
+             * SignalHistory millis.
+             * @member {Array.<number>} millis
              * @memberof pulsarity.db.SignalHistory
              * @instance
              */
-            SignalHistory.prototype.records = $util.emptyArray;
+            SignalHistory.prototype.millis = $util.emptyArray;
+
+            /**
+             * SignalHistory value.
+             * @member {Array.<number>} value
+             * @memberof pulsarity.db.SignalHistory
+             * @instance
+             */
+            SignalHistory.prototype.value = $util.emptyArray;
 
             /**
              * Creates a new SignalHistory instance using the specified properties.
@@ -3762,7 +3648,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.db.SignalHistory.$Properties): pulsarity.db.SignalHistory;
              * }}
              */
-            SignalHistory.create = function create(properties) {
+            SignalHistory.create = function(properties) {
                 return new SignalHistory(properties);
             };
 
@@ -3775,17 +3661,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SignalHistory.encode = function encode(message, writer, _depth) {
+            SignalHistory.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.records != null && message.records.length)
-                    for (let i = 0; i < message.records.length; ++i)
-                        $root.pulsarity.db.SignalRecord.encode(message.records[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                    throw $Error("max depth exceeded");
+                if (message.millis != null && message.millis.length)
+                    writer.uint32(/* id 1, wireType 2 =*/10).uint32s(message.millis);
+                if (message.value != null && message.value.length)
+                    writer.uint32(/* id 2, wireType 2 =*/18).floats(message.value);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -3800,8 +3687,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            SignalHistory.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            SignalHistory.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -3815,29 +3702,59 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SignalHistory.decode = function decode(reader, length, _end, _depth, _target) {
+            SignalHistory.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.db.SignalHistory();
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.db.SignalHistory();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
                     switch (tag >>>= 3) {
                     case 1: {
-                            if (wireType !== 2)
+                            if (wireType === 2) {
+                                if (!(message.millis && message.millis.length))
+                                    message.millis = [];
+                                reader.uint32s(message.millis);
+                                continue;
+                            }
+                            if (wireType !== 0)
                                 break;
-                            if (!(message.records && message.records.length))
-                                message.records = [];
-                            message.records.push($root.pulsarity.db.SignalRecord.decode(reader, reader.uint32(), undefined, _depth + 1));
+                            if (!(message.millis && message.millis.length))
+                                message.millis = [];
+                            message.millis.push(reader.uint32());
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType === 2) {
+                                if (!(message.value && message.value.length))
+                                    message.value = [];
+                                reader.floats(message.value);
+                                continue;
+                            }
+                            if (wireType !== 5)
+                                break;
+                            if (!(message.value && message.value.length))
+                                message.value = [];
+                            message.value.push(reader.float());
                             continue;
                         }
                     }
@@ -3847,8 +3764,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -3862,7 +3784,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            SignalHistory.decodeDelimited = function decodeDelimited(reader) {
+            SignalHistory.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -3876,21 +3798,26 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            SignalHistory.verify = function verify(message, _depth) {
+            SignalHistory.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.records != null && message.hasOwnProperty("records")) {
-                    if (!Array.isArray(message.records))
-                        return "records: array expected";
-                    for (let i = 0; i < message.records.length; ++i) {
-                        let error = $root.pulsarity.db.SignalRecord.verify(message.records[i], _depth + 1);
-                        if (error)
-                            return "records." + error;
-                    }
+                if (message.millis != null && $Object.hasOwnProperty.call(message, "millis")) {
+                    if (!$Array.isArray(message.millis))
+                        return "millis: array expected";
+                    for (let i = 0; i < message.millis.length; ++i)
+                        if (!$util.isInteger(message.millis[i]))
+                            return "millis: integer[] expected";
+                }
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value")) {
+                    if (!$Array.isArray(message.value))
+                        return "value: array expected";
+                    for (let i = 0; i < message.value.length; ++i)
+                        if (typeof message.value[i] !== "number")
+                            return "value: number[] expected";
                 }
                 return null;
             };
@@ -3903,25 +3830,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.db.SignalHistory} SignalHistory
              */
-            SignalHistory.fromObject = function fromObject(object, _depth) {
+            SignalHistory.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.db.SignalHistory)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.db.SignalHistory: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.db.SignalHistory: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.db.SignalHistory();
-                if (object.records) {
-                    if (!Array.isArray(object.records))
-                        throw TypeError(".pulsarity.db.SignalHistory.records: array expected");
-                    message.records = Array(object.records.length);
-                    for (let i = 0; i < object.records.length; ++i) {
-                        if (!$util.isObject(object.records[i]))
-                            throw TypeError(".pulsarity.db.SignalHistory.records: object expected");
-                        message.records[i] = $root.pulsarity.db.SignalRecord.fromObject(object.records[i], _depth + 1);
-                    }
+                if (object.millis) {
+                    if (!$Array.isArray(object.millis))
+                        throw $TypeError(".pulsarity.db.SignalHistory.millis: array expected");
+                    message.millis = $Array(object.millis.length);
+                    for (let i = 0; i < object.millis.length; ++i)
+                        message.millis[i] = object.millis[i] >>> 0;
+                }
+                if (object.value) {
+                    if (!$Array.isArray(object.value))
+                        throw $TypeError(".pulsarity.db.SignalHistory.value: array expected");
+                    message.value = $Array(object.value.length);
+                    for (let i = 0; i < object.value.length; ++i)
+                        message.value[i] = $Number(object.value[i]);
                 }
                 return message;
             };
@@ -3935,20 +3866,27 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            SignalHistory.toObject = function toObject(message, options, _depth) {
+            SignalHistory.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
-                if (options.arrays || options.defaults)
-                    object.records = [];
-                if (message.records && message.records.length) {
-                    object.records = Array(message.records.length);
-                    for (let j = 0; j < message.records.length; ++j)
-                        object.records[j] = $root.pulsarity.db.SignalRecord.toObject(message.records[j], options, _depth + 1);
+                if (options.arrays || options.defaults) {
+                    object.millis = [];
+                    object.value = [];
+                }
+                if (message.millis && message.millis.length) {
+                    object.millis = $Array(message.millis.length);
+                    for (let j = 0; j < message.millis.length; ++j)
+                        object.millis[j] = message.millis[j];
+                }
+                if (message.value && message.value.length) {
+                    object.value = $Array(message.value.length);
+                    for (let j = 0; j < message.value.length; ++j)
+                        object.value[j] = options.json && !$isFinite(message.value[j]) ? $String(message.value[j]) : message.value[j];
                 }
                 return object;
             };
@@ -3960,8 +3898,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            SignalHistory.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            SignalHistory.prototype.toJSON = function() {
+                return SignalHistory.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -3972,8 +3910,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            SignalHistory.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            SignalHistory.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.db.SignalHistory";
             };
@@ -4003,7 +3941,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {string|null} [username] UserInfo username
              * @property {string|null} [dispayName] UserInfo dispayName
              * @property {Array.<string>|null} [permissions] UserInfo permissions
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -4025,15 +3963,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a UserInfo.
              * @constructor
              * @param {pulsarity.http.UserInfo.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function UserInfo(properties) {
+            const UserInfo = function (properties) {
                 this.permissions = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * UserInfo authenticated.
@@ -4087,7 +4025,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.UserInfo.$Properties): pulsarity.http.UserInfo;
              * }}
              */
-            UserInfo.create = function create(properties) {
+            UserInfo.create = function(properties) {
                 return new UserInfo(properties);
             };
 
@@ -4100,25 +4038,25 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            UserInfo.encode = function encode(message, writer, _depth) {
+            UserInfo.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.authenticated != null && Object.hasOwnProperty.call(message, "authenticated"))
+                    throw $Error("max depth exceeded");
+                if (message.authenticated != null && $Object.hasOwnProperty.call(message, "authenticated") && message.authenticated !== false)
                     writer.uint32(/* id 1, wireType 0 =*/8).bool(message.authenticated);
-                if (message.authId != null && Object.hasOwnProperty.call(message, "authId"))
+                if (message.authId != null && $Object.hasOwnProperty.call(message, "authId") && message.authId !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.authId);
-                if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                if (message.username != null && $Object.hasOwnProperty.call(message, "username") && message.username !== "")
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.username);
-                if (message.dispayName != null && Object.hasOwnProperty.call(message, "dispayName"))
+                if (message.dispayName != null && $Object.hasOwnProperty.call(message, "dispayName") && message.dispayName !== "")
                     writer.uint32(/* id 4, wireType 2 =*/34).string(message.dispayName);
                 if (message.permissions != null && message.permissions.length)
                     for (let i = 0; i < message.permissions.length; ++i)
                         writer.uint32(/* id 5, wireType 2 =*/42).string(message.permissions[i]);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -4133,8 +4071,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            UserInfo.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            UserInfo.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -4148,19 +4086,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            UserInfo.decode = function decode(reader, length, _end, _depth, _target) {
+            UserInfo.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.UserInfo(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.UserInfo();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -4177,7 +4125,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.authId = value;
                             else
                                 delete message.authId;
@@ -4186,7 +4134,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 3: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.username = value;
                             else
                                 delete message.username;
@@ -4195,7 +4143,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 4: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.dispayName = value;
                             else
                                 delete message.dispayName;
@@ -4206,7 +4154,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.permissions && message.permissions.length))
                                 message.permissions = [];
-                            message.permissions.push(reader.string());
+                            message.permissions.push(reader.stringVerify());
                             continue;
                         }
                     }
@@ -4216,8 +4164,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -4231,7 +4184,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            UserInfo.decodeDelimited = function decodeDelimited(reader) {
+            UserInfo.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -4245,27 +4198,27 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            UserInfo.verify = function verify(message, _depth) {
+            UserInfo.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.authenticated != null && message.hasOwnProperty("authenticated"))
+                if (message.authenticated != null && $Object.hasOwnProperty.call(message, "authenticated"))
                     if (typeof message.authenticated !== "boolean")
                         return "authenticated: boolean expected";
-                if (message.authId != null && message.hasOwnProperty("authId"))
+                if (message.authId != null && $Object.hasOwnProperty.call(message, "authId"))
                     if (!$util.isString(message.authId))
                         return "authId: string expected";
-                if (message.username != null && message.hasOwnProperty("username"))
+                if (message.username != null && $Object.hasOwnProperty.call(message, "username"))
                     if (!$util.isString(message.username))
                         return "username: string expected";
-                if (message.dispayName != null && message.hasOwnProperty("dispayName"))
+                if (message.dispayName != null && $Object.hasOwnProperty.call(message, "dispayName"))
                     if (!$util.isString(message.dispayName))
                         return "dispayName: string expected";
-                if (message.permissions != null && message.hasOwnProperty("permissions")) {
-                    if (!Array.isArray(message.permissions))
+                if (message.permissions != null && $Object.hasOwnProperty.call(message, "permissions")) {
+                    if (!$Array.isArray(message.permissions))
                         return "permissions: array expected";
                     for (let i = 0; i < message.permissions.length; ++i)
                         if (!$util.isString(message.permissions[i]))
@@ -4282,34 +4235,34 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.UserInfo} UserInfo
              */
-            UserInfo.fromObject = function fromObject(object, _depth) {
+            UserInfo.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.UserInfo)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.UserInfo: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.UserInfo: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.UserInfo();
                 if (object.authenticated != null)
                     if (object.authenticated)
-                        message.authenticated = Boolean(object.authenticated);
+                        message.authenticated = $Boolean(object.authenticated);
                 if (object.authId != null)
                     if (typeof object.authId !== "string" || object.authId.length)
-                        message.authId = String(object.authId);
+                        message.authId = $String(object.authId);
                 if (object.username != null)
                     if (typeof object.username !== "string" || object.username.length)
-                        message.username = String(object.username);
+                        message.username = $String(object.username);
                 if (object.dispayName != null)
                     if (typeof object.dispayName !== "string" || object.dispayName.length)
-                        message.dispayName = String(object.dispayName);
+                        message.dispayName = $String(object.dispayName);
                 if (object.permissions) {
-                    if (!Array.isArray(object.permissions))
-                        throw TypeError(".pulsarity.http.UserInfo.permissions: array expected");
-                    message.permissions = Array(object.permissions.length);
+                    if (!$Array.isArray(object.permissions))
+                        throw $TypeError(".pulsarity.http.UserInfo.permissions: array expected");
+                    message.permissions = $Array(object.permissions.length);
                     for (let i = 0; i < object.permissions.length; ++i)
-                        message.permissions[i] = String(object.permissions[i]);
+                        message.permissions[i] = $String(object.permissions[i]);
                 }
                 return message;
             };
@@ -4323,13 +4276,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            UserInfo.toObject = function toObject(message, options, _depth) {
+            UserInfo.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.permissions = [];
@@ -4339,16 +4292,16 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.username = "";
                     object.dispayName = "";
                 }
-                if (message.authenticated != null && message.hasOwnProperty("authenticated"))
+                if (message.authenticated != null && $Object.hasOwnProperty.call(message, "authenticated"))
                     object.authenticated = message.authenticated;
-                if (message.authId != null && message.hasOwnProperty("authId"))
+                if (message.authId != null && $Object.hasOwnProperty.call(message, "authId"))
                     object.authId = message.authId;
-                if (message.username != null && message.hasOwnProperty("username"))
+                if (message.username != null && $Object.hasOwnProperty.call(message, "username"))
                     object.username = message.username;
-                if (message.dispayName != null && message.hasOwnProperty("dispayName"))
+                if (message.dispayName != null && $Object.hasOwnProperty.call(message, "dispayName"))
                     object.dispayName = message.dispayName;
                 if (message.permissions && message.permissions.length) {
-                    object.permissions = Array(message.permissions.length);
+                    object.permissions = $Array(message.permissions.length);
                     for (let j = 0; j < message.permissions.length; ++j)
                         object.permissions[j] = message.permissions[j];
                 }
@@ -4362,8 +4315,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            UserInfo.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            UserInfo.prototype.toJSON = function() {
+                return UserInfo.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -4374,8 +4327,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            UserInfo.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            UserInfo.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.UserInfo";
             };
@@ -4390,7 +4343,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.http.AuthenticatedResponse.$Properties
              * @property {boolean|null} [status] AuthenticatedResponse status
              * @property {pulsarity.http.UserInfo.$Properties|null} [userinfo] AuthenticatedResponse userinfo
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -4412,14 +4365,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents an AuthenticatedResponse.
              * @constructor
              * @param {pulsarity.http.AuthenticatedResponse.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function AuthenticatedResponse(properties) {
+            const AuthenticatedResponse = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * AuthenticatedResponse status.
@@ -4449,7 +4402,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.AuthenticatedResponse.$Properties): pulsarity.http.AuthenticatedResponse;
              * }}
              */
-            AuthenticatedResponse.create = function create(properties) {
+            AuthenticatedResponse.create = function(properties) {
                 return new AuthenticatedResponse(properties);
             };
 
@@ -4462,18 +4415,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            AuthenticatedResponse.encode = function encode(message, writer, _depth) {
+            AuthenticatedResponse.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.status != null && Object.hasOwnProperty.call(message, "status"))
+                    throw $Error("max depth exceeded");
+                if (message.status != null && $Object.hasOwnProperty.call(message, "status") && message.status !== false)
                     writer.uint32(/* id 1, wireType 0 =*/8).bool(message.status);
-                if (message.userinfo != null && Object.hasOwnProperty.call(message, "userinfo"))
+                if (message.userinfo != null && $Object.hasOwnProperty.call(message, "userinfo"))
                     $root.pulsarity.http.UserInfo.encode(message.userinfo, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -4488,8 +4441,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            AuthenticatedResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            AuthenticatedResponse.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -4503,19 +4456,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            AuthenticatedResponse.decode = function decode(reader, length, _end, _depth, _target) {
+            AuthenticatedResponse.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.AuthenticatedResponse(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.AuthenticatedResponse();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -4532,7 +4495,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            message.userinfo = $root.pulsarity.http.UserInfo.decode(reader, reader.uint32(), undefined, _depth + 1, message.userinfo);
+                            message.userinfo = $root.pulsarity.http.UserInfo.decode(reader, reader.uint32(), $undefined, _depth + 1, message.userinfo);
                             continue;
                         }
                     }
@@ -4542,8 +4505,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -4557,7 +4525,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            AuthenticatedResponse.decodeDelimited = function decodeDelimited(reader) {
+            AuthenticatedResponse.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -4571,17 +4539,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            AuthenticatedResponse.verify = function verify(message, _depth) {
+            AuthenticatedResponse.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.status != null && message.hasOwnProperty("status"))
+                if (message.status != null && $Object.hasOwnProperty.call(message, "status"))
                     if (typeof message.status !== "boolean")
                         return "status: boolean expected";
-                if (message.userinfo != null && message.hasOwnProperty("userinfo")) {
+                if (message.userinfo != null && $Object.hasOwnProperty.call(message, "userinfo")) {
                     let error = $root.pulsarity.http.UserInfo.verify(message.userinfo, _depth + 1);
                     if (error)
                         return "userinfo." + error;
@@ -4597,22 +4565,22 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.AuthenticatedResponse} AuthenticatedResponse
              */
-            AuthenticatedResponse.fromObject = function fromObject(object, _depth) {
+            AuthenticatedResponse.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.AuthenticatedResponse)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.AuthenticatedResponse: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.AuthenticatedResponse: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.AuthenticatedResponse();
                 if (object.status != null)
                     if (object.status)
-                        message.status = Boolean(object.status);
+                        message.status = $Boolean(object.status);
                 if (object.userinfo != null) {
                     if (!$util.isObject(object.userinfo))
-                        throw TypeError(".pulsarity.http.AuthenticatedResponse.userinfo: object expected");
+                        throw $TypeError(".pulsarity.http.AuthenticatedResponse.userinfo: object expected");
                     message.userinfo = $root.pulsarity.http.UserInfo.fromObject(object.userinfo, _depth + 1);
                 }
                 return message;
@@ -4627,21 +4595,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            AuthenticatedResponse.toObject = function toObject(message, options, _depth) {
+            AuthenticatedResponse.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults) {
                     object.status = false;
                     object.userinfo = null;
                 }
-                if (message.status != null && message.hasOwnProperty("status"))
+                if (message.status != null && $Object.hasOwnProperty.call(message, "status"))
                     object.status = message.status;
-                if (message.userinfo != null && message.hasOwnProperty("userinfo"))
+                if (message.userinfo != null && $Object.hasOwnProperty.call(message, "userinfo"))
                     object.userinfo = $root.pulsarity.http.UserInfo.toObject(message.userinfo, options, _depth + 1);
                 return object;
             };
@@ -4653,8 +4621,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            AuthenticatedResponse.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            AuthenticatedResponse.prototype.toJSON = function() {
+                return AuthenticatedResponse.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -4665,8 +4633,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            AuthenticatedResponse.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            AuthenticatedResponse.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.AuthenticatedResponse";
             };
@@ -4681,7 +4649,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.http.LoginRequest.$Properties
              * @property {string|null} [username] LoginRequest username
              * @property {string|null} [password] LoginRequest password
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -4703,14 +4671,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a LoginRequest.
              * @constructor
              * @param {pulsarity.http.LoginRequest.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function LoginRequest(properties) {
+            const LoginRequest = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * LoginRequest username.
@@ -4740,7 +4708,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.LoginRequest.$Properties): pulsarity.http.LoginRequest;
              * }}
              */
-            LoginRequest.create = function create(properties) {
+            LoginRequest.create = function(properties) {
                 return new LoginRequest(properties);
             };
 
@@ -4753,18 +4721,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LoginRequest.encode = function encode(message, writer, _depth) {
+            LoginRequest.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.username != null && Object.hasOwnProperty.call(message, "username"))
+                    throw $Error("max depth exceeded");
+                if (message.username != null && $Object.hasOwnProperty.call(message, "username") && message.username !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.username);
-                if (message.password != null && Object.hasOwnProperty.call(message, "password"))
+                if (message.password != null && $Object.hasOwnProperty.call(message, "password") && message.password !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.password);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -4779,8 +4747,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LoginRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            LoginRequest.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -4794,19 +4762,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LoginRequest.decode = function decode(reader, length, _end, _depth, _target) {
+            LoginRequest.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.LoginRequest(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.LoginRequest();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -4814,7 +4792,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.username = value;
                             else
                                 delete message.username;
@@ -4823,7 +4801,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.password = value;
                             else
                                 delete message.password;
@@ -4836,8 +4814,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -4851,7 +4834,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LoginRequest.decodeDelimited = function decodeDelimited(reader) {
+            LoginRequest.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -4865,17 +4848,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            LoginRequest.verify = function verify(message, _depth) {
+            LoginRequest.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.username != null && message.hasOwnProperty("username"))
+                if (message.username != null && $Object.hasOwnProperty.call(message, "username"))
                     if (!$util.isString(message.username))
                         return "username: string expected";
-                if (message.password != null && message.hasOwnProperty("password"))
+                if (message.password != null && $Object.hasOwnProperty.call(message, "password"))
                     if (!$util.isString(message.password))
                         return "password: string expected";
                 return null;
@@ -4889,22 +4872,22 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.LoginRequest} LoginRequest
              */
-            LoginRequest.fromObject = function fromObject(object, _depth) {
+            LoginRequest.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.LoginRequest)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.LoginRequest: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.LoginRequest: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.LoginRequest();
                 if (object.username != null)
                     if (typeof object.username !== "string" || object.username.length)
-                        message.username = String(object.username);
+                        message.username = $String(object.username);
                 if (object.password != null)
                     if (typeof object.password !== "string" || object.password.length)
-                        message.password = String(object.password);
+                        message.password = $String(object.password);
                 return message;
             };
 
@@ -4917,21 +4900,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            LoginRequest.toObject = function toObject(message, options, _depth) {
+            LoginRequest.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults) {
                     object.username = "";
                     object.password = "";
                 }
-                if (message.username != null && message.hasOwnProperty("username"))
+                if (message.username != null && $Object.hasOwnProperty.call(message, "username"))
                     object.username = message.username;
-                if (message.password != null && message.hasOwnProperty("password"))
+                if (message.password != null && $Object.hasOwnProperty.call(message, "password"))
                     object.password = message.password;
                 return object;
             };
@@ -4943,8 +4926,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            LoginRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            LoginRequest.prototype.toJSON = function() {
+                return LoginRequest.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -4955,8 +4938,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            LoginRequest.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            LoginRequest.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.LoginRequest";
             };
@@ -4971,7 +4954,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.http.LoginResponse.$Properties
              * @property {boolean|null} [passwordResetRequired] LoginResponse passwordResetRequired
              * @property {pulsarity.http.UserInfo.$Properties|null} [userinfo] LoginResponse userinfo
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -4993,14 +4976,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a LoginResponse.
              * @constructor
              * @param {pulsarity.http.LoginResponse.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function LoginResponse(properties) {
+            const LoginResponse = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * LoginResponse passwordResetRequired.
@@ -5030,7 +5013,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.LoginResponse.$Properties): pulsarity.http.LoginResponse;
              * }}
              */
-            LoginResponse.create = function create(properties) {
+            LoginResponse.create = function(properties) {
                 return new LoginResponse(properties);
             };
 
@@ -5043,18 +5026,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LoginResponse.encode = function encode(message, writer, _depth) {
+            LoginResponse.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.passwordResetRequired != null && Object.hasOwnProperty.call(message, "passwordResetRequired"))
+                    throw $Error("max depth exceeded");
+                if (message.passwordResetRequired != null && $Object.hasOwnProperty.call(message, "passwordResetRequired") && message.passwordResetRequired !== false)
                     writer.uint32(/* id 1, wireType 0 =*/8).bool(message.passwordResetRequired);
-                if (message.userinfo != null && Object.hasOwnProperty.call(message, "userinfo"))
+                if (message.userinfo != null && $Object.hasOwnProperty.call(message, "userinfo"))
                     $root.pulsarity.http.UserInfo.encode(message.userinfo, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -5069,8 +5052,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LoginResponse.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            LoginResponse.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -5084,19 +5067,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LoginResponse.decode = function decode(reader, length, _end, _depth, _target) {
+            LoginResponse.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.LoginResponse(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.LoginResponse();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -5113,7 +5106,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            message.userinfo = $root.pulsarity.http.UserInfo.decode(reader, reader.uint32(), undefined, _depth + 1, message.userinfo);
+                            message.userinfo = $root.pulsarity.http.UserInfo.decode(reader, reader.uint32(), $undefined, _depth + 1, message.userinfo);
                             continue;
                         }
                     }
@@ -5123,8 +5116,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -5138,7 +5136,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LoginResponse.decodeDelimited = function decodeDelimited(reader) {
+            LoginResponse.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -5152,17 +5150,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            LoginResponse.verify = function verify(message, _depth) {
+            LoginResponse.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.passwordResetRequired != null && message.hasOwnProperty("passwordResetRequired"))
+                if (message.passwordResetRequired != null && $Object.hasOwnProperty.call(message, "passwordResetRequired"))
                     if (typeof message.passwordResetRequired !== "boolean")
                         return "passwordResetRequired: boolean expected";
-                if (message.userinfo != null && message.hasOwnProperty("userinfo")) {
+                if (message.userinfo != null && $Object.hasOwnProperty.call(message, "userinfo")) {
                     let error = $root.pulsarity.http.UserInfo.verify(message.userinfo, _depth + 1);
                     if (error)
                         return "userinfo." + error;
@@ -5178,22 +5176,22 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.LoginResponse} LoginResponse
              */
-            LoginResponse.fromObject = function fromObject(object, _depth) {
+            LoginResponse.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.LoginResponse)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.LoginResponse: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.LoginResponse: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.LoginResponse();
                 if (object.passwordResetRequired != null)
                     if (object.passwordResetRequired)
-                        message.passwordResetRequired = Boolean(object.passwordResetRequired);
+                        message.passwordResetRequired = $Boolean(object.passwordResetRequired);
                 if (object.userinfo != null) {
                     if (!$util.isObject(object.userinfo))
-                        throw TypeError(".pulsarity.http.LoginResponse.userinfo: object expected");
+                        throw $TypeError(".pulsarity.http.LoginResponse.userinfo: object expected");
                     message.userinfo = $root.pulsarity.http.UserInfo.fromObject(object.userinfo, _depth + 1);
                 }
                 return message;
@@ -5208,21 +5206,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            LoginResponse.toObject = function toObject(message, options, _depth) {
+            LoginResponse.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults) {
                     object.passwordResetRequired = false;
                     object.userinfo = null;
                 }
-                if (message.passwordResetRequired != null && message.hasOwnProperty("passwordResetRequired"))
+                if (message.passwordResetRequired != null && $Object.hasOwnProperty.call(message, "passwordResetRequired"))
                     object.passwordResetRequired = message.passwordResetRequired;
-                if (message.userinfo != null && message.hasOwnProperty("userinfo"))
+                if (message.userinfo != null && $Object.hasOwnProperty.call(message, "userinfo"))
                     object.userinfo = $root.pulsarity.http.UserInfo.toObject(message.userinfo, options, _depth + 1);
                 return object;
             };
@@ -5234,8 +5232,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            LoginResponse.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            LoginResponse.prototype.toJSON = function() {
+                return LoginResponse.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -5246,8 +5244,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            LoginResponse.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            LoginResponse.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.LoginResponse";
             };
@@ -5262,7 +5260,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.http.ResetPasswordRequest.$Properties
              * @property {string|null} [oldPassword] ResetPasswordRequest oldPassword
              * @property {string|null} [newPassword] ResetPasswordRequest newPassword
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -5284,14 +5282,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a ResetPasswordRequest.
              * @constructor
              * @param {pulsarity.http.ResetPasswordRequest.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ResetPasswordRequest(properties) {
+            const ResetPasswordRequest = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * ResetPasswordRequest oldPassword.
@@ -5321,7 +5319,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.ResetPasswordRequest.$Properties): pulsarity.http.ResetPasswordRequest;
              * }}
              */
-            ResetPasswordRequest.create = function create(properties) {
+            ResetPasswordRequest.create = function(properties) {
                 return new ResetPasswordRequest(properties);
             };
 
@@ -5334,18 +5332,18 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ResetPasswordRequest.encode = function encode(message, writer, _depth) {
+            ResetPasswordRequest.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.oldPassword != null && Object.hasOwnProperty.call(message, "oldPassword"))
+                    throw $Error("max depth exceeded");
+                if (message.oldPassword != null && $Object.hasOwnProperty.call(message, "oldPassword") && message.oldPassword !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.oldPassword);
-                if (message.newPassword != null && Object.hasOwnProperty.call(message, "newPassword"))
+                if (message.newPassword != null && $Object.hasOwnProperty.call(message, "newPassword") && message.newPassword !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.newPassword);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -5360,8 +5358,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ResetPasswordRequest.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ResetPasswordRequest.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -5375,19 +5373,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ResetPasswordRequest.decode = function decode(reader, length, _end, _depth, _target) {
+            ResetPasswordRequest.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.ResetPasswordRequest(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.ResetPasswordRequest();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -5395,7 +5403,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.oldPassword = value;
                             else
                                 delete message.oldPassword;
@@ -5404,7 +5412,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.newPassword = value;
                             else
                                 delete message.newPassword;
@@ -5417,8 +5425,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -5432,7 +5445,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ResetPasswordRequest.decodeDelimited = function decodeDelimited(reader) {
+            ResetPasswordRequest.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -5446,17 +5459,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ResetPasswordRequest.verify = function verify(message, _depth) {
+            ResetPasswordRequest.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.oldPassword != null && message.hasOwnProperty("oldPassword"))
+                if (message.oldPassword != null && $Object.hasOwnProperty.call(message, "oldPassword"))
                     if (!$util.isString(message.oldPassword))
                         return "oldPassword: string expected";
-                if (message.newPassword != null && message.hasOwnProperty("newPassword"))
+                if (message.newPassword != null && $Object.hasOwnProperty.call(message, "newPassword"))
                     if (!$util.isString(message.newPassword))
                         return "newPassword: string expected";
                 return null;
@@ -5470,22 +5483,22 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.ResetPasswordRequest} ResetPasswordRequest
              */
-            ResetPasswordRequest.fromObject = function fromObject(object, _depth) {
+            ResetPasswordRequest.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.ResetPasswordRequest)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.ResetPasswordRequest: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.ResetPasswordRequest: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.ResetPasswordRequest();
                 if (object.oldPassword != null)
                     if (typeof object.oldPassword !== "string" || object.oldPassword.length)
-                        message.oldPassword = String(object.oldPassword);
+                        message.oldPassword = $String(object.oldPassword);
                 if (object.newPassword != null)
                     if (typeof object.newPassword !== "string" || object.newPassword.length)
-                        message.newPassword = String(object.newPassword);
+                        message.newPassword = $String(object.newPassword);
                 return message;
             };
 
@@ -5498,21 +5511,21 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ResetPasswordRequest.toObject = function toObject(message, options, _depth) {
+            ResetPasswordRequest.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults) {
                     object.oldPassword = "";
                     object.newPassword = "";
                 }
-                if (message.oldPassword != null && message.hasOwnProperty("oldPassword"))
+                if (message.oldPassword != null && $Object.hasOwnProperty.call(message, "oldPassword"))
                     object.oldPassword = message.oldPassword;
-                if (message.newPassword != null && message.hasOwnProperty("newPassword"))
+                if (message.newPassword != null && $Object.hasOwnProperty.call(message, "newPassword"))
                     object.newPassword = message.newPassword;
                 return object;
             };
@@ -5524,8 +5537,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ResetPasswordRequest.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ResetPasswordRequest.prototype.toJSON = function() {
+                return ResetPasswordRequest.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -5536,8 +5549,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            ResetPasswordRequest.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            ResetPasswordRequest.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.ResetPasswordRequest";
             };
@@ -5554,7 +5567,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @property {string|null} [serverName] ServerData serverName
              * @property {string|null} [languageVersion] ServerData languageVersion
              * @property {Array.<string>|null} [languagePacks] ServerData languagePacks
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -5576,15 +5589,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a ServerData.
              * @constructor
              * @param {pulsarity.http.ServerData.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function ServerData(properties) {
+            const ServerData = function (properties) {
                 this.languagePacks = [];
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * ServerData version.
@@ -5630,7 +5643,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.ServerData.$Properties): pulsarity.http.ServerData;
              * }}
              */
-            ServerData.create = function create(properties) {
+            ServerData.create = function(properties) {
                 return new ServerData(properties);
             };
 
@@ -5643,23 +5656,23 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ServerData.encode = function encode(message, writer, _depth) {
+            ServerData.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.version != null && Object.hasOwnProperty.call(message, "version"))
+                    throw $Error("max depth exceeded");
+                if (message.version != null && $Object.hasOwnProperty.call(message, "version") && message.version !== "")
                     writer.uint32(/* id 1, wireType 2 =*/10).string(message.version);
-                if (message.serverName != null && Object.hasOwnProperty.call(message, "serverName"))
+                if (message.serverName != null && $Object.hasOwnProperty.call(message, "serverName") && message.serverName !== "")
                     writer.uint32(/* id 2, wireType 2 =*/18).string(message.serverName);
-                if (message.languageVersion != null && Object.hasOwnProperty.call(message, "languageVersion"))
+                if (message.languageVersion != null && $Object.hasOwnProperty.call(message, "languageVersion") && message.languageVersion !== "")
                     writer.uint32(/* id 3, wireType 2 =*/26).string(message.languageVersion);
                 if (message.languagePacks != null && message.languagePacks.length)
                     for (let i = 0; i < message.languagePacks.length; ++i)
                         writer.uint32(/* id 4, wireType 2 =*/34).string(message.languagePacks[i]);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -5674,8 +5687,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            ServerData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            ServerData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -5689,19 +5702,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ServerData.decode = function decode(reader, length, _end, _depth, _target) {
+            ServerData.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.ServerData(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.ServerData();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -5709,7 +5732,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.version = value;
                             else
                                 delete message.version;
@@ -5718,7 +5741,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 2: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.serverName = value;
                             else
                                 delete message.serverName;
@@ -5727,7 +5750,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 3: {
                             if (wireType !== 2)
                                 break;
-                            if ((value = reader.string()).length)
+                            if ((value = reader.stringVerify()).length)
                                 message.languageVersion = value;
                             else
                                 delete message.languageVersion;
@@ -5738,7 +5761,7 @@ export const pulsarity = $root.pulsarity = (() => {
                                 break;
                             if (!(message.languagePacks && message.languagePacks.length))
                                 message.languagePacks = [];
-                            message.languagePacks.push(reader.string());
+                            message.languagePacks.push(reader.stringVerify());
                             continue;
                         }
                     }
@@ -5748,8 +5771,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -5763,7 +5791,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            ServerData.decodeDelimited = function decodeDelimited(reader) {
+            ServerData.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -5777,24 +5805,24 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            ServerData.verify = function verify(message, _depth) {
+            ServerData.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.version != null && message.hasOwnProperty("version"))
+                if (message.version != null && $Object.hasOwnProperty.call(message, "version"))
                     if (!$util.isString(message.version))
                         return "version: string expected";
-                if (message.serverName != null && message.hasOwnProperty("serverName"))
+                if (message.serverName != null && $Object.hasOwnProperty.call(message, "serverName"))
                     if (!$util.isString(message.serverName))
                         return "serverName: string expected";
-                if (message.languageVersion != null && message.hasOwnProperty("languageVersion"))
+                if (message.languageVersion != null && $Object.hasOwnProperty.call(message, "languageVersion"))
                     if (!$util.isString(message.languageVersion))
                         return "languageVersion: string expected";
-                if (message.languagePacks != null && message.hasOwnProperty("languagePacks")) {
-                    if (!Array.isArray(message.languagePacks))
+                if (message.languagePacks != null && $Object.hasOwnProperty.call(message, "languagePacks")) {
+                    if (!$Array.isArray(message.languagePacks))
                         return "languagePacks: array expected";
                     for (let i = 0; i < message.languagePacks.length; ++i)
                         if (!$util.isString(message.languagePacks[i]))
@@ -5811,31 +5839,31 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.ServerData} ServerData
              */
-            ServerData.fromObject = function fromObject(object, _depth) {
+            ServerData.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.ServerData)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.ServerData: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.ServerData: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.ServerData();
                 if (object.version != null)
                     if (typeof object.version !== "string" || object.version.length)
-                        message.version = String(object.version);
+                        message.version = $String(object.version);
                 if (object.serverName != null)
                     if (typeof object.serverName !== "string" || object.serverName.length)
-                        message.serverName = String(object.serverName);
+                        message.serverName = $String(object.serverName);
                 if (object.languageVersion != null)
                     if (typeof object.languageVersion !== "string" || object.languageVersion.length)
-                        message.languageVersion = String(object.languageVersion);
+                        message.languageVersion = $String(object.languageVersion);
                 if (object.languagePacks) {
-                    if (!Array.isArray(object.languagePacks))
-                        throw TypeError(".pulsarity.http.ServerData.languagePacks: array expected");
-                    message.languagePacks = Array(object.languagePacks.length);
+                    if (!$Array.isArray(object.languagePacks))
+                        throw $TypeError(".pulsarity.http.ServerData.languagePacks: array expected");
+                    message.languagePacks = $Array(object.languagePacks.length);
                     for (let i = 0; i < object.languagePacks.length; ++i)
-                        message.languagePacks[i] = String(object.languagePacks[i]);
+                        message.languagePacks[i] = $String(object.languagePacks[i]);
                 }
                 return message;
             };
@@ -5849,13 +5877,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            ServerData.toObject = function toObject(message, options, _depth) {
+            ServerData.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.arrays || options.defaults)
                     object.languagePacks = [];
@@ -5864,14 +5892,14 @@ export const pulsarity = $root.pulsarity = (() => {
                     object.serverName = "";
                     object.languageVersion = "";
                 }
-                if (message.version != null && message.hasOwnProperty("version"))
+                if (message.version != null && $Object.hasOwnProperty.call(message, "version"))
                     object.version = message.version;
-                if (message.serverName != null && message.hasOwnProperty("serverName"))
+                if (message.serverName != null && $Object.hasOwnProperty.call(message, "serverName"))
                     object.serverName = message.serverName;
-                if (message.languageVersion != null && message.hasOwnProperty("languageVersion"))
+                if (message.languageVersion != null && $Object.hasOwnProperty.call(message, "languageVersion"))
                     object.languageVersion = message.languageVersion;
                 if (message.languagePacks && message.languagePacks.length) {
-                    object.languagePacks = Array(message.languagePacks.length);
+                    object.languagePacks = $Array(message.languagePacks.length);
                     for (let j = 0; j < message.languagePacks.length; ++j)
                         object.languagePacks[j] = message.languagePacks[j];
                 }
@@ -5885,8 +5913,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            ServerData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            ServerData.prototype.toJSON = function() {
+                return ServerData.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -5897,8 +5925,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            ServerData.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            ServerData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.ServerData";
             };
@@ -5913,7 +5941,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.http.LocalizationData.$Properties
              * @property {Object.<string,string>|null} [messages] LocalizationData messages
              * @property {Object.<string,string>|null} [pluralization] LocalizationData pluralization
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -5935,16 +5963,16 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a LocalizationData.
              * @constructor
              * @param {pulsarity.http.LocalizationData.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function LocalizationData(properties) {
+            const LocalizationData = function (properties) {
                 this.messages = {};
                 this.pluralization = {};
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * LocalizationData messages.
@@ -5974,7 +6002,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.http.LocalizationData.$Properties): pulsarity.http.LocalizationData;
              * }}
              */
-            LocalizationData.create = function create(properties) {
+            LocalizationData.create = function(properties) {
                 return new LocalizationData(properties);
             };
 
@@ -5987,20 +6015,20 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LocalizationData.encode = function encode(message, writer, _depth) {
+            LocalizationData.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.messages != null && Object.hasOwnProperty.call(message, "messages"))
-                    for (let keys = Object.keys(message.messages), i = 0; i < keys.length; ++i)
+                    throw $Error("max depth exceeded");
+                if (message.messages != null && $Object.hasOwnProperty.call(message, "messages"))
+                    for (let keys = $Object.keys(message.messages), i = 0; i < keys.length; ++i)
                         writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.messages[keys[i]]).ldelim();
-                if (message.pluralization != null && Object.hasOwnProperty.call(message, "pluralization"))
-                    for (let keys = Object.keys(message.pluralization), i = 0; i < keys.length; ++i)
+                if (message.pluralization != null && $Object.hasOwnProperty.call(message, "pluralization"))
+                    for (let keys = $Object.keys(message.pluralization), i = 0; i < keys.length; ++i)
                         writer.uint32(/* id 2, wireType 2 =*/18).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.pluralization[keys[i]]).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -6015,8 +6043,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            LocalizationData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            LocalizationData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -6030,19 +6058,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LocalizationData.decode = function decode(reader, length, _end, _depth, _target) {
+            LocalizationData.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.http.LocalizationData(), key, value;
+                    throw $Error("max depth exceeded");
+                let end, message, key, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.http.LocalizationData();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -6053,6 +6091,9 @@ export const pulsarity = $root.pulsarity = (() => {
                             if (message.messages === $util.emptyObject)
                                 message.messages = {};
                             let end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw $RangeError("index out of range");
+                            reader.len = end2;
                             key = "";
                             value = "";
                             while (reader.pos < end2) {
@@ -6062,16 +6103,19 @@ export const pulsarity = $root.pulsarity = (() => {
                                 case 1:
                                     if (wireType !== 2)
                                         break;
-                                    key = reader.string();
+                                    key = reader.stringVerify();
                                     continue;
                                 case 2:
                                     if (wireType !== 2)
                                         break;
-                                    value = reader.string();
+                                    value = reader.stringVerify();
                                     continue;
                                 }
                                 reader.skipType(wireType, _depth, tag2);
                             }
+                            if (reader.pos !== end2)
+                                throw $RangeError("index out of range");
+                            reader.len = end;
                             if (key === "__proto__")
                                 $util.makeProp(message.messages, key);
                             message.messages[key] = value;
@@ -6083,6 +6127,9 @@ export const pulsarity = $root.pulsarity = (() => {
                             if (message.pluralization === $util.emptyObject)
                                 message.pluralization = {};
                             let end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw $RangeError("index out of range");
+                            reader.len = end2;
                             key = "";
                             value = "";
                             while (reader.pos < end2) {
@@ -6092,16 +6139,19 @@ export const pulsarity = $root.pulsarity = (() => {
                                 case 1:
                                     if (wireType !== 2)
                                         break;
-                                    key = reader.string();
+                                    key = reader.stringVerify();
                                     continue;
                                 case 2:
                                     if (wireType !== 2)
                                         break;
-                                    value = reader.string();
+                                    value = reader.stringVerify();
                                     continue;
                                 }
                                 reader.skipType(wireType, _depth, tag2);
                             }
+                            if (reader.pos !== end2)
+                                throw $RangeError("index out of range");
+                            reader.len = end;
                             if (key === "__proto__")
                                 $util.makeProp(message.pluralization, key);
                             message.pluralization[key] = value;
@@ -6114,8 +6164,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -6129,7 +6184,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            LocalizationData.decodeDelimited = function decodeDelimited(reader) {
+            LocalizationData.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -6143,25 +6198,25 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            LocalizationData.verify = function verify(message, _depth) {
+            LocalizationData.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.messages != null && message.hasOwnProperty("messages")) {
+                if (message.messages != null && $Object.hasOwnProperty.call(message, "messages")) {
                     if (!$util.isObject(message.messages))
                         return "messages: object expected";
-                    let key = Object.keys(message.messages);
+                    let key = $Object.keys(message.messages);
                     for (let i = 0; i < key.length; ++i)
                         if (!$util.isString(message.messages[key[i]]))
                             return "messages: string{k:string} expected";
                 }
-                if (message.pluralization != null && message.hasOwnProperty("pluralization")) {
+                if (message.pluralization != null && $Object.hasOwnProperty.call(message, "pluralization")) {
                     if (!$util.isObject(message.pluralization))
                         return "pluralization: object expected";
-                    let key = Object.keys(message.pluralization);
+                    let key = $Object.keys(message.pluralization);
                     for (let i = 0; i < key.length; ++i)
                         if (!$util.isString(message.pluralization[key[i]]))
                             return "pluralization: string{k:string} expected";
@@ -6177,34 +6232,34 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.http.LocalizationData} LocalizationData
              */
-            LocalizationData.fromObject = function fromObject(object, _depth) {
+            LocalizationData.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.http.LocalizationData)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.http.LocalizationData: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.http.LocalizationData: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.http.LocalizationData();
                 if (object.messages) {
                     if (!$util.isObject(object.messages))
-                        throw TypeError(".pulsarity.http.LocalizationData.messages: object expected");
+                        throw $TypeError(".pulsarity.http.LocalizationData.messages: object expected");
                     message.messages = {};
-                    for (let keys = Object.keys(object.messages), i = 0; i < keys.length; ++i) {
+                    for (let keys = $Object.keys(object.messages), i = 0; i < keys.length; ++i) {
                         if (keys[i] === "__proto__")
                             $util.makeProp(message.messages, keys[i]);
-                        message.messages[keys[i]] = String(object.messages[keys[i]]);
+                        message.messages[keys[i]] = $String(object.messages[keys[i]]);
                     }
                 }
                 if (object.pluralization) {
                     if (!$util.isObject(object.pluralization))
-                        throw TypeError(".pulsarity.http.LocalizationData.pluralization: object expected");
+                        throw $TypeError(".pulsarity.http.LocalizationData.pluralization: object expected");
                     message.pluralization = {};
-                    for (let keys = Object.keys(object.pluralization), i = 0; i < keys.length; ++i) {
+                    for (let keys = $Object.keys(object.pluralization), i = 0; i < keys.length; ++i) {
                         if (keys[i] === "__proto__")
                             $util.makeProp(message.pluralization, keys[i]);
-                        message.pluralization[keys[i]] = String(object.pluralization[keys[i]]);
+                        message.pluralization[keys[i]] = $String(object.pluralization[keys[i]]);
                     }
                 }
                 return message;
@@ -6219,20 +6274,20 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            LocalizationData.toObject = function toObject(message, options, _depth) {
+            LocalizationData.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.objects || options.defaults) {
                     object.messages = {};
                     object.pluralization = {};
                 }
                 let keys2;
-                if (message.messages && (keys2 = Object.keys(message.messages)).length) {
+                if (message.messages && (keys2 = $Object.keys(message.messages)).length) {
                     object.messages = {};
                     for (let j = 0; j < keys2.length; ++j) {
                         if (keys2[j] === "__proto__")
@@ -6240,7 +6295,7 @@ export const pulsarity = $root.pulsarity = (() => {
                         object.messages[keys2[j]] = message.messages[keys2[j]];
                     }
                 }
-                if (message.pluralization && (keys2 = Object.keys(message.pluralization)).length) {
+                if (message.pluralization && (keys2 = $Object.keys(message.pluralization)).length) {
                     object.pluralization = {};
                     for (let j = 0; j < keys2.length; ++j) {
                         if (keys2[j] === "__proto__")
@@ -6258,8 +6313,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            LocalizationData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            LocalizationData.prototype.toJSON = function() {
+                return LocalizationData.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -6270,8 +6325,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            LocalizationData.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            LocalizationData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.http.LocalizationData";
             };
@@ -6280,6 +6335,6103 @@ export const pulsarity = $root.pulsarity = (() => {
         })();
 
         return http;
+    })();
+
+    pulsarity.ui = (function() {
+
+        /**
+         * Namespace ui.
+         * @memberof pulsarity
+         * @namespace
+         */
+        const ui = {};
+
+        /**
+         * UIElementType enum.
+         * @name pulsarity.ui.UIElementType
+         * @enum {number}
+         * @property {number} ELEMENT_TYPE_UNKNOWN=0 ELEMENT_TYPE_UNKNOWN value
+         * @property {number} ELEMENT_TYPE_ETREE=1 ELEMENT_TYPE_ETREE value
+         * @property {number} ELEMENT_TYPE_MARKDOWN=2 ELEMENT_TYPE_MARKDOWN value
+         * @property {number} ELEMENT_TYPE_BUTTON=3 ELEMENT_TYPE_BUTTON value
+         * @property {number} ELEMENT_TYPE_VALUE=4 ELEMENT_TYPE_VALUE value
+         */
+        ui.UIElementType = (function() {
+            const valuesById = $Object.create(null), values = $Object.create(valuesById);
+            values[valuesById[0] = "ELEMENT_TYPE_UNKNOWN"] = 0;
+            values[valuesById[1] = "ELEMENT_TYPE_ETREE"] = 1;
+            values[valuesById[2] = "ELEMENT_TYPE_MARKDOWN"] = 2;
+            values[valuesById[3] = "ELEMENT_TYPE_BUTTON"] = 3;
+            values[valuesById[4] = "ELEMENT_TYPE_VALUE"] = 4;
+            return values;
+        })();
+
+        ui.UIElementTreeEntry = (function() {
+
+            /**
+             * Properties of a UIElementTreeEntry.
+             * @typedef {Object} pulsarity.ui.UIElementTreeEntry.$Properties
+             * @property {pulsarity.ui.UIElementType|null} [type] UIElementTreeEntry type
+             * @property {number|null} [elementId] UIElementTreeEntry elementId
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIElementTreeEntry.
+             * @memberof pulsarity.ui
+             * @interface IUIElementTreeEntry
+             * @augments pulsarity.ui.UIElementTreeEntry.$Properties
+             * @deprecated Use pulsarity.ui.UIElementTreeEntry.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIElementTreeEntry.
+             * @typedef {pulsarity.ui.UIElementTreeEntry.$Properties} pulsarity.ui.UIElementTreeEntry.$Shape
+             */
+
+            /**
+             * Constructs a new UIElementTreeEntry.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIElementTreeEntry.
+             * @constructor
+             * @param {pulsarity.ui.UIElementTreeEntry.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIElementTreeEntry = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIElementTreeEntry type.
+             * @member {pulsarity.ui.UIElementType} type
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @instance
+             */
+            UIElementTreeEntry.prototype.type = 0;
+
+            /**
+             * UIElementTreeEntry elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @instance
+             */
+            UIElementTreeEntry.prototype.elementId = 0;
+
+            /**
+             * Creates a new UIElementTreeEntry instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {pulsarity.ui.UIElementTreeEntry.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIElementTreeEntry} UIElementTreeEntry instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIElementTreeEntry.$Shape): pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape;
+             *   (properties?: pulsarity.ui.UIElementTreeEntry.$Properties): pulsarity.ui.UIElementTreeEntry;
+             * }}
+             */
+            UIElementTreeEntry.create = function(properties) {
+                return new UIElementTreeEntry(properties);
+            };
+
+            /**
+             * Encodes the specified UIElementTreeEntry message. Does not implicitly {@link pulsarity.ui.UIElementTreeEntry.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {pulsarity.ui.UIElementTreeEntry.$Properties} message UIElementTreeEntry message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementTreeEntry.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.type != null && $Object.hasOwnProperty.call(message, "type") && message.type !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.type);
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.elementId);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIElementTreeEntry message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementTreeEntry.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {pulsarity.ui.UIElementTreeEntry.$Properties} message UIElementTreeEntry message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementTreeEntry.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIElementTreeEntry message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape} UIElementTreeEntry
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementTreeEntry.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIElementTreeEntry();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.type = value;
+                            else
+                                delete message.type;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIElementTreeEntry message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementTreeEntry & pulsarity.ui.UIElementTreeEntry.$Shape} UIElementTreeEntry
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementTreeEntry.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIElementTreeEntry message.
+             * @function verify
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIElementTreeEntry.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
+                    if (typeof message.type !== "number" || (message.type | 0) !== message.type)
+                        return "type: enum value expected";
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a UIElementTreeEntry message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIElementTreeEntry} UIElementTreeEntry
+             */
+            UIElementTreeEntry.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIElementTreeEntry)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIElementTreeEntry: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIElementTreeEntry();
+                if (object.type !== 0 && (typeof object.type !== "string" || $root.pulsarity.ui.UIElementType[object.type] !== 0))
+                    switch (object.type) {
+                    case "ELEMENT_TYPE_UNKNOWN":
+                    case 0:
+                        message.type = 0;
+                        break;
+                    case "ELEMENT_TYPE_ETREE":
+                    case 1:
+                        message.type = 1;
+                        break;
+                    case "ELEMENT_TYPE_MARKDOWN":
+                    case 2:
+                        message.type = 2;
+                        break;
+                    case "ELEMENT_TYPE_BUTTON":
+                    case 3:
+                        message.type = 3;
+                        break;
+                    case "ELEMENT_TYPE_VALUE":
+                    case 4:
+                        message.type = 4;
+                        break;
+                    default:
+                        if (typeof object.type === "number" && (object.type | 0) === object.type)
+                            message.type = object.type;
+                    }
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIElementTreeEntry message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {pulsarity.ui.UIElementTreeEntry} message UIElementTreeEntry
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIElementTreeEntry.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.type = options.enums === $String ? "ELEMENT_TYPE_UNKNOWN" : 0;
+                    object.elementId = 0;
+                }
+                if (message.type != null && $Object.hasOwnProperty.call(message, "type"))
+                    object.type = options.enums === $String ? $root.pulsarity.ui.UIElementType[message.type] === $undefined ? message.type : $root.pulsarity.ui.UIElementType[message.type] : message.type;
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                return object;
+            };
+
+            /**
+             * Converts this UIElementTreeEntry to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIElementTreeEntry.prototype.toJSON = function() {
+                return UIElementTreeEntry.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIElementTreeEntry
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIElementTreeEntry
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIElementTreeEntry.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIElementTreeEntry";
+            };
+
+            return UIElementTreeEntry;
+        })();
+
+        ui.UIElementTree = (function() {
+
+            /**
+             * Properties of a UIElementTree.
+             * @typedef {Object} pulsarity.ui.UIElementTree.$Properties
+             * @property {number|null} [elementId] UIElementTree elementId
+             * @property {boolean|null} [visible] UIElementTree visible
+             * @property {Array.<pulsarity.ui.UIElementTreeEntry.$Properties>|null} [elements] UIElementTree elements
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIElementTree.
+             * @memberof pulsarity.ui
+             * @interface IUIElementTree
+             * @augments pulsarity.ui.UIElementTree.$Properties
+             * @deprecated Use pulsarity.ui.UIElementTree.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIElementTree.
+             * @typedef {pulsarity.ui.UIElementTree.$Properties} pulsarity.ui.UIElementTree.$Shape
+             */
+
+            /**
+             * Constructs a new UIElementTree.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIElementTree.
+             * @constructor
+             * @param {pulsarity.ui.UIElementTree.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIElementTree = function (properties) {
+                this.elements = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIElementTree elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIElementTree
+             * @instance
+             */
+            UIElementTree.prototype.elementId = 0;
+
+            /**
+             * UIElementTree visible.
+             * @member {boolean} visible
+             * @memberof pulsarity.ui.UIElementTree
+             * @instance
+             */
+            UIElementTree.prototype.visible = false;
+
+            /**
+             * UIElementTree elements.
+             * @member {Array.<pulsarity.ui.UIElementTreeEntry.$Properties>} elements
+             * @memberof pulsarity.ui.UIElementTree
+             * @instance
+             */
+            UIElementTree.prototype.elements = $util.emptyArray;
+
+            /**
+             * Creates a new UIElementTree instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {pulsarity.ui.UIElementTree.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIElementTree} UIElementTree instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIElementTree.$Shape): pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape;
+             *   (properties?: pulsarity.ui.UIElementTree.$Properties): pulsarity.ui.UIElementTree;
+             * }}
+             */
+            UIElementTree.create = function(properties) {
+                return new UIElementTree(properties);
+            };
+
+            /**
+             * Encodes the specified UIElementTree message. Does not implicitly {@link pulsarity.ui.UIElementTree.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {pulsarity.ui.UIElementTree.$Properties} message UIElementTree message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementTree.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.elementId);
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible") && message.visible !== false)
+                    writer.uint32(/* id 2, wireType 0 =*/16).bool(message.visible);
+                if (message.elements != null && message.elements.length)
+                    for (let i = 0; i < message.elements.length; ++i)
+                        $root.pulsarity.ui.UIElementTreeEntry.encode(message.elements[i], writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIElementTree message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementTree.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {pulsarity.ui.UIElementTree.$Properties} message UIElementTree message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementTree.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIElementTree message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape} UIElementTree
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementTree.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIElementTree();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.visible = value;
+                            else
+                                delete message.visible;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.elements && message.elements.length))
+                                message.elements = [];
+                            message.elements.push($root.pulsarity.ui.UIElementTreeEntry.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIElementTree message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementTree & pulsarity.ui.UIElementTree.$Shape} UIElementTree
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementTree.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIElementTree message.
+             * @function verify
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIElementTree.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    if (typeof message.visible !== "boolean")
+                        return "visible: boolean expected";
+                if (message.elements != null && $Object.hasOwnProperty.call(message, "elements")) {
+                    if (!$Array.isArray(message.elements))
+                        return "elements: array expected";
+                    for (let i = 0; i < message.elements.length; ++i) {
+                        let error = $root.pulsarity.ui.UIElementTreeEntry.verify(message.elements[i], _depth + 1);
+                        if (error)
+                            return "elements." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIElementTree message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIElementTree} UIElementTree
+             */
+            UIElementTree.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIElementTree)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIElementTree: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIElementTree();
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                if (object.visible != null)
+                    if (object.visible)
+                        message.visible = $Boolean(object.visible);
+                if (object.elements) {
+                    if (!$Array.isArray(object.elements))
+                        throw $TypeError(".pulsarity.ui.UIElementTree.elements: array expected");
+                    message.elements = $Array(object.elements.length);
+                    for (let i = 0; i < object.elements.length; ++i) {
+                        if (!$util.isObject(object.elements[i]))
+                            throw $TypeError(".pulsarity.ui.UIElementTree.elements: object expected");
+                        message.elements[i] = $root.pulsarity.ui.UIElementTreeEntry.fromObject(object.elements[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIElementTree message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {pulsarity.ui.UIElementTree} message UIElementTree
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIElementTree.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.elements = [];
+                if (options.defaults) {
+                    object.elementId = 0;
+                    object.visible = false;
+                }
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    object.visible = message.visible;
+                if (message.elements && message.elements.length) {
+                    object.elements = $Array(message.elements.length);
+                    for (let j = 0; j < message.elements.length; ++j)
+                        object.elements[j] = $root.pulsarity.ui.UIElementTreeEntry.toObject(message.elements[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIElementTree to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIElementTree
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIElementTree.prototype.toJSON = function() {
+                return UIElementTree.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIElementTree
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIElementTree
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIElementTree.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIElementTree";
+            };
+
+            return UIElementTree;
+        })();
+
+        ui.UIElementTrees = (function() {
+
+            /**
+             * Properties of a UIElementTrees.
+             * @typedef {Object} pulsarity.ui.UIElementTrees.$Properties
+             * @property {Array.<pulsarity.ui.UIElementTree.$Properties>|null} [etrees] UIElementTrees etrees
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIElementTrees.
+             * @memberof pulsarity.ui
+             * @interface IUIElementTrees
+             * @augments pulsarity.ui.UIElementTrees.$Properties
+             * @deprecated Use pulsarity.ui.UIElementTrees.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIElementTrees.
+             * @typedef {pulsarity.ui.UIElementTrees.$Properties} pulsarity.ui.UIElementTrees.$Shape
+             */
+
+            /**
+             * Constructs a new UIElementTrees.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIElementTrees.
+             * @constructor
+             * @param {pulsarity.ui.UIElementTrees.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIElementTrees = function (properties) {
+                this.etrees = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIElementTrees etrees.
+             * @member {Array.<pulsarity.ui.UIElementTree.$Properties>} etrees
+             * @memberof pulsarity.ui.UIElementTrees
+             * @instance
+             */
+            UIElementTrees.prototype.etrees = $util.emptyArray;
+
+            /**
+             * Creates a new UIElementTrees instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {pulsarity.ui.UIElementTrees.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIElementTrees} UIElementTrees instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIElementTrees.$Shape): pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape;
+             *   (properties?: pulsarity.ui.UIElementTrees.$Properties): pulsarity.ui.UIElementTrees;
+             * }}
+             */
+            UIElementTrees.create = function(properties) {
+                return new UIElementTrees(properties);
+            };
+
+            /**
+             * Encodes the specified UIElementTrees message. Does not implicitly {@link pulsarity.ui.UIElementTrees.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {pulsarity.ui.UIElementTrees.$Properties} message UIElementTrees message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementTrees.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.etrees != null && message.etrees.length)
+                    for (let i = 0; i < message.etrees.length; ++i)
+                        $root.pulsarity.ui.UIElementTree.encode(message.etrees[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIElementTrees message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementTrees.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {pulsarity.ui.UIElementTrees.$Properties} message UIElementTrees message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementTrees.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIElementTrees message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape} UIElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementTrees.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIElementTrees();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.etrees && message.etrees.length))
+                                message.etrees = [];
+                            message.etrees.push($root.pulsarity.ui.UIElementTree.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIElementTrees message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementTrees & pulsarity.ui.UIElementTrees.$Shape} UIElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementTrees.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIElementTrees message.
+             * @function verify
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIElementTrees.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.etrees != null && $Object.hasOwnProperty.call(message, "etrees")) {
+                    if (!$Array.isArray(message.etrees))
+                        return "etrees: array expected";
+                    for (let i = 0; i < message.etrees.length; ++i) {
+                        let error = $root.pulsarity.ui.UIElementTree.verify(message.etrees[i], _depth + 1);
+                        if (error)
+                            return "etrees." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIElementTrees message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIElementTrees} UIElementTrees
+             */
+            UIElementTrees.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIElementTrees)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIElementTrees: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIElementTrees();
+                if (object.etrees) {
+                    if (!$Array.isArray(object.etrees))
+                        throw $TypeError(".pulsarity.ui.UIElementTrees.etrees: array expected");
+                    message.etrees = $Array(object.etrees.length);
+                    for (let i = 0; i < object.etrees.length; ++i) {
+                        if (!$util.isObject(object.etrees[i]))
+                            throw $TypeError(".pulsarity.ui.UIElementTrees.etrees: object expected");
+                        message.etrees[i] = $root.pulsarity.ui.UIElementTree.fromObject(object.etrees[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIElementTrees message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {pulsarity.ui.UIElementTrees} message UIElementTrees
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIElementTrees.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.etrees = [];
+                if (message.etrees && message.etrees.length) {
+                    object.etrees = $Array(message.etrees.length);
+                    for (let j = 0; j < message.etrees.length; ++j)
+                        object.etrees[j] = $root.pulsarity.ui.UIElementTree.toObject(message.etrees[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIElementTrees to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIElementTrees
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIElementTrees.prototype.toJSON = function() {
+                return UIElementTrees.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIElementTrees
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIElementTrees
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIElementTrees.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIElementTrees";
+            };
+
+            return UIElementTrees;
+        })();
+
+        ui.MappedElementTrees = (function() {
+
+            /**
+             * Properties of a MappedElementTrees.
+             * @typedef {Object} pulsarity.ui.MappedElementTrees.$Properties
+             * @property {Array.<number>|null} [elementIds] MappedElementTrees elementIds
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a MappedElementTrees.
+             * @memberof pulsarity.ui
+             * @interface IMappedElementTrees
+             * @augments pulsarity.ui.MappedElementTrees.$Properties
+             * @deprecated Use pulsarity.ui.MappedElementTrees.$Properties instead.
+             */
+
+            /**
+             * Shape of a MappedElementTrees.
+             * @typedef {pulsarity.ui.MappedElementTrees.$Properties} pulsarity.ui.MappedElementTrees.$Shape
+             */
+
+            /**
+             * Constructs a new MappedElementTrees.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a MappedElementTrees.
+             * @constructor
+             * @param {pulsarity.ui.MappedElementTrees.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const MappedElementTrees = function (properties) {
+                this.elementIds = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * MappedElementTrees elementIds.
+             * @member {Array.<number>} elementIds
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @instance
+             */
+            MappedElementTrees.prototype.elementIds = $util.emptyArray;
+
+            /**
+             * Creates a new MappedElementTrees instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {pulsarity.ui.MappedElementTrees.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.MappedElementTrees} MappedElementTrees instance
+             * @type {{
+             *   (properties: pulsarity.ui.MappedElementTrees.$Shape): pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape;
+             *   (properties?: pulsarity.ui.MappedElementTrees.$Properties): pulsarity.ui.MappedElementTrees;
+             * }}
+             */
+            MappedElementTrees.create = function(properties) {
+                return new MappedElementTrees(properties);
+            };
+
+            /**
+             * Encodes the specified MappedElementTrees message. Does not implicitly {@link pulsarity.ui.MappedElementTrees.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {pulsarity.ui.MappedElementTrees.$Properties} message MappedElementTrees message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MappedElementTrees.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementIds != null && message.elementIds.length)
+                    writer.uint32(/* id 1, wireType 2 =*/10).uint32s(message.elementIds);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified MappedElementTrees message, length delimited. Does not implicitly {@link pulsarity.ui.MappedElementTrees.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {pulsarity.ui.MappedElementTrees.$Properties} message MappedElementTrees message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            MappedElementTrees.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a MappedElementTrees message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape} MappedElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MappedElementTrees.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.MappedElementTrees();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType === 2) {
+                                if (!(message.elementIds && message.elementIds.length))
+                                    message.elementIds = [];
+                                reader.uint32s(message.elementIds);
+                                continue;
+                            }
+                            if (wireType !== 0)
+                                break;
+                            if (!(message.elementIds && message.elementIds.length))
+                                message.elementIds = [];
+                            message.elementIds.push(reader.uint32());
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a MappedElementTrees message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.MappedElementTrees & pulsarity.ui.MappedElementTrees.$Shape} MappedElementTrees
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            MappedElementTrees.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a MappedElementTrees message.
+             * @function verify
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            MappedElementTrees.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.elementIds != null && $Object.hasOwnProperty.call(message, "elementIds")) {
+                    if (!$Array.isArray(message.elementIds))
+                        return "elementIds: array expected";
+                    for (let i = 0; i < message.elementIds.length; ++i)
+                        if (!$util.isInteger(message.elementIds[i]))
+                            return "elementIds: integer[] expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a MappedElementTrees message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.MappedElementTrees} MappedElementTrees
+             */
+            MappedElementTrees.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.MappedElementTrees)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.MappedElementTrees: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.MappedElementTrees();
+                if (object.elementIds) {
+                    if (!$Array.isArray(object.elementIds))
+                        throw $TypeError(".pulsarity.ui.MappedElementTrees.elementIds: array expected");
+                    message.elementIds = $Array(object.elementIds.length);
+                    for (let i = 0; i < object.elementIds.length; ++i)
+                        message.elementIds[i] = object.elementIds[i] >>> 0;
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a MappedElementTrees message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {pulsarity.ui.MappedElementTrees} message MappedElementTrees
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            MappedElementTrees.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.elementIds = [];
+                if (message.elementIds && message.elementIds.length) {
+                    object.elementIds = $Array(message.elementIds.length);
+                    for (let j = 0; j < message.elementIds.length; ++j)
+                        object.elementIds[j] = message.elementIds[j];
+                }
+                return object;
+            };
+
+            /**
+             * Converts this MappedElementTrees to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            MappedElementTrees.prototype.toJSON = function() {
+                return MappedElementTrees.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for MappedElementTrees
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.MappedElementTrees
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            MappedElementTrees.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.MappedElementTrees";
+            };
+
+            return MappedElementTrees;
+        })();
+
+        ui.UIETreeMapping = (function() {
+
+            /**
+             * Properties of a UIETreeMapping.
+             * @typedef {Object} pulsarity.ui.UIETreeMapping.$Properties
+             * @property {Object.<string,pulsarity.ui.MappedElementTrees.$Properties>|null} [mapping] UIETreeMapping mapping
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIETreeMapping.
+             * @memberof pulsarity.ui
+             * @interface IUIETreeMapping
+             * @augments pulsarity.ui.UIETreeMapping.$Properties
+             * @deprecated Use pulsarity.ui.UIETreeMapping.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIETreeMapping.
+             * @typedef {pulsarity.ui.UIETreeMapping.$Properties} pulsarity.ui.UIETreeMapping.$Shape
+             */
+
+            /**
+             * Constructs a new UIETreeMapping.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIETreeMapping.
+             * @constructor
+             * @param {pulsarity.ui.UIETreeMapping.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIETreeMapping = function (properties) {
+                this.mapping = {};
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIETreeMapping mapping.
+             * @member {Object.<string,pulsarity.ui.MappedElementTrees.$Properties>} mapping
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @instance
+             */
+            UIETreeMapping.prototype.mapping = $util.emptyObject;
+
+            /**
+             * Creates a new UIETreeMapping instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {pulsarity.ui.UIETreeMapping.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIETreeMapping} UIETreeMapping instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIETreeMapping.$Shape): pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape;
+             *   (properties?: pulsarity.ui.UIETreeMapping.$Properties): pulsarity.ui.UIETreeMapping;
+             * }}
+             */
+            UIETreeMapping.create = function(properties) {
+                return new UIETreeMapping(properties);
+            };
+
+            /**
+             * Encodes the specified UIETreeMapping message. Does not implicitly {@link pulsarity.ui.UIETreeMapping.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {pulsarity.ui.UIETreeMapping.$Properties} message UIETreeMapping message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIETreeMapping.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.mapping != null && $Object.hasOwnProperty.call(message, "mapping"))
+                    for (let keys = $Object.keys(message.mapping), i = 0; i < keys.length; ++i) {
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 2 =*/10).string(keys[i]);
+                        $root.pulsarity.ui.MappedElementTrees.encode(message.mapping[keys[i]], writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim().ldelim();
+                    }
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIETreeMapping message, length delimited. Does not implicitly {@link pulsarity.ui.UIETreeMapping.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {pulsarity.ui.UIETreeMapping.$Properties} message UIETreeMapping message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIETreeMapping.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIETreeMapping message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape} UIETreeMapping
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIETreeMapping.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, key, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIETreeMapping();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (message.mapping === $util.emptyObject)
+                                message.mapping = {};
+                            let end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw $RangeError("index out of range");
+                            reader.len = end2;
+                            key = "";
+                            value = null;
+                            while (reader.pos < end2) {
+                                let tag2 = reader.tag();
+                                wireType = tag2 & 7;
+                                switch (tag2 >>>= 3) {
+                                case 1:
+                                    if (wireType !== 2)
+                                        break;
+                                    key = reader.stringVerify();
+                                    continue;
+                                case 2:
+                                    if (wireType !== 2)
+                                        break;
+                                    value = $root.pulsarity.ui.MappedElementTrees.decode(reader, reader.uint32(), $undefined, _depth + 1, value);
+                                    continue;
+                                }
+                                reader.skipType(wireType, _depth, tag2);
+                            }
+                            if (reader.pos !== end2)
+                                throw $RangeError("index out of range");
+                            reader.len = end;
+                            if (key === "__proto__")
+                                $util.makeProp(message.mapping, key);
+                            message.mapping[key] = value || new $root.pulsarity.ui.MappedElementTrees();
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIETreeMapping message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIETreeMapping & pulsarity.ui.UIETreeMapping.$Shape} UIETreeMapping
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIETreeMapping.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIETreeMapping message.
+             * @function verify
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIETreeMapping.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.mapping != null && $Object.hasOwnProperty.call(message, "mapping")) {
+                    if (!$util.isObject(message.mapping))
+                        return "mapping: object expected";
+                    let key = $Object.keys(message.mapping);
+                    for (let i = 0; i < key.length; ++i) {
+                        let error = $root.pulsarity.ui.MappedElementTrees.verify(message.mapping[key[i]], _depth + 1);
+                        if (error)
+                            return "mapping." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIETreeMapping message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIETreeMapping} UIETreeMapping
+             */
+            UIETreeMapping.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIETreeMapping)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIETreeMapping: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIETreeMapping();
+                if (object.mapping) {
+                    if (!$util.isObject(object.mapping))
+                        throw $TypeError(".pulsarity.ui.UIETreeMapping.mapping: object expected");
+                    message.mapping = {};
+                    for (let keys = $Object.keys(object.mapping), i = 0; i < keys.length; ++i) {
+                        if (keys[i] === "__proto__")
+                            $util.makeProp(message.mapping, keys[i]);
+                        if (!$util.isObject(object.mapping[keys[i]]))
+                            throw $TypeError(".pulsarity.ui.UIETreeMapping.mapping: object expected");
+                        message.mapping[keys[i]] = $root.pulsarity.ui.MappedElementTrees.fromObject(object.mapping[keys[i]], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIETreeMapping message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {pulsarity.ui.UIETreeMapping} message UIETreeMapping
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIETreeMapping.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.objects || options.defaults)
+                    object.mapping = {};
+                let keys2;
+                if (message.mapping && (keys2 = $Object.keys(message.mapping)).length) {
+                    object.mapping = {};
+                    for (let j = 0; j < keys2.length; ++j) {
+                        if (keys2[j] === "__proto__")
+                            $util.makeProp(object.mapping, keys2[j]);
+                        object.mapping[keys2[j]] = $root.pulsarity.ui.MappedElementTrees.toObject(message.mapping[keys2[j]], options, _depth + 1);
+                    }
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIETreeMapping to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIETreeMapping.prototype.toJSON = function() {
+                return UIETreeMapping.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIETreeMapping
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIETreeMapping
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIETreeMapping.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIETreeMapping";
+            };
+
+            return UIETreeMapping;
+        })();
+
+        ui.UIMarkdownField = (function() {
+
+            /**
+             * Properties of a UIMarkdownField.
+             * @typedef {Object} pulsarity.ui.UIMarkdownField.$Properties
+             * @property {number|null} [elementId] UIMarkdownField elementId
+             * @property {boolean|null} [visible] UIMarkdownField visible
+             * @property {string|null} [text] UIMarkdownField text
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIMarkdownField.
+             * @memberof pulsarity.ui
+             * @interface IUIMarkdownField
+             * @augments pulsarity.ui.UIMarkdownField.$Properties
+             * @deprecated Use pulsarity.ui.UIMarkdownField.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIMarkdownField.
+             * @typedef {pulsarity.ui.UIMarkdownField.$Properties} pulsarity.ui.UIMarkdownField.$Shape
+             */
+
+            /**
+             * Constructs a new UIMarkdownField.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIMarkdownField.
+             * @constructor
+             * @param {pulsarity.ui.UIMarkdownField.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIMarkdownField = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIMarkdownField elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @instance
+             */
+            UIMarkdownField.prototype.elementId = 0;
+
+            /**
+             * UIMarkdownField visible.
+             * @member {boolean} visible
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @instance
+             */
+            UIMarkdownField.prototype.visible = false;
+
+            /**
+             * UIMarkdownField text.
+             * @member {string} text
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @instance
+             */
+            UIMarkdownField.prototype.text = "";
+
+            /**
+             * Creates a new UIMarkdownField instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {pulsarity.ui.UIMarkdownField.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIMarkdownField} UIMarkdownField instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIMarkdownField.$Shape): pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape;
+             *   (properties?: pulsarity.ui.UIMarkdownField.$Properties): pulsarity.ui.UIMarkdownField;
+             * }}
+             */
+            UIMarkdownField.create = function(properties) {
+                return new UIMarkdownField(properties);
+            };
+
+            /**
+             * Encodes the specified UIMarkdownField message. Does not implicitly {@link pulsarity.ui.UIMarkdownField.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {pulsarity.ui.UIMarkdownField.$Properties} message UIMarkdownField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIMarkdownField.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.elementId);
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible") && message.visible !== false)
+                    writer.uint32(/* id 2, wireType 0 =*/16).bool(message.visible);
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text") && message.text !== "")
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIMarkdownField message, length delimited. Does not implicitly {@link pulsarity.ui.UIMarkdownField.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {pulsarity.ui.UIMarkdownField.$Properties} message UIMarkdownField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIMarkdownField.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIMarkdownField message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape} UIMarkdownField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIMarkdownField.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIMarkdownField();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.visible = value;
+                            else
+                                delete message.visible;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.text = value;
+                            else
+                                delete message.text;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIMarkdownField message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIMarkdownField & pulsarity.ui.UIMarkdownField.$Shape} UIMarkdownField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIMarkdownField.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIMarkdownField message.
+             * @function verify
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIMarkdownField.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    if (typeof message.visible !== "boolean")
+                        return "visible: boolean expected";
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                    if (!$util.isString(message.text))
+                        return "text: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a UIMarkdownField message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIMarkdownField} UIMarkdownField
+             */
+            UIMarkdownField.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIMarkdownField)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIMarkdownField: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIMarkdownField();
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                if (object.visible != null)
+                    if (object.visible)
+                        message.visible = $Boolean(object.visible);
+                if (object.text != null)
+                    if (typeof object.text !== "string" || object.text.length)
+                        message.text = $String(object.text);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIMarkdownField message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {pulsarity.ui.UIMarkdownField} message UIMarkdownField
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIMarkdownField.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.elementId = 0;
+                    object.visible = false;
+                    object.text = "";
+                }
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    object.visible = message.visible;
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                    object.text = message.text;
+                return object;
+            };
+
+            /**
+             * Converts this UIMarkdownField to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIMarkdownField.prototype.toJSON = function() {
+                return UIMarkdownField.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIMarkdownField
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIMarkdownField
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIMarkdownField.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIMarkdownField";
+            };
+
+            return UIMarkdownField;
+        })();
+
+        ui.UIMarkdownFields = (function() {
+
+            /**
+             * Properties of a UIMarkdownFields.
+             * @typedef {Object} pulsarity.ui.UIMarkdownFields.$Properties
+             * @property {Array.<pulsarity.ui.UIMarkdownField.$Properties>|null} [fields] UIMarkdownFields fields
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIMarkdownFields.
+             * @memberof pulsarity.ui
+             * @interface IUIMarkdownFields
+             * @augments pulsarity.ui.UIMarkdownFields.$Properties
+             * @deprecated Use pulsarity.ui.UIMarkdownFields.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIMarkdownFields.
+             * @typedef {pulsarity.ui.UIMarkdownFields.$Properties} pulsarity.ui.UIMarkdownFields.$Shape
+             */
+
+            /**
+             * Constructs a new UIMarkdownFields.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIMarkdownFields.
+             * @constructor
+             * @param {pulsarity.ui.UIMarkdownFields.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIMarkdownFields = function (properties) {
+                this.fields = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIMarkdownFields fields.
+             * @member {Array.<pulsarity.ui.UIMarkdownField.$Properties>} fields
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @instance
+             */
+            UIMarkdownFields.prototype.fields = $util.emptyArray;
+
+            /**
+             * Creates a new UIMarkdownFields instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {pulsarity.ui.UIMarkdownFields.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIMarkdownFields} UIMarkdownFields instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIMarkdownFields.$Shape): pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape;
+             *   (properties?: pulsarity.ui.UIMarkdownFields.$Properties): pulsarity.ui.UIMarkdownFields;
+             * }}
+             */
+            UIMarkdownFields.create = function(properties) {
+                return new UIMarkdownFields(properties);
+            };
+
+            /**
+             * Encodes the specified UIMarkdownFields message. Does not implicitly {@link pulsarity.ui.UIMarkdownFields.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {pulsarity.ui.UIMarkdownFields.$Properties} message UIMarkdownFields message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIMarkdownFields.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.fields != null && message.fields.length)
+                    for (let i = 0; i < message.fields.length; ++i)
+                        $root.pulsarity.ui.UIMarkdownField.encode(message.fields[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIMarkdownFields message, length delimited. Does not implicitly {@link pulsarity.ui.UIMarkdownFields.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {pulsarity.ui.UIMarkdownFields.$Properties} message UIMarkdownFields message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIMarkdownFields.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIMarkdownFields message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape} UIMarkdownFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIMarkdownFields.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIMarkdownFields();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.fields && message.fields.length))
+                                message.fields = [];
+                            message.fields.push($root.pulsarity.ui.UIMarkdownField.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIMarkdownFields message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIMarkdownFields & pulsarity.ui.UIMarkdownFields.$Shape} UIMarkdownFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIMarkdownFields.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIMarkdownFields message.
+             * @function verify
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIMarkdownFields.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.fields != null && $Object.hasOwnProperty.call(message, "fields")) {
+                    if (!$Array.isArray(message.fields))
+                        return "fields: array expected";
+                    for (let i = 0; i < message.fields.length; ++i) {
+                        let error = $root.pulsarity.ui.UIMarkdownField.verify(message.fields[i], _depth + 1);
+                        if (error)
+                            return "fields." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIMarkdownFields message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIMarkdownFields} UIMarkdownFields
+             */
+            UIMarkdownFields.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIMarkdownFields)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIMarkdownFields: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIMarkdownFields();
+                if (object.fields) {
+                    if (!$Array.isArray(object.fields))
+                        throw $TypeError(".pulsarity.ui.UIMarkdownFields.fields: array expected");
+                    message.fields = $Array(object.fields.length);
+                    for (let i = 0; i < object.fields.length; ++i) {
+                        if (!$util.isObject(object.fields[i]))
+                            throw $TypeError(".pulsarity.ui.UIMarkdownFields.fields: object expected");
+                        message.fields[i] = $root.pulsarity.ui.UIMarkdownField.fromObject(object.fields[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIMarkdownFields message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {pulsarity.ui.UIMarkdownFields} message UIMarkdownFields
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIMarkdownFields.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.fields = [];
+                if (message.fields && message.fields.length) {
+                    object.fields = $Array(message.fields.length);
+                    for (let j = 0; j < message.fields.length; ++j)
+                        object.fields[j] = $root.pulsarity.ui.UIMarkdownField.toObject(message.fields[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIMarkdownFields to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIMarkdownFields.prototype.toJSON = function() {
+                return UIMarkdownFields.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIMarkdownFields
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIMarkdownFields
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIMarkdownFields.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIMarkdownFields";
+            };
+
+            return UIMarkdownFields;
+        })();
+
+        ui.UIButtonField = (function() {
+
+            /**
+             * Properties of a UIButtonField.
+             * @typedef {Object} pulsarity.ui.UIButtonField.$Properties
+             * @property {number|null} [elementId] UIButtonField elementId
+             * @property {boolean|null} [visible] UIButtonField visible
+             * @property {string|null} [text] UIButtonField text
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIButtonField.
+             * @memberof pulsarity.ui
+             * @interface IUIButtonField
+             * @augments pulsarity.ui.UIButtonField.$Properties
+             * @deprecated Use pulsarity.ui.UIButtonField.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIButtonField.
+             * @typedef {pulsarity.ui.UIButtonField.$Properties} pulsarity.ui.UIButtonField.$Shape
+             */
+
+            /**
+             * Constructs a new UIButtonField.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIButtonField.
+             * @constructor
+             * @param {pulsarity.ui.UIButtonField.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIButtonField = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIButtonField elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIButtonField
+             * @instance
+             */
+            UIButtonField.prototype.elementId = 0;
+
+            /**
+             * UIButtonField visible.
+             * @member {boolean} visible
+             * @memberof pulsarity.ui.UIButtonField
+             * @instance
+             */
+            UIButtonField.prototype.visible = false;
+
+            /**
+             * UIButtonField text.
+             * @member {string} text
+             * @memberof pulsarity.ui.UIButtonField
+             * @instance
+             */
+            UIButtonField.prototype.text = "";
+
+            /**
+             * Creates a new UIButtonField instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {pulsarity.ui.UIButtonField.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIButtonField} UIButtonField instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIButtonField.$Shape): pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape;
+             *   (properties?: pulsarity.ui.UIButtonField.$Properties): pulsarity.ui.UIButtonField;
+             * }}
+             */
+            UIButtonField.create = function(properties) {
+                return new UIButtonField(properties);
+            };
+
+            /**
+             * Encodes the specified UIButtonField message. Does not implicitly {@link pulsarity.ui.UIButtonField.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {pulsarity.ui.UIButtonField.$Properties} message UIButtonField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIButtonField.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.elementId);
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible") && message.visible !== false)
+                    writer.uint32(/* id 2, wireType 0 =*/16).bool(message.visible);
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text") && message.text !== "")
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.text);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIButtonField message, length delimited. Does not implicitly {@link pulsarity.ui.UIButtonField.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {pulsarity.ui.UIButtonField.$Properties} message UIButtonField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIButtonField.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIButtonField message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape} UIButtonField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIButtonField.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIButtonField();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.visible = value;
+                            else
+                                delete message.visible;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.text = value;
+                            else
+                                delete message.text;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIButtonField message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIButtonField & pulsarity.ui.UIButtonField.$Shape} UIButtonField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIButtonField.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIButtonField message.
+             * @function verify
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIButtonField.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    if (typeof message.visible !== "boolean")
+                        return "visible: boolean expected";
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                    if (!$util.isString(message.text))
+                        return "text: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a UIButtonField message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIButtonField} UIButtonField
+             */
+            UIButtonField.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIButtonField)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIButtonField: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIButtonField();
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                if (object.visible != null)
+                    if (object.visible)
+                        message.visible = $Boolean(object.visible);
+                if (object.text != null)
+                    if (typeof object.text !== "string" || object.text.length)
+                        message.text = $String(object.text);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIButtonField message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {pulsarity.ui.UIButtonField} message UIButtonField
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIButtonField.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.elementId = 0;
+                    object.visible = false;
+                    object.text = "";
+                }
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    object.visible = message.visible;
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                    object.text = message.text;
+                return object;
+            };
+
+            /**
+             * Converts this UIButtonField to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIButtonField
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIButtonField.prototype.toJSON = function() {
+                return UIButtonField.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIButtonField
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIButtonField
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIButtonField.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIButtonField";
+            };
+
+            return UIButtonField;
+        })();
+
+        ui.UIButtonFields = (function() {
+
+            /**
+             * Properties of a UIButtonFields.
+             * @typedef {Object} pulsarity.ui.UIButtonFields.$Properties
+             * @property {Array.<pulsarity.ui.UIButtonField.$Properties>|null} [fields] UIButtonFields fields
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIButtonFields.
+             * @memberof pulsarity.ui
+             * @interface IUIButtonFields
+             * @augments pulsarity.ui.UIButtonFields.$Properties
+             * @deprecated Use pulsarity.ui.UIButtonFields.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIButtonFields.
+             * @typedef {pulsarity.ui.UIButtonFields.$Properties} pulsarity.ui.UIButtonFields.$Shape
+             */
+
+            /**
+             * Constructs a new UIButtonFields.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIButtonFields.
+             * @constructor
+             * @param {pulsarity.ui.UIButtonFields.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIButtonFields = function (properties) {
+                this.fields = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIButtonFields fields.
+             * @member {Array.<pulsarity.ui.UIButtonField.$Properties>} fields
+             * @memberof pulsarity.ui.UIButtonFields
+             * @instance
+             */
+            UIButtonFields.prototype.fields = $util.emptyArray;
+
+            /**
+             * Creates a new UIButtonFields instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {pulsarity.ui.UIButtonFields.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIButtonFields} UIButtonFields instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIButtonFields.$Shape): pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape;
+             *   (properties?: pulsarity.ui.UIButtonFields.$Properties): pulsarity.ui.UIButtonFields;
+             * }}
+             */
+            UIButtonFields.create = function(properties) {
+                return new UIButtonFields(properties);
+            };
+
+            /**
+             * Encodes the specified UIButtonFields message. Does not implicitly {@link pulsarity.ui.UIButtonFields.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {pulsarity.ui.UIButtonFields.$Properties} message UIButtonFields message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIButtonFields.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.fields != null && message.fields.length)
+                    for (let i = 0; i < message.fields.length; ++i)
+                        $root.pulsarity.ui.UIButtonField.encode(message.fields[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIButtonFields message, length delimited. Does not implicitly {@link pulsarity.ui.UIButtonFields.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {pulsarity.ui.UIButtonFields.$Properties} message UIButtonFields message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIButtonFields.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIButtonFields message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape} UIButtonFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIButtonFields.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIButtonFields();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.fields && message.fields.length))
+                                message.fields = [];
+                            message.fields.push($root.pulsarity.ui.UIButtonField.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIButtonFields message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIButtonFields & pulsarity.ui.UIButtonFields.$Shape} UIButtonFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIButtonFields.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIButtonFields message.
+             * @function verify
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIButtonFields.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.fields != null && $Object.hasOwnProperty.call(message, "fields")) {
+                    if (!$Array.isArray(message.fields))
+                        return "fields: array expected";
+                    for (let i = 0; i < message.fields.length; ++i) {
+                        let error = $root.pulsarity.ui.UIButtonField.verify(message.fields[i], _depth + 1);
+                        if (error)
+                            return "fields." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIButtonFields message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIButtonFields} UIButtonFields
+             */
+            UIButtonFields.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIButtonFields)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIButtonFields: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIButtonFields();
+                if (object.fields) {
+                    if (!$Array.isArray(object.fields))
+                        throw $TypeError(".pulsarity.ui.UIButtonFields.fields: array expected");
+                    message.fields = $Array(object.fields.length);
+                    for (let i = 0; i < object.fields.length; ++i) {
+                        if (!$util.isObject(object.fields[i]))
+                            throw $TypeError(".pulsarity.ui.UIButtonFields.fields: object expected");
+                        message.fields[i] = $root.pulsarity.ui.UIButtonField.fromObject(object.fields[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIButtonFields message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {pulsarity.ui.UIButtonFields} message UIButtonFields
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIButtonFields.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.fields = [];
+                if (message.fields && message.fields.length) {
+                    object.fields = $Array(message.fields.length);
+                    for (let j = 0; j < message.fields.length; ++j)
+                        object.fields[j] = $root.pulsarity.ui.UIButtonField.toObject(message.fields[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIButtonFields to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIButtonFields
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIButtonFields.prototype.toJSON = function() {
+                return UIButtonFields.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIButtonFields
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIButtonFields
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIButtonFields.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIButtonFields";
+            };
+
+            return UIButtonFields;
+        })();
+
+        /**
+         * FieldType enum.
+         * @name pulsarity.ui.FieldType
+         * @enum {number}
+         * @property {number} FIELD_TYPE_UNKNOWN=0 FIELD_TYPE_UNKNOWN value
+         * @property {number} FIELD_TYPE_TEXT=1 FIELD_TYPE_TEXT value
+         * @property {number} FIELD_TYPE_NUMBER=2 FIELD_TYPE_NUMBER value
+         * @property {number} FIELD_TYPE_RANGE=3 FIELD_TYPE_RANGE value
+         * @property {number} FIELD_TYPE_SELECT=4 FIELD_TYPE_SELECT value
+         * @property {number} FIELD_TYPE_CHECKBOX=5 FIELD_TYPE_CHECKBOX value
+         * @property {number} FIELD_TYPE_PASSWORD=6 FIELD_TYPE_PASSWORD value
+         * @property {number} FIELD_TYPE_DATETIME=7 FIELD_TYPE_DATETIME value
+         * @property {number} FIELD_TYPE_DATE=8 FIELD_TYPE_DATE value
+         * @property {number} FIELD_TYPE_TIME=9 FIELD_TYPE_TIME value
+         * @property {number} FIELD_TYPE_EMAIL=16 FIELD_TYPE_EMAIL value
+         * @property {number} FIELD_TYPE_TEL=17 FIELD_TYPE_TEL value
+         * @property {number} FIELD_TYPE_URL=18 FIELD_TYPE_URL value
+         */
+        ui.FieldType = (function() {
+            const valuesById = $Object.create(null), values = $Object.create(valuesById);
+            values[valuesById[0] = "FIELD_TYPE_UNKNOWN"] = 0;
+            values[valuesById[1] = "FIELD_TYPE_TEXT"] = 1;
+            values[valuesById[2] = "FIELD_TYPE_NUMBER"] = 2;
+            values[valuesById[3] = "FIELD_TYPE_RANGE"] = 3;
+            values[valuesById[4] = "FIELD_TYPE_SELECT"] = 4;
+            values[valuesById[5] = "FIELD_TYPE_CHECKBOX"] = 5;
+            values[valuesById[6] = "FIELD_TYPE_PASSWORD"] = 6;
+            values[valuesById[7] = "FIELD_TYPE_DATETIME"] = 7;
+            values[valuesById[8] = "FIELD_TYPE_DATE"] = 8;
+            values[valuesById[9] = "FIELD_TYPE_TIME"] = 9;
+            values[valuesById[16] = "FIELD_TYPE_EMAIL"] = 16;
+            values[valuesById[17] = "FIELD_TYPE_TEL"] = 17;
+            values[valuesById[18] = "FIELD_TYPE_URL"] = 18;
+            return values;
+        })();
+
+        ui.NumberFieldData = (function() {
+
+            /**
+             * Properties of a NumberFieldData.
+             * @typedef {Object} pulsarity.ui.NumberFieldData.$Properties
+             * @property {number|null} [value] NumberFieldData value
+             * @property {number|null} [min] NumberFieldData min
+             * @property {number|null} [max] NumberFieldData max
+             * @property {number|null} [step] NumberFieldData step
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a NumberFieldData.
+             * @memberof pulsarity.ui
+             * @interface INumberFieldData
+             * @augments pulsarity.ui.NumberFieldData.$Properties
+             * @deprecated Use pulsarity.ui.NumberFieldData.$Properties instead.
+             */
+
+            /**
+             * Shape of a NumberFieldData.
+             * @typedef {pulsarity.ui.NumberFieldData.$Properties} pulsarity.ui.NumberFieldData.$Shape
+             */
+
+            /**
+             * Constructs a new NumberFieldData.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a NumberFieldData.
+             * @constructor
+             * @param {pulsarity.ui.NumberFieldData.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const NumberFieldData = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * NumberFieldData value.
+             * @member {number} value
+             * @memberof pulsarity.ui.NumberFieldData
+             * @instance
+             */
+            NumberFieldData.prototype.value = 0;
+
+            /**
+             * NumberFieldData min.
+             * @member {number|null|undefined} min
+             * @memberof pulsarity.ui.NumberFieldData
+             * @instance
+             */
+            NumberFieldData.prototype.min = null;
+
+            /**
+             * NumberFieldData max.
+             * @member {number|null|undefined} max
+             * @memberof pulsarity.ui.NumberFieldData
+             * @instance
+             */
+            NumberFieldData.prototype.max = null;
+
+            /**
+             * NumberFieldData step.
+             * @member {number|null|undefined} step
+             * @memberof pulsarity.ui.NumberFieldData
+             * @instance
+             */
+            NumberFieldData.prototype.step = null;
+
+            // OneOf field names bound to virtual getters and setters
+            let $oneOfFields;
+
+            // Virtual OneOf for proto3 optional field
+            $Object.defineProperty(NumberFieldData.prototype, "_min", {
+                get: $util.oneOfGetter($oneOfFields = ["min"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            $Object.defineProperty(NumberFieldData.prototype, "_max", {
+                get: $util.oneOfGetter($oneOfFields = ["max"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            // Virtual OneOf for proto3 optional field
+            $Object.defineProperty(NumberFieldData.prototype, "_step", {
+                get: $util.oneOfGetter($oneOfFields = ["step"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new NumberFieldData instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {pulsarity.ui.NumberFieldData.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.NumberFieldData} NumberFieldData instance
+             * @type {{
+             *   (properties: pulsarity.ui.NumberFieldData.$Shape): pulsarity.ui.NumberFieldData & pulsarity.ui.NumberFieldData.$Shape;
+             *   (properties?: pulsarity.ui.NumberFieldData.$Properties): pulsarity.ui.NumberFieldData;
+             * }}
+             */
+            NumberFieldData.create = function(properties) {
+                return new NumberFieldData(properties);
+            };
+
+            /**
+             * Encodes the specified NumberFieldData message. Does not implicitly {@link pulsarity.ui.NumberFieldData.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {pulsarity.ui.NumberFieldData.$Properties} message NumberFieldData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            NumberFieldData.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value") && !$Object.is(message.value, 0))
+                    writer.uint32(/* id 1, wireType 5 =*/13).float(message.value);
+                if (message.min != null && $Object.hasOwnProperty.call(message, "min"))
+                    writer.uint32(/* id 2, wireType 5 =*/21).float(message.min);
+                if (message.max != null && $Object.hasOwnProperty.call(message, "max"))
+                    writer.uint32(/* id 3, wireType 5 =*/29).float(message.max);
+                if (message.step != null && $Object.hasOwnProperty.call(message, "step"))
+                    writer.uint32(/* id 4, wireType 5 =*/37).float(message.step);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified NumberFieldData message, length delimited. Does not implicitly {@link pulsarity.ui.NumberFieldData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {pulsarity.ui.NumberFieldData.$Properties} message NumberFieldData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            NumberFieldData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a NumberFieldData message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.NumberFieldData & pulsarity.ui.NumberFieldData.$Shape} NumberFieldData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            NumberFieldData.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.NumberFieldData();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 5)
+                                break;
+                            if (!$Object.is(value = reader.float(), 0))
+                                message.value = value;
+                            else
+                                delete message.value;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 5)
+                                break;
+                            message.min = reader.float();
+                            message._min = "min";
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 5)
+                                break;
+                            message.max = reader.float();
+                            message._max = "max";
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 5)
+                                break;
+                            message.step = reader.float();
+                            message._step = "step";
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a NumberFieldData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.NumberFieldData & pulsarity.ui.NumberFieldData.$Shape} NumberFieldData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            NumberFieldData.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a NumberFieldData message.
+             * @function verify
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            NumberFieldData.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                let properties = {};
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
+                    if (typeof message.value !== "number")
+                        return "value: number expected";
+                if (message.min != null && $Object.hasOwnProperty.call(message, "min")) {
+                    properties._min = 1;
+                    if (typeof message.min !== "number")
+                        return "min: number expected";
+                }
+                if (message.max != null && $Object.hasOwnProperty.call(message, "max")) {
+                    properties._max = 1;
+                    if (typeof message.max !== "number")
+                        return "max: number expected";
+                }
+                if (message.step != null && $Object.hasOwnProperty.call(message, "step")) {
+                    properties._step = 1;
+                    if (typeof message.step !== "number")
+                        return "step: number expected";
+                }
+                return null;
+            };
+
+            /**
+             * Creates a NumberFieldData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.NumberFieldData} NumberFieldData
+             */
+            NumberFieldData.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.NumberFieldData)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.NumberFieldData: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.NumberFieldData();
+                if (object.value != null)
+                    if (!$Object.is($Number(object.value), 0))
+                        message.value = $Number(object.value);
+                if (object.min != null)
+                    message.min = $Number(object.min);
+                if (object.max != null)
+                    message.max = $Number(object.max);
+                if (object.step != null)
+                    message.step = $Number(object.step);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a NumberFieldData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {pulsarity.ui.NumberFieldData} message NumberFieldData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            NumberFieldData.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults)
+                    object.value = 0;
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
+                    object.value = options.json && !$isFinite(message.value) ? $String(message.value) : message.value;
+                if (message.min != null && $Object.hasOwnProperty.call(message, "min"))
+                    object.min = options.json && !$isFinite(message.min) ? $String(message.min) : message.min;
+                if (message.max != null && $Object.hasOwnProperty.call(message, "max"))
+                    object.max = options.json && !$isFinite(message.max) ? $String(message.max) : message.max;
+                if (message.step != null && $Object.hasOwnProperty.call(message, "step"))
+                    object.step = options.json && !$isFinite(message.step) ? $String(message.step) : message.step;
+                return object;
+            };
+
+            /**
+             * Converts this NumberFieldData to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.NumberFieldData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            NumberFieldData.prototype.toJSON = function() {
+                return NumberFieldData.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for NumberFieldData
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.NumberFieldData
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            NumberFieldData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.NumberFieldData";
+            };
+
+            return NumberFieldData;
+        })();
+
+        ui.SelectFieldData = (function() {
+
+            /**
+             * Properties of a SelectFieldData.
+             * @typedef {Object} pulsarity.ui.SelectFieldData.$Properties
+             * @property {Object.<string,string>|null} [mapping] SelectFieldData mapping
+             * @property {number|null} [selected] SelectFieldData selected
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a SelectFieldData.
+             * @memberof pulsarity.ui
+             * @interface ISelectFieldData
+             * @augments pulsarity.ui.SelectFieldData.$Properties
+             * @deprecated Use pulsarity.ui.SelectFieldData.$Properties instead.
+             */
+
+            /**
+             * Shape of a SelectFieldData.
+             * @typedef {pulsarity.ui.SelectFieldData.$Properties} pulsarity.ui.SelectFieldData.$Shape
+             */
+
+            /**
+             * Constructs a new SelectFieldData.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a SelectFieldData.
+             * @constructor
+             * @param {pulsarity.ui.SelectFieldData.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const SelectFieldData = function (properties) {
+                this.mapping = {};
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * SelectFieldData mapping.
+             * @member {Object.<string,string>} mapping
+             * @memberof pulsarity.ui.SelectFieldData
+             * @instance
+             */
+            SelectFieldData.prototype.mapping = $util.emptyObject;
+
+            /**
+             * SelectFieldData selected.
+             * @member {number} selected
+             * @memberof pulsarity.ui.SelectFieldData
+             * @instance
+             */
+            SelectFieldData.prototype.selected = 0;
+
+            /**
+             * Creates a new SelectFieldData instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {pulsarity.ui.SelectFieldData.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.SelectFieldData} SelectFieldData instance
+             * @type {{
+             *   (properties: pulsarity.ui.SelectFieldData.$Shape): pulsarity.ui.SelectFieldData & pulsarity.ui.SelectFieldData.$Shape;
+             *   (properties?: pulsarity.ui.SelectFieldData.$Properties): pulsarity.ui.SelectFieldData;
+             * }}
+             */
+            SelectFieldData.create = function(properties) {
+                return new SelectFieldData(properties);
+            };
+
+            /**
+             * Encodes the specified SelectFieldData message. Does not implicitly {@link pulsarity.ui.SelectFieldData.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {pulsarity.ui.SelectFieldData.$Properties} message SelectFieldData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SelectFieldData.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.mapping != null && $Object.hasOwnProperty.call(message, "mapping"))
+                    for (let keys = $Object.keys(message.mapping), i = 0; i < keys.length; ++i)
+                        writer.uint32(/* id 1, wireType 2 =*/10).fork().uint32(/* id 1, wireType 0 =*/8).uint32(keys[i]).uint32(/* id 2, wireType 2 =*/18).string(message.mapping[keys[i]]).ldelim();
+                if (message.selected != null && $Object.hasOwnProperty.call(message, "selected") && message.selected !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.selected);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified SelectFieldData message, length delimited. Does not implicitly {@link pulsarity.ui.SelectFieldData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {pulsarity.ui.SelectFieldData.$Properties} message SelectFieldData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            SelectFieldData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a SelectFieldData message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.SelectFieldData & pulsarity.ui.SelectFieldData.$Shape} SelectFieldData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SelectFieldData.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, key, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.SelectFieldData();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (message.mapping === $util.emptyObject)
+                                message.mapping = {};
+                            let end2 = reader.uint32() + reader.pos;
+                            if (end2 > reader.len)
+                                throw $RangeError("index out of range");
+                            reader.len = end2;
+                            key = 0;
+                            value = "";
+                            while (reader.pos < end2) {
+                                let tag2 = reader.tag();
+                                wireType = tag2 & 7;
+                                switch (tag2 >>>= 3) {
+                                case 1:
+                                    if (wireType !== 0)
+                                        break;
+                                    key = reader.uint32();
+                                    continue;
+                                case 2:
+                                    if (wireType !== 2)
+                                        break;
+                                    value = reader.stringVerify();
+                                    continue;
+                                }
+                                reader.skipType(wireType, _depth, tag2);
+                            }
+                            if (reader.pos !== end2)
+                                throw $RangeError("index out of range");
+                            reader.len = end;
+                            message.mapping[key] = value;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.selected = value;
+                            else
+                                delete message.selected;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a SelectFieldData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.SelectFieldData & pulsarity.ui.SelectFieldData.$Shape} SelectFieldData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            SelectFieldData.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a SelectFieldData message.
+             * @function verify
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            SelectFieldData.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.mapping != null && $Object.hasOwnProperty.call(message, "mapping")) {
+                    if (!$util.isObject(message.mapping))
+                        return "mapping: object expected";
+                    let key = $Object.keys(message.mapping);
+                    for (let i = 0; i < key.length; ++i) {
+                        if (!$util.key32Re.test(key[i]))
+                            return "mapping: integer key{k:uint32} expected";
+                        if (!$util.isString(message.mapping[key[i]]))
+                            return "mapping: string{k:uint32} expected";
+                    }
+                }
+                if (message.selected != null && $Object.hasOwnProperty.call(message, "selected"))
+                    if (!$util.isInteger(message.selected))
+                        return "selected: integer expected";
+                return null;
+            };
+
+            /**
+             * Creates a SelectFieldData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.SelectFieldData} SelectFieldData
+             */
+            SelectFieldData.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.SelectFieldData)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.SelectFieldData: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.SelectFieldData();
+                if (object.mapping) {
+                    if (!$util.isObject(object.mapping))
+                        throw $TypeError(".pulsarity.ui.SelectFieldData.mapping: object expected");
+                    message.mapping = {};
+                    for (let keys = $Object.keys(object.mapping), i = 0; i < keys.length; ++i) {
+                        if (keys[i] === "__proto__")
+                            $util.makeProp(message.mapping, keys[i]);
+                        message.mapping[keys[i]] = $String(object.mapping[keys[i]]);
+                    }
+                }
+                if (object.selected != null)
+                    if ($Number(object.selected) !== 0)
+                        message.selected = object.selected >>> 0;
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a SelectFieldData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {pulsarity.ui.SelectFieldData} message SelectFieldData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            SelectFieldData.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.objects || options.defaults)
+                    object.mapping = {};
+                if (options.defaults)
+                    object.selected = 0;
+                let keys2;
+                if (message.mapping && (keys2 = $Object.keys(message.mapping)).length) {
+                    object.mapping = {};
+                    for (let j = 0; j < keys2.length; ++j) {
+                        if (keys2[j] === "__proto__")
+                            $util.makeProp(object.mapping, keys2[j]);
+                        object.mapping[keys2[j]] = message.mapping[keys2[j]];
+                    }
+                }
+                if (message.selected != null && $Object.hasOwnProperty.call(message, "selected"))
+                    object.selected = message.selected;
+                return object;
+            };
+
+            /**
+             * Converts this SelectFieldData to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.SelectFieldData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            SelectFieldData.prototype.toJSON = function() {
+                return SelectFieldData.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for SelectFieldData
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.SelectFieldData
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            SelectFieldData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.SelectFieldData";
+            };
+
+            return SelectFieldData;
+        })();
+
+        ui.UIValueField = (function() {
+
+            /**
+             * Properties of a UIValueField.
+             * @typedef {Object} pulsarity.ui.UIValueField.$Properties
+             * @property {number|null} [elementId] UIValueField elementId
+             * @property {boolean|null} [visible] UIValueField visible
+             * @property {pulsarity.ui.FieldType|null} [fieldType] UIValueField fieldType
+             * @property {string|null} [description] UIValueField description
+             * @property {string|null} [text] UIValueField text
+             * @property {pulsarity.ui.NumberFieldData.$Properties|null} [number] UIValueField number
+             * @property {boolean|null} [boolean] UIValueField boolean
+             * @property {google.protobuf.Timestamp.$Properties|null} [datetime] UIValueField datetime
+             * @property {pulsarity.ui.SelectFieldData.$Properties|null} [select] UIValueField select
+             * @property {"text"|"number"|"boolean"|"datetime"|"select"} [value] UIValueField value
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIValueField.
+             * @memberof pulsarity.ui
+             * @interface IUIValueField
+             * @augments pulsarity.ui.UIValueField.$Properties
+             * @deprecated Use pulsarity.ui.UIValueField.$Properties instead.
+             */
+
+            /**
+             * Narrowed shape of a UIValueField.
+             * @typedef {{
+             *   elementId?: number|null;
+             *   visible?: boolean|null;
+             *   fieldType?: pulsarity.ui.FieldType|null;
+             *   description?: string|null;
+             *   text?: string|null;
+             *   number?: pulsarity.ui.NumberFieldData.$Shape|null;
+             *   boolean?: boolean|null;
+             *   datetime?: google.protobuf.Timestamp.$Shape|null;
+             *   select?: pulsarity.ui.SelectFieldData.$Shape|null;
+             *   $unknowns?: Array.<Uint8Array>;
+             * } & (
+             *   ({ value?: undefined; text?: null; number?: null; boolean?: null; datetime?: null; select?: null }|{ value?: "text"; text: string; number?: null; boolean?: null; datetime?: null; select?: null }|{ value?: "number"; text?: null; number: pulsarity.ui.NumberFieldData.$Shape; boolean?: null; datetime?: null; select?: null }|{ value?: "boolean"; text?: null; number?: null; boolean: boolean; datetime?: null; select?: null }|{ value?: "datetime"; text?: null; number?: null; boolean?: null; datetime: google.protobuf.Timestamp.$Shape; select?: null }|{ value?: "select"; text?: null; number?: null; boolean?: null; datetime?: null; select: pulsarity.ui.SelectFieldData.$Shape })
+             * )} pulsarity.ui.UIValueField.$Shape
+             */
+
+            /**
+             * Constructs a new UIValueField.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIValueField.
+             * @constructor
+             * @param {pulsarity.ui.UIValueField.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIValueField = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIValueField elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.elementId = 0;
+
+            /**
+             * UIValueField visible.
+             * @member {boolean} visible
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.visible = false;
+
+            /**
+             * UIValueField fieldType.
+             * @member {pulsarity.ui.FieldType} fieldType
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.fieldType = 0;
+
+            /**
+             * UIValueField description.
+             * @member {string} description
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.description = "";
+
+            /**
+             * UIValueField text.
+             * @member {string|null|undefined} text
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.text = null;
+
+            /**
+             * UIValueField number.
+             * @member {pulsarity.ui.NumberFieldData.$Properties|null|undefined} number
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.number = null;
+
+            /**
+             * UIValueField boolean.
+             * @member {boolean|null|undefined} boolean
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.boolean = null;
+
+            /**
+             * UIValueField datetime.
+             * @member {google.protobuf.Timestamp.$Properties|null|undefined} datetime
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.datetime = null;
+
+            /**
+             * UIValueField select.
+             * @member {pulsarity.ui.SelectFieldData.$Properties|null|undefined} select
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            UIValueField.prototype.select = null;
+
+            // OneOf field names bound to virtual getters and setters
+            let $oneOfFields;
+
+            /**
+             * UIValueField value.
+             * @member {"text"|"number"|"boolean"|"datetime"|"select"|undefined} value
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             */
+            $Object.defineProperty(UIValueField.prototype, "value", {
+                get: $util.oneOfGetter($oneOfFields = ["text", "number", "boolean", "datetime", "select"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new UIValueField instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {pulsarity.ui.UIValueField.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIValueField} UIValueField instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIValueField.$Shape): pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape;
+             *   (properties?: pulsarity.ui.UIValueField.$Properties): pulsarity.ui.UIValueField;
+             * }}
+             */
+            UIValueField.create = function(properties) {
+                return new UIValueField(properties);
+            };
+
+            /**
+             * Encodes the specified UIValueField message. Does not implicitly {@link pulsarity.ui.UIValueField.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {pulsarity.ui.UIValueField.$Properties} message UIValueField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIValueField.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.elementId);
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible") && message.visible !== false)
+                    writer.uint32(/* id 2, wireType 0 =*/16).bool(message.visible);
+                if (message.fieldType != null && $Object.hasOwnProperty.call(message, "fieldType") && message.fieldType !== 0)
+                    writer.uint32(/* id 3, wireType 0 =*/24).int32(message.fieldType);
+                if (message.description != null && $Object.hasOwnProperty.call(message, "description") && message.description !== "")
+                    writer.uint32(/* id 4, wireType 2 =*/34).string(message.description);
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text"))
+                    writer.uint32(/* id 9, wireType 2 =*/74).string(message.text);
+                if (message.boolean != null && $Object.hasOwnProperty.call(message, "boolean"))
+                    writer.uint32(/* id 10, wireType 0 =*/80).bool(message.boolean);
+                if (message.number != null && $Object.hasOwnProperty.call(message, "number"))
+                    $root.pulsarity.ui.NumberFieldData.encode(message.number, writer.uint32(/* id 11, wireType 2 =*/90).fork(), _depth + 1).ldelim();
+                if (message.datetime != null && $Object.hasOwnProperty.call(message, "datetime"))
+                    $root.google.protobuf.Timestamp.encode(message.datetime, writer.uint32(/* id 12, wireType 2 =*/98).fork(), _depth + 1).ldelim();
+                if (message.select != null && $Object.hasOwnProperty.call(message, "select"))
+                    $root.pulsarity.ui.SelectFieldData.encode(message.select, writer.uint32(/* id 13, wireType 2 =*/106).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIValueField message, length delimited. Does not implicitly {@link pulsarity.ui.UIValueField.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {pulsarity.ui.UIValueField.$Properties} message UIValueField message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIValueField.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIValueField message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape} UIValueField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIValueField.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIValueField();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.bool())
+                                message.visible = value;
+                            else
+                                delete message.visible;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.fieldType = value;
+                            else
+                                delete message.fieldType;
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.description = value;
+                            else
+                                delete message.description;
+                            continue;
+                        }
+                    case 9: {
+                            if (wireType !== 2)
+                                break;
+                            message.text = reader.stringVerify();
+                            message.value = "text";
+                            continue;
+                        }
+                    case 11: {
+                            if (wireType !== 2)
+                                break;
+                            message.number = $root.pulsarity.ui.NumberFieldData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.number);
+                            message.value = "number";
+                            continue;
+                        }
+                    case 10: {
+                            if (wireType !== 0)
+                                break;
+                            message.boolean = reader.bool();
+                            message.value = "boolean";
+                            continue;
+                        }
+                    case 12: {
+                            if (wireType !== 2)
+                                break;
+                            message.datetime = $root.google.protobuf.Timestamp.decode(reader, reader.uint32(), $undefined, _depth + 1, message.datetime);
+                            message.value = "datetime";
+                            continue;
+                        }
+                    case 13: {
+                            if (wireType !== 2)
+                                break;
+                            message.select = $root.pulsarity.ui.SelectFieldData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.select);
+                            message.value = "select";
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIValueField message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIValueField & pulsarity.ui.UIValueField.$Shape} UIValueField
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIValueField.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIValueField message.
+             * @function verify
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIValueField.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                let properties = {};
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    if (typeof message.visible !== "boolean")
+                        return "visible: boolean expected";
+                if (message.fieldType != null && $Object.hasOwnProperty.call(message, "fieldType"))
+                    if (typeof message.fieldType !== "number" || (message.fieldType | 0) !== message.fieldType)
+                        return "fieldType: enum value expected";
+                if (message.description != null && $Object.hasOwnProperty.call(message, "description"))
+                    if (!$util.isString(message.description))
+                        return "description: string expected";
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text")) {
+                    properties.value = 1;
+                    if (!$util.isString(message.text))
+                        return "text: string expected";
+                }
+                if (message.number != null && $Object.hasOwnProperty.call(message, "number")) {
+                    if (properties.value === 1)
+                        return "value: multiple values";
+                    properties.value = 1;
+                    {
+                        let error = $root.pulsarity.ui.NumberFieldData.verify(message.number, _depth + 1);
+                        if (error)
+                            return "number." + error;
+                    }
+                }
+                if (message.boolean != null && $Object.hasOwnProperty.call(message, "boolean")) {
+                    if (properties.value === 1)
+                        return "value: multiple values";
+                    properties.value = 1;
+                    if (typeof message.boolean !== "boolean")
+                        return "boolean: boolean expected";
+                }
+                if (message.datetime != null && $Object.hasOwnProperty.call(message, "datetime")) {
+                    if (properties.value === 1)
+                        return "value: multiple values";
+                    properties.value = 1;
+                    {
+                        let error = $root.google.protobuf.Timestamp.verify(message.datetime, _depth + 1);
+                        if (error)
+                            return "datetime." + error;
+                    }
+                }
+                if (message.select != null && $Object.hasOwnProperty.call(message, "select")) {
+                    if (properties.value === 1)
+                        return "value: multiple values";
+                    properties.value = 1;
+                    {
+                        let error = $root.pulsarity.ui.SelectFieldData.verify(message.select, _depth + 1);
+                        if (error)
+                            return "select." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIValueField message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIValueField} UIValueField
+             */
+            UIValueField.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIValueField)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIValueField: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIValueField();
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                if (object.visible != null)
+                    if (object.visible)
+                        message.visible = $Boolean(object.visible);
+                if (object.fieldType !== 0 && (typeof object.fieldType !== "string" || $root.pulsarity.ui.FieldType[object.fieldType] !== 0))
+                    switch (object.fieldType) {
+                    case "FIELD_TYPE_UNKNOWN":
+                    case 0:
+                        message.fieldType = 0;
+                        break;
+                    case "FIELD_TYPE_TEXT":
+                    case 1:
+                        message.fieldType = 1;
+                        break;
+                    case "FIELD_TYPE_NUMBER":
+                    case 2:
+                        message.fieldType = 2;
+                        break;
+                    case "FIELD_TYPE_RANGE":
+                    case 3:
+                        message.fieldType = 3;
+                        break;
+                    case "FIELD_TYPE_SELECT":
+                    case 4:
+                        message.fieldType = 4;
+                        break;
+                    case "FIELD_TYPE_CHECKBOX":
+                    case 5:
+                        message.fieldType = 5;
+                        break;
+                    case "FIELD_TYPE_PASSWORD":
+                    case 6:
+                        message.fieldType = 6;
+                        break;
+                    case "FIELD_TYPE_DATETIME":
+                    case 7:
+                        message.fieldType = 7;
+                        break;
+                    case "FIELD_TYPE_DATE":
+                    case 8:
+                        message.fieldType = 8;
+                        break;
+                    case "FIELD_TYPE_TIME":
+                    case 9:
+                        message.fieldType = 9;
+                        break;
+                    case "FIELD_TYPE_EMAIL":
+                    case 16:
+                        message.fieldType = 16;
+                        break;
+                    case "FIELD_TYPE_TEL":
+                    case 17:
+                        message.fieldType = 17;
+                        break;
+                    case "FIELD_TYPE_URL":
+                    case 18:
+                        message.fieldType = 18;
+                        break;
+                    default:
+                        if (typeof object.fieldType === "number" && (object.fieldType | 0) === object.fieldType)
+                            message.fieldType = object.fieldType;
+                    }
+                if (object.description != null)
+                    if (typeof object.description !== "string" || object.description.length)
+                        message.description = $String(object.description);
+                if (object.text != null)
+                    message.text = $String(object.text);
+                if (object.number != null) {
+                    if (!$util.isObject(object.number))
+                        throw $TypeError(".pulsarity.ui.UIValueField.number: object expected");
+                    message.number = $root.pulsarity.ui.NumberFieldData.fromObject(object.number, _depth + 1);
+                }
+                if (object.boolean != null)
+                    message.boolean = $Boolean(object.boolean);
+                if (object.datetime != null) {
+                    if (!$util.isObject(object.datetime))
+                        throw $TypeError(".pulsarity.ui.UIValueField.datetime: object expected");
+                    message.datetime = $root.google.protobuf.Timestamp.fromObject(object.datetime, _depth + 1);
+                }
+                if (object.select != null) {
+                    if (!$util.isObject(object.select))
+                        throw $TypeError(".pulsarity.ui.UIValueField.select: object expected");
+                    message.select = $root.pulsarity.ui.SelectFieldData.fromObject(object.select, _depth + 1);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIValueField message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {pulsarity.ui.UIValueField} message UIValueField
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIValueField.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.elementId = 0;
+                    object.visible = false;
+                    object.fieldType = options.enums === $String ? "FIELD_TYPE_UNKNOWN" : 0;
+                    object.description = "";
+                }
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                if (message.visible != null && $Object.hasOwnProperty.call(message, "visible"))
+                    object.visible = message.visible;
+                if (message.fieldType != null && $Object.hasOwnProperty.call(message, "fieldType"))
+                    object.fieldType = options.enums === $String ? $root.pulsarity.ui.FieldType[message.fieldType] === $undefined ? message.fieldType : $root.pulsarity.ui.FieldType[message.fieldType] : message.fieldType;
+                if (message.description != null && $Object.hasOwnProperty.call(message, "description"))
+                    object.description = message.description;
+                if (message.text != null && $Object.hasOwnProperty.call(message, "text")) {
+                    object.text = message.text;
+                    if (options.oneofs)
+                        object.value = "text";
+                }
+                if (message.boolean != null && $Object.hasOwnProperty.call(message, "boolean")) {
+                    object.boolean = message.boolean;
+                    if (options.oneofs)
+                        object.value = "boolean";
+                }
+                if (message.number != null && $Object.hasOwnProperty.call(message, "number")) {
+                    object.number = $root.pulsarity.ui.NumberFieldData.toObject(message.number, options, _depth + 1);
+                    if (options.oneofs)
+                        object.value = "number";
+                }
+                if (message.datetime != null && $Object.hasOwnProperty.call(message, "datetime")) {
+                    object.datetime = $root.google.protobuf.Timestamp.toObject(message.datetime, options, _depth + 1);
+                    if (options.oneofs)
+                        object.value = "datetime";
+                }
+                if (message.select != null && $Object.hasOwnProperty.call(message, "select")) {
+                    object.select = $root.pulsarity.ui.SelectFieldData.toObject(message.select, options, _depth + 1);
+                    if (options.oneofs)
+                        object.value = "select";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIValueField to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIValueField
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIValueField.prototype.toJSON = function() {
+                return UIValueField.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIValueField
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIValueField
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIValueField.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIValueField";
+            };
+
+            return UIValueField;
+        })();
+
+        ui.UIValueFields = (function() {
+
+            /**
+             * Properties of a UIValueFields.
+             * @typedef {Object} pulsarity.ui.UIValueFields.$Properties
+             * @property {Array.<pulsarity.ui.UIValueField.$Properties>|null} [fields] UIValueFields fields
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIValueFields.
+             * @memberof pulsarity.ui
+             * @interface IUIValueFields
+             * @augments pulsarity.ui.UIValueFields.$Properties
+             * @deprecated Use pulsarity.ui.UIValueFields.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIValueFields.
+             * @typedef {{
+             *   fields?: Array.<pulsarity.ui.UIValueField.$Shape>|null;
+             *   $unknowns?: Array.<Uint8Array>;
+             * }} pulsarity.ui.UIValueFields.$Shape
+             */
+
+            /**
+             * Constructs a new UIValueFields.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIValueFields.
+             * @constructor
+             * @param {pulsarity.ui.UIValueFields.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIValueFields = function (properties) {
+                this.fields = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIValueFields fields.
+             * @member {Array.<pulsarity.ui.UIValueField.$Properties>} fields
+             * @memberof pulsarity.ui.UIValueFields
+             * @instance
+             */
+            UIValueFields.prototype.fields = $util.emptyArray;
+
+            /**
+             * Creates a new UIValueFields instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {pulsarity.ui.UIValueFields.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIValueFields} UIValueFields instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIValueFields.$Shape): pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape;
+             *   (properties?: pulsarity.ui.UIValueFields.$Properties): pulsarity.ui.UIValueFields;
+             * }}
+             */
+            UIValueFields.create = function(properties) {
+                return new UIValueFields(properties);
+            };
+
+            /**
+             * Encodes the specified UIValueFields message. Does not implicitly {@link pulsarity.ui.UIValueFields.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {pulsarity.ui.UIValueFields.$Properties} message UIValueFields message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIValueFields.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.fields != null && message.fields.length)
+                    for (let i = 0; i < message.fields.length; ++i)
+                        $root.pulsarity.ui.UIValueField.encode(message.fields[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIValueFields message, length delimited. Does not implicitly {@link pulsarity.ui.UIValueFields.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {pulsarity.ui.UIValueFields.$Properties} message UIValueFields message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIValueFields.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIValueFields message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape} UIValueFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIValueFields.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIValueFields();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.fields && message.fields.length))
+                                message.fields = [];
+                            message.fields.push($root.pulsarity.ui.UIValueField.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIValueFields message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIValueFields & pulsarity.ui.UIValueFields.$Shape} UIValueFields
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIValueFields.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIValueFields message.
+             * @function verify
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIValueFields.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.fields != null && $Object.hasOwnProperty.call(message, "fields")) {
+                    if (!$Array.isArray(message.fields))
+                        return "fields: array expected";
+                    for (let i = 0; i < message.fields.length; ++i) {
+                        let error = $root.pulsarity.ui.UIValueField.verify(message.fields[i], _depth + 1);
+                        if (error)
+                            return "fields." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIValueFields message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIValueFields} UIValueFields
+             */
+            UIValueFields.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIValueFields)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIValueFields: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIValueFields();
+                if (object.fields) {
+                    if (!$Array.isArray(object.fields))
+                        throw $TypeError(".pulsarity.ui.UIValueFields.fields: array expected");
+                    message.fields = $Array(object.fields.length);
+                    for (let i = 0; i < object.fields.length; ++i) {
+                        if (!$util.isObject(object.fields[i]))
+                            throw $TypeError(".pulsarity.ui.UIValueFields.fields: object expected");
+                        message.fields[i] = $root.pulsarity.ui.UIValueField.fromObject(object.fields[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIValueFields message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {pulsarity.ui.UIValueFields} message UIValueFields
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIValueFields.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.fields = [];
+                if (message.fields && message.fields.length) {
+                    object.fields = $Array(message.fields.length);
+                    for (let j = 0; j < message.fields.length; ++j)
+                        object.fields[j] = $root.pulsarity.ui.UIValueField.toObject(message.fields[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIValueFields to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIValueFields
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIValueFields.prototype.toJSON = function() {
+                return UIValueFields.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIValueFields
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIValueFields
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIValueFields.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIValueFields";
+            };
+
+            return UIValueFields;
+        })();
+
+        ui.UIElementUpdate = (function() {
+
+            /**
+             * Properties of a UIElementUpdate.
+             * @typedef {Object} pulsarity.ui.UIElementUpdate.$Properties
+             * @property {pulsarity.ui.UIElementType|null} [elementType] UIElementUpdate elementType
+             * @property {number|null} [elementId] UIElementUpdate elementId
+             * @property {pulsarity.ui.UIElementTree.$Properties|null} [etree] UIElementUpdate etree
+             * @property {pulsarity.ui.UIMarkdownField.$Properties|null} [markdown] UIElementUpdate markdown
+             * @property {pulsarity.ui.UIButtonField.$Properties|null} [button] UIElementUpdate button
+             * @property {pulsarity.ui.UIValueField.$Properties|null} [value] UIElementUpdate value
+             * @property {"etree"|"markdown"|"button"|"value"} [field] UIElementUpdate field
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIElementUpdate.
+             * @memberof pulsarity.ui
+             * @interface IUIElementUpdate
+             * @augments pulsarity.ui.UIElementUpdate.$Properties
+             * @deprecated Use pulsarity.ui.UIElementUpdate.$Properties instead.
+             */
+
+            /**
+             * Narrowed shape of a UIElementUpdate.
+             * @typedef {{
+             *   elementType?: pulsarity.ui.UIElementType|null;
+             *   elementId?: number|null;
+             *   etree?: pulsarity.ui.UIElementTree.$Shape|null;
+             *   markdown?: pulsarity.ui.UIMarkdownField.$Shape|null;
+             *   button?: pulsarity.ui.UIButtonField.$Shape|null;
+             *   value?: pulsarity.ui.UIValueField.$Shape|null;
+             *   $unknowns?: Array.<Uint8Array>;
+             * } & (
+             *   ({ field?: undefined; etree?: null; markdown?: null; button?: null; value?: null }|{ field?: "etree"; etree: pulsarity.ui.UIElementTree.$Shape; markdown?: null; button?: null; value?: null }|{ field?: "markdown"; etree?: null; markdown: pulsarity.ui.UIMarkdownField.$Shape; button?: null; value?: null }|{ field?: "button"; etree?: null; markdown?: null; button: pulsarity.ui.UIButtonField.$Shape; value?: null }|{ field?: "value"; etree?: null; markdown?: null; button?: null; value: pulsarity.ui.UIValueField.$Shape })
+             * )} pulsarity.ui.UIElementUpdate.$Shape
+             */
+
+            /**
+             * Constructs a new UIElementUpdate.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIElementUpdate.
+             * @constructor
+             * @param {pulsarity.ui.UIElementUpdate.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIElementUpdate = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIElementUpdate elementType.
+             * @member {pulsarity.ui.UIElementType} elementType
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            UIElementUpdate.prototype.elementType = 0;
+
+            /**
+             * UIElementUpdate elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            UIElementUpdate.prototype.elementId = 0;
+
+            /**
+             * UIElementUpdate etree.
+             * @member {pulsarity.ui.UIElementTree.$Properties|null|undefined} etree
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            UIElementUpdate.prototype.etree = null;
+
+            /**
+             * UIElementUpdate markdown.
+             * @member {pulsarity.ui.UIMarkdownField.$Properties|null|undefined} markdown
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            UIElementUpdate.prototype.markdown = null;
+
+            /**
+             * UIElementUpdate button.
+             * @member {pulsarity.ui.UIButtonField.$Properties|null|undefined} button
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            UIElementUpdate.prototype.button = null;
+
+            /**
+             * UIElementUpdate value.
+             * @member {pulsarity.ui.UIValueField.$Properties|null|undefined} value
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            UIElementUpdate.prototype.value = null;
+
+            // OneOf field names bound to virtual getters and setters
+            let $oneOfFields;
+
+            /**
+             * UIElementUpdate field.
+             * @member {"etree"|"markdown"|"button"|"value"|undefined} field
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             */
+            $Object.defineProperty(UIElementUpdate.prototype, "field", {
+                get: $util.oneOfGetter($oneOfFields = ["etree", "markdown", "button", "value"]),
+                set: $util.oneOfSetter($oneOfFields)
+            });
+
+            /**
+             * Creates a new UIElementUpdate instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {pulsarity.ui.UIElementUpdate.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIElementUpdate} UIElementUpdate instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIElementUpdate.$Shape): pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape;
+             *   (properties?: pulsarity.ui.UIElementUpdate.$Properties): pulsarity.ui.UIElementUpdate;
+             * }}
+             */
+            UIElementUpdate.create = function(properties) {
+                return new UIElementUpdate(properties);
+            };
+
+            /**
+             * Encodes the specified UIElementUpdate message. Does not implicitly {@link pulsarity.ui.UIElementUpdate.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {pulsarity.ui.UIElementUpdate.$Properties} message UIElementUpdate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementUpdate.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementType != null && $Object.hasOwnProperty.call(message, "elementType") && message.elementType !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.elementType);
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 2, wireType 0 =*/16).uint32(message.elementId);
+                if (message.etree != null && $Object.hasOwnProperty.call(message, "etree"))
+                    $root.pulsarity.ui.UIElementTree.encode(message.etree, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+                if (message.markdown != null && $Object.hasOwnProperty.call(message, "markdown"))
+                    $root.pulsarity.ui.UIMarkdownField.encode(message.markdown, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
+                if (message.button != null && $Object.hasOwnProperty.call(message, "button"))
+                    $root.pulsarity.ui.UIButtonField.encode(message.button, writer.uint32(/* id 5, wireType 2 =*/42).fork(), _depth + 1).ldelim();
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value"))
+                    $root.pulsarity.ui.UIValueField.encode(message.value, writer.uint32(/* id 6, wireType 2 =*/50).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIElementUpdate message, length delimited. Does not implicitly {@link pulsarity.ui.UIElementUpdate.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {pulsarity.ui.UIElementUpdate.$Properties} message UIElementUpdate message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIElementUpdate.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIElementUpdate message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape} UIElementUpdate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementUpdate.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIElementUpdate();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.int32())
+                                message.elementType = value;
+                            else
+                                delete message.elementType;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            message.etree = $root.pulsarity.ui.UIElementTree.decode(reader, reader.uint32(), $undefined, _depth + 1, message.etree);
+                            message.field = "etree";
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            message.markdown = $root.pulsarity.ui.UIMarkdownField.decode(reader, reader.uint32(), $undefined, _depth + 1, message.markdown);
+                            message.field = "markdown";
+                            continue;
+                        }
+                    case 5: {
+                            if (wireType !== 2)
+                                break;
+                            message.button = $root.pulsarity.ui.UIButtonField.decode(reader, reader.uint32(), $undefined, _depth + 1, message.button);
+                            message.field = "button";
+                            continue;
+                        }
+                    case 6: {
+                            if (wireType !== 2)
+                                break;
+                            message.value = $root.pulsarity.ui.UIValueField.decode(reader, reader.uint32(), $undefined, _depth + 1, message.value);
+                            message.field = "value";
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIElementUpdate message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIElementUpdate & pulsarity.ui.UIElementUpdate.$Shape} UIElementUpdate
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIElementUpdate.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIElementUpdate message.
+             * @function verify
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIElementUpdate.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                let properties = {};
+                if (message.elementType != null && $Object.hasOwnProperty.call(message, "elementType"))
+                    if (typeof message.elementType !== "number" || (message.elementType | 0) !== message.elementType)
+                        return "elementType: enum value expected";
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                if (message.etree != null && $Object.hasOwnProperty.call(message, "etree")) {
+                    properties.field = 1;
+                    {
+                        let error = $root.pulsarity.ui.UIElementTree.verify(message.etree, _depth + 1);
+                        if (error)
+                            return "etree." + error;
+                    }
+                }
+                if (message.markdown != null && $Object.hasOwnProperty.call(message, "markdown")) {
+                    if (properties.field === 1)
+                        return "field: multiple values";
+                    properties.field = 1;
+                    {
+                        let error = $root.pulsarity.ui.UIMarkdownField.verify(message.markdown, _depth + 1);
+                        if (error)
+                            return "markdown." + error;
+                    }
+                }
+                if (message.button != null && $Object.hasOwnProperty.call(message, "button")) {
+                    if (properties.field === 1)
+                        return "field: multiple values";
+                    properties.field = 1;
+                    {
+                        let error = $root.pulsarity.ui.UIButtonField.verify(message.button, _depth + 1);
+                        if (error)
+                            return "button." + error;
+                    }
+                }
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value")) {
+                    if (properties.field === 1)
+                        return "field: multiple values";
+                    properties.field = 1;
+                    {
+                        let error = $root.pulsarity.ui.UIValueField.verify(message.value, _depth + 1);
+                        if (error)
+                            return "value." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIElementUpdate message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIElementUpdate} UIElementUpdate
+             */
+            UIElementUpdate.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIElementUpdate)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIElementUpdate: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIElementUpdate();
+                if (object.elementType !== 0 && (typeof object.elementType !== "string" || $root.pulsarity.ui.UIElementType[object.elementType] !== 0))
+                    switch (object.elementType) {
+                    case "ELEMENT_TYPE_UNKNOWN":
+                    case 0:
+                        message.elementType = 0;
+                        break;
+                    case "ELEMENT_TYPE_ETREE":
+                    case 1:
+                        message.elementType = 1;
+                        break;
+                    case "ELEMENT_TYPE_MARKDOWN":
+                    case 2:
+                        message.elementType = 2;
+                        break;
+                    case "ELEMENT_TYPE_BUTTON":
+                    case 3:
+                        message.elementType = 3;
+                        break;
+                    case "ELEMENT_TYPE_VALUE":
+                    case 4:
+                        message.elementType = 4;
+                        break;
+                    default:
+                        if (typeof object.elementType === "number" && (object.elementType | 0) === object.elementType)
+                            message.elementType = object.elementType;
+                    }
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                if (object.etree != null) {
+                    if (!$util.isObject(object.etree))
+                        throw $TypeError(".pulsarity.ui.UIElementUpdate.etree: object expected");
+                    message.etree = $root.pulsarity.ui.UIElementTree.fromObject(object.etree, _depth + 1);
+                }
+                if (object.markdown != null) {
+                    if (!$util.isObject(object.markdown))
+                        throw $TypeError(".pulsarity.ui.UIElementUpdate.markdown: object expected");
+                    message.markdown = $root.pulsarity.ui.UIMarkdownField.fromObject(object.markdown, _depth + 1);
+                }
+                if (object.button != null) {
+                    if (!$util.isObject(object.button))
+                        throw $TypeError(".pulsarity.ui.UIElementUpdate.button: object expected");
+                    message.button = $root.pulsarity.ui.UIButtonField.fromObject(object.button, _depth + 1);
+                }
+                if (object.value != null) {
+                    if (!$util.isObject(object.value))
+                        throw $TypeError(".pulsarity.ui.UIElementUpdate.value: object expected");
+                    message.value = $root.pulsarity.ui.UIValueField.fromObject(object.value, _depth + 1);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIElementUpdate message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {pulsarity.ui.UIElementUpdate} message UIElementUpdate
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIElementUpdate.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.elementType = options.enums === $String ? "ELEMENT_TYPE_UNKNOWN" : 0;
+                    object.elementId = 0;
+                }
+                if (message.elementType != null && $Object.hasOwnProperty.call(message, "elementType"))
+                    object.elementType = options.enums === $String ? $root.pulsarity.ui.UIElementType[message.elementType] === $undefined ? message.elementType : $root.pulsarity.ui.UIElementType[message.elementType] : message.elementType;
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                if (message.etree != null && $Object.hasOwnProperty.call(message, "etree")) {
+                    object.etree = $root.pulsarity.ui.UIElementTree.toObject(message.etree, options, _depth + 1);
+                    if (options.oneofs)
+                        object.field = "etree";
+                }
+                if (message.markdown != null && $Object.hasOwnProperty.call(message, "markdown")) {
+                    object.markdown = $root.pulsarity.ui.UIMarkdownField.toObject(message.markdown, options, _depth + 1);
+                    if (options.oneofs)
+                        object.field = "markdown";
+                }
+                if (message.button != null && $Object.hasOwnProperty.call(message, "button")) {
+                    object.button = $root.pulsarity.ui.UIButtonField.toObject(message.button, options, _depth + 1);
+                    if (options.oneofs)
+                        object.field = "button";
+                }
+                if (message.value != null && $Object.hasOwnProperty.call(message, "value")) {
+                    object.value = $root.pulsarity.ui.UIValueField.toObject(message.value, options, _depth + 1);
+                    if (options.oneofs)
+                        object.field = "value";
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIElementUpdate to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIElementUpdate.prototype.toJSON = function() {
+                return UIElementUpdate.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIElementUpdate
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIElementUpdate
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIElementUpdate.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIElementUpdate";
+            };
+
+            return UIElementUpdate;
+        })();
+
+        ui.UIData = (function() {
+
+            /**
+             * Properties of a UIData.
+             * @typedef {Object} pulsarity.ui.UIData.$Properties
+             * @property {pulsarity.ui.UIETreeMapping.$Properties|null} [mappings] UIData mappings
+             * @property {pulsarity.ui.UIElementTrees.$Properties|null} [etrees] UIData etrees
+             * @property {pulsarity.ui.UIMarkdownFields.$Properties|null} [markdown] UIData markdown
+             * @property {pulsarity.ui.UIButtonFields.$Properties|null} [buttons] UIData buttons
+             * @property {pulsarity.ui.UIValueFields.$Properties|null} [values] UIData values
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIData.
+             * @memberof pulsarity.ui
+             * @interface IUIData
+             * @augments pulsarity.ui.UIData.$Properties
+             * @deprecated Use pulsarity.ui.UIData.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIData.
+             * @typedef {{
+             *   mappings?: pulsarity.ui.UIETreeMapping.$Shape|null;
+             *   etrees?: pulsarity.ui.UIElementTrees.$Shape|null;
+             *   markdown?: pulsarity.ui.UIMarkdownFields.$Shape|null;
+             *   buttons?: pulsarity.ui.UIButtonFields.$Shape|null;
+             *   values?: pulsarity.ui.UIValueFields.$Shape|null;
+             *   $unknowns?: Array.<Uint8Array>;
+             * }} pulsarity.ui.UIData.$Shape
+             */
+
+            /**
+             * Constructs a new UIData.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIData.
+             * @constructor
+             * @param {pulsarity.ui.UIData.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIData = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIData mappings.
+             * @member {pulsarity.ui.UIETreeMapping.$Properties|null|undefined} mappings
+             * @memberof pulsarity.ui.UIData
+             * @instance
+             */
+            UIData.prototype.mappings = null;
+
+            /**
+             * UIData etrees.
+             * @member {pulsarity.ui.UIElementTrees.$Properties|null|undefined} etrees
+             * @memberof pulsarity.ui.UIData
+             * @instance
+             */
+            UIData.prototype.etrees = null;
+
+            /**
+             * UIData markdown.
+             * @member {pulsarity.ui.UIMarkdownFields.$Properties|null|undefined} markdown
+             * @memberof pulsarity.ui.UIData
+             * @instance
+             */
+            UIData.prototype.markdown = null;
+
+            /**
+             * UIData buttons.
+             * @member {pulsarity.ui.UIButtonFields.$Properties|null|undefined} buttons
+             * @memberof pulsarity.ui.UIData
+             * @instance
+             */
+            UIData.prototype.buttons = null;
+
+            /**
+             * UIData values.
+             * @member {pulsarity.ui.UIValueFields.$Properties|null|undefined} values
+             * @memberof pulsarity.ui.UIData
+             * @instance
+             */
+            UIData.prototype.values = null;
+
+            /**
+             * Creates a new UIData instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {pulsarity.ui.UIData.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIData} UIData instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIData.$Shape): pulsarity.ui.UIData & pulsarity.ui.UIData.$Shape;
+             *   (properties?: pulsarity.ui.UIData.$Properties): pulsarity.ui.UIData;
+             * }}
+             */
+            UIData.create = function(properties) {
+                return new UIData(properties);
+            };
+
+            /**
+             * Encodes the specified UIData message. Does not implicitly {@link pulsarity.ui.UIData.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {pulsarity.ui.UIData.$Properties} message UIData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIData.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.mappings != null && $Object.hasOwnProperty.call(message, "mappings"))
+                    $root.pulsarity.ui.UIETreeMapping.encode(message.mappings, writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.etrees != null && $Object.hasOwnProperty.call(message, "etrees"))
+                    $root.pulsarity.ui.UIElementTrees.encode(message.etrees, writer.uint32(/* id 2, wireType 2 =*/18).fork(), _depth + 1).ldelim();
+                if (message.markdown != null && $Object.hasOwnProperty.call(message, "markdown"))
+                    $root.pulsarity.ui.UIMarkdownFields.encode(message.markdown, writer.uint32(/* id 3, wireType 2 =*/26).fork(), _depth + 1).ldelim();
+                if (message.buttons != null && $Object.hasOwnProperty.call(message, "buttons"))
+                    $root.pulsarity.ui.UIButtonFields.encode(message.buttons, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
+                if (message.values != null && $Object.hasOwnProperty.call(message, "values"))
+                    $root.pulsarity.ui.UIValueFields.encode(message.values, writer.uint32(/* id 5, wireType 2 =*/42).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIData message, length delimited. Does not implicitly {@link pulsarity.ui.UIData.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {pulsarity.ui.UIData.$Properties} message UIData message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIData message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIData & pulsarity.ui.UIData.$Shape} UIData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIData.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIData();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            message.mappings = $root.pulsarity.ui.UIETreeMapping.decode(reader, reader.uint32(), $undefined, _depth + 1, message.mappings);
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            message.etrees = $root.pulsarity.ui.UIElementTrees.decode(reader, reader.uint32(), $undefined, _depth + 1, message.etrees);
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            message.markdown = $root.pulsarity.ui.UIMarkdownFields.decode(reader, reader.uint32(), $undefined, _depth + 1, message.markdown);
+                            continue;
+                        }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            message.buttons = $root.pulsarity.ui.UIButtonFields.decode(reader, reader.uint32(), $undefined, _depth + 1, message.buttons);
+                            continue;
+                        }
+                    case 5: {
+                            if (wireType !== 2)
+                                break;
+                            message.values = $root.pulsarity.ui.UIValueFields.decode(reader, reader.uint32(), $undefined, _depth + 1, message.values);
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIData message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIData & pulsarity.ui.UIData.$Shape} UIData
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIData.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIData message.
+             * @function verify
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIData.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.mappings != null && $Object.hasOwnProperty.call(message, "mappings")) {
+                    let error = $root.pulsarity.ui.UIETreeMapping.verify(message.mappings, _depth + 1);
+                    if (error)
+                        return "mappings." + error;
+                }
+                if (message.etrees != null && $Object.hasOwnProperty.call(message, "etrees")) {
+                    let error = $root.pulsarity.ui.UIElementTrees.verify(message.etrees, _depth + 1);
+                    if (error)
+                        return "etrees." + error;
+                }
+                if (message.markdown != null && $Object.hasOwnProperty.call(message, "markdown")) {
+                    let error = $root.pulsarity.ui.UIMarkdownFields.verify(message.markdown, _depth + 1);
+                    if (error)
+                        return "markdown." + error;
+                }
+                if (message.buttons != null && $Object.hasOwnProperty.call(message, "buttons")) {
+                    let error = $root.pulsarity.ui.UIButtonFields.verify(message.buttons, _depth + 1);
+                    if (error)
+                        return "buttons." + error;
+                }
+                if (message.values != null && $Object.hasOwnProperty.call(message, "values")) {
+                    let error = $root.pulsarity.ui.UIValueFields.verify(message.values, _depth + 1);
+                    if (error)
+                        return "values." + error;
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIData message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIData} UIData
+             */
+            UIData.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIData)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIData: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIData();
+                if (object.mappings != null) {
+                    if (!$util.isObject(object.mappings))
+                        throw $TypeError(".pulsarity.ui.UIData.mappings: object expected");
+                    message.mappings = $root.pulsarity.ui.UIETreeMapping.fromObject(object.mappings, _depth + 1);
+                }
+                if (object.etrees != null) {
+                    if (!$util.isObject(object.etrees))
+                        throw $TypeError(".pulsarity.ui.UIData.etrees: object expected");
+                    message.etrees = $root.pulsarity.ui.UIElementTrees.fromObject(object.etrees, _depth + 1);
+                }
+                if (object.markdown != null) {
+                    if (!$util.isObject(object.markdown))
+                        throw $TypeError(".pulsarity.ui.UIData.markdown: object expected");
+                    message.markdown = $root.pulsarity.ui.UIMarkdownFields.fromObject(object.markdown, _depth + 1);
+                }
+                if (object.buttons != null) {
+                    if (!$util.isObject(object.buttons))
+                        throw $TypeError(".pulsarity.ui.UIData.buttons: object expected");
+                    message.buttons = $root.pulsarity.ui.UIButtonFields.fromObject(object.buttons, _depth + 1);
+                }
+                if (object.values != null) {
+                    if (!$util.isObject(object.values))
+                        throw $TypeError(".pulsarity.ui.UIData.values: object expected");
+                    message.values = $root.pulsarity.ui.UIValueFields.fromObject(object.values, _depth + 1);
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIData message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {pulsarity.ui.UIData} message UIData
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIData.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.mappings = null;
+                    object.etrees = null;
+                    object.markdown = null;
+                    object.buttons = null;
+                    object.values = null;
+                }
+                if (message.mappings != null && $Object.hasOwnProperty.call(message, "mappings"))
+                    object.mappings = $root.pulsarity.ui.UIETreeMapping.toObject(message.mappings, options, _depth + 1);
+                if (message.etrees != null && $Object.hasOwnProperty.call(message, "etrees"))
+                    object.etrees = $root.pulsarity.ui.UIElementTrees.toObject(message.etrees, options, _depth + 1);
+                if (message.markdown != null && $Object.hasOwnProperty.call(message, "markdown"))
+                    object.markdown = $root.pulsarity.ui.UIMarkdownFields.toObject(message.markdown, options, _depth + 1);
+                if (message.buttons != null && $Object.hasOwnProperty.call(message, "buttons"))
+                    object.buttons = $root.pulsarity.ui.UIButtonFields.toObject(message.buttons, options, _depth + 1);
+                if (message.values != null && $Object.hasOwnProperty.call(message, "values"))
+                    object.values = $root.pulsarity.ui.UIValueFields.toObject(message.values, options, _depth + 1);
+                return object;
+            };
+
+            /**
+             * Converts this UIData to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIData
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIData.prototype.toJSON = function() {
+                return UIData.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIData
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIData
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIData";
+            };
+
+            return UIData;
+        })();
+
+        ui.UIPage = (function() {
+
+            /**
+             * Properties of a UIPage.
+             * @typedef {Object} pulsarity.ui.UIPage.$Properties
+             * @property {number|null} [elementId] UIPage elementId
+             * @property {string|null} [parentName] UIPage parentName
+             * @property {string|null} [name] UIPage name
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIPage.
+             * @memberof pulsarity.ui
+             * @interface IUIPage
+             * @augments pulsarity.ui.UIPage.$Properties
+             * @deprecated Use pulsarity.ui.UIPage.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIPage.
+             * @typedef {pulsarity.ui.UIPage.$Properties} pulsarity.ui.UIPage.$Shape
+             */
+
+            /**
+             * Constructs a new UIPage.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIPage.
+             * @constructor
+             * @param {pulsarity.ui.UIPage.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIPage = function (properties) {
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIPage elementId.
+             * @member {number} elementId
+             * @memberof pulsarity.ui.UIPage
+             * @instance
+             */
+            UIPage.prototype.elementId = 0;
+
+            /**
+             * UIPage parentName.
+             * @member {string} parentName
+             * @memberof pulsarity.ui.UIPage
+             * @instance
+             */
+            UIPage.prototype.parentName = "";
+
+            /**
+             * UIPage name.
+             * @member {string} name
+             * @memberof pulsarity.ui.UIPage
+             * @instance
+             */
+            UIPage.prototype.name = "";
+
+            /**
+             * Creates a new UIPage instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {pulsarity.ui.UIPage.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIPage} UIPage instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIPage.$Shape): pulsarity.ui.UIPage & pulsarity.ui.UIPage.$Shape;
+             *   (properties?: pulsarity.ui.UIPage.$Properties): pulsarity.ui.UIPage;
+             * }}
+             */
+            UIPage.create = function(properties) {
+                return new UIPage(properties);
+            };
+
+            /**
+             * Encodes the specified UIPage message. Does not implicitly {@link pulsarity.ui.UIPage.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {pulsarity.ui.UIPage.$Properties} message UIPage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIPage.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId") && message.elementId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.elementId);
+                if (message.parentName != null && $Object.hasOwnProperty.call(message, "parentName") && message.parentName !== "")
+                    writer.uint32(/* id 2, wireType 2 =*/18).string(message.parentName);
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name") && message.name !== "")
+                    writer.uint32(/* id 3, wireType 2 =*/26).string(message.name);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIPage message, length delimited. Does not implicitly {@link pulsarity.ui.UIPage.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {pulsarity.ui.UIPage.$Properties} message UIPage message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIPage.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIPage message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIPage & pulsarity.ui.UIPage.$Shape} UIPage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIPage.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIPage();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 0)
+                                break;
+                            if (value = reader.uint32())
+                                message.elementId = value;
+                            else
+                                delete message.elementId;
+                            continue;
+                        }
+                    case 2: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.parentName = value;
+                            else
+                                delete message.parentName;
+                            continue;
+                        }
+                    case 3: {
+                            if (wireType !== 2)
+                                break;
+                            if ((value = reader.stringVerify()).length)
+                                message.name = value;
+                            else
+                                delete message.name;
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIPage message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIPage & pulsarity.ui.UIPage.$Shape} UIPage
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIPage.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIPage message.
+             * @function verify
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIPage.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    if (!$util.isInteger(message.elementId))
+                        return "elementId: integer expected";
+                if (message.parentName != null && $Object.hasOwnProperty.call(message, "parentName"))
+                    if (!$util.isString(message.parentName))
+                        return "parentName: string expected";
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
+                    if (!$util.isString(message.name))
+                        return "name: string expected";
+                return null;
+            };
+
+            /**
+             * Creates a UIPage message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIPage} UIPage
+             */
+            UIPage.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIPage)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIPage: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIPage();
+                if (object.elementId != null)
+                    if ($Number(object.elementId) !== 0)
+                        message.elementId = object.elementId >>> 0;
+                if (object.parentName != null)
+                    if (typeof object.parentName !== "string" || object.parentName.length)
+                        message.parentName = $String(object.parentName);
+                if (object.name != null)
+                    if (typeof object.name !== "string" || object.name.length)
+                        message.name = $String(object.name);
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIPage message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {pulsarity.ui.UIPage} message UIPage
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIPage.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.defaults) {
+                    object.elementId = 0;
+                    object.parentName = "";
+                    object.name = "";
+                }
+                if (message.elementId != null && $Object.hasOwnProperty.call(message, "elementId"))
+                    object.elementId = message.elementId;
+                if (message.parentName != null && $Object.hasOwnProperty.call(message, "parentName"))
+                    object.parentName = message.parentName;
+                if (message.name != null && $Object.hasOwnProperty.call(message, "name"))
+                    object.name = message.name;
+                return object;
+            };
+
+            /**
+             * Converts this UIPage to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIPage
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIPage.prototype.toJSON = function() {
+                return UIPage.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIPage
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIPage
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIPage.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIPage";
+            };
+
+            return UIPage;
+        })();
+
+        ui.UIPages = (function() {
+
+            /**
+             * Properties of a UIPages.
+             * @typedef {Object} pulsarity.ui.UIPages.$Properties
+             * @property {Array.<pulsarity.ui.UIPage.$Properties>|null} [pages] UIPages pages
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+
+            /**
+             * Properties of a UIPages.
+             * @memberof pulsarity.ui
+             * @interface IUIPages
+             * @augments pulsarity.ui.UIPages.$Properties
+             * @deprecated Use pulsarity.ui.UIPages.$Properties instead.
+             */
+
+            /**
+             * Shape of a UIPages.
+             * @typedef {pulsarity.ui.UIPages.$Properties} pulsarity.ui.UIPages.$Shape
+             */
+
+            /**
+             * Constructs a new UIPages.
+             * @memberof pulsarity.ui
+             * @classdesc Represents a UIPages.
+             * @constructor
+             * @param {pulsarity.ui.UIPages.$Properties=} [properties] Properties to set
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
+             */
+            const UIPages = function (properties) {
+                this.pages = [];
+                if (properties)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
+                        if (properties[keys[i]] != null && keys[i] !== "__proto__")
+                            this[keys[i]] = properties[keys[i]];
+            };
+
+            /**
+             * UIPages pages.
+             * @member {Array.<pulsarity.ui.UIPage.$Properties>} pages
+             * @memberof pulsarity.ui.UIPages
+             * @instance
+             */
+            UIPages.prototype.pages = $util.emptyArray;
+
+            /**
+             * Creates a new UIPages instance using the specified properties.
+             * @function create
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {pulsarity.ui.UIPages.$Properties=} [properties] Properties to set
+             * @returns {pulsarity.ui.UIPages} UIPages instance
+             * @type {{
+             *   (properties: pulsarity.ui.UIPages.$Shape): pulsarity.ui.UIPages & pulsarity.ui.UIPages.$Shape;
+             *   (properties?: pulsarity.ui.UIPages.$Properties): pulsarity.ui.UIPages;
+             * }}
+             */
+            UIPages.create = function(properties) {
+                return new UIPages(properties);
+            };
+
+            /**
+             * Encodes the specified UIPages message. Does not implicitly {@link pulsarity.ui.UIPages.verify|verify} messages.
+             * @function encode
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {pulsarity.ui.UIPages.$Properties} message UIPages message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIPages.encode = function (message, writer, _depth) {
+                if (!writer)
+                    writer = $Writer.create();
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                if (message.pages != null && message.pages.length)
+                    for (let i = 0; i < message.pages.length; ++i)
+                        $root.pulsarity.ui.UIPage.encode(message.pages[i], writer.uint32(/* id 1, wireType 2 =*/10).fork(), _depth + 1).ldelim();
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
+                    for (let i = 0; i < message.$unknowns.length; ++i)
+                        writer.raw(message.$unknowns[i]);
+                return writer;
+            };
+
+            /**
+             * Encodes the specified UIPages message, length delimited. Does not implicitly {@link pulsarity.ui.UIPages.verify|verify} messages.
+             * @function encodeDelimited
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {pulsarity.ui.UIPages.$Properties} message UIPages message or plain object to encode
+             * @param {$protobuf.Writer} [writer] Writer to encode to
+             * @returns {$protobuf.Writer} Writer
+             */
+            UIPages.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
+            };
+
+            /**
+             * Decodes a UIPages message from the specified reader or buffer.
+             * @function decode
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @param {number} [length] Message length if known beforehand
+             * @returns {pulsarity.ui.UIPages & pulsarity.ui.UIPages.$Shape} UIPages
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIPages.decode = function (reader, length, _end, _depth, _target) {
+                if (!(reader instanceof $Reader))
+                    reader = $Reader.create(reader);
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $Reader.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let end, message;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ui.UIPages();
+                while (reader.pos < end) {
+                    let start = reader.pos;
+                    let tag = reader.tag();
+                    if (tag === _end) {
+                        _end = $undefined;
+                        break;
+                    }
+                    let wireType = tag & 7;
+                    switch (tag >>>= 3) {
+                    case 1: {
+                            if (wireType !== 2)
+                                break;
+                            if (!(message.pages && message.pages.length))
+                                message.pages = [];
+                            message.pages.push($root.pulsarity.ui.UIPage.decode(reader, reader.uint32(), $undefined, _depth + 1));
+                            continue;
+                        }
+                    }
+                    reader.skipType(wireType, _depth, tag);
+                    if (!reader.discardUnknown) {
+                        $util.makeProp(message, "$unknowns", false);
+                        (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
+                    }
+                }
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
+                return message;
+            };
+
+            /**
+             * Decodes a UIPages message from the specified reader or buffer, length delimited.
+             * @function decodeDelimited
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {$protobuf.Reader|Uint8Array} reader Reader or buffer to decode from
+             * @returns {pulsarity.ui.UIPages & pulsarity.ui.UIPages.$Shape} UIPages
+             * @throws {Error} If the payload is not a reader or valid buffer
+             * @throws {$protobuf.util.ProtocolError} If required fields are missing
+             */
+            UIPages.decodeDelimited = function(reader) {
+                if (!(reader instanceof $Reader))
+                    reader = new $Reader(reader);
+                return this.decode(reader, reader.uint32());
+            };
+
+            /**
+             * Verifies a UIPages message.
+             * @function verify
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {Object.<string,*>} message Plain object to verify
+             * @returns {string|null} `null` if valid, otherwise the reason why it is not
+             */
+            UIPages.verify = function (message, _depth) {
+                if (typeof message !== "object" || message === null)
+                    return "object expected";
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    return "max depth exceeded";
+                if (message.pages != null && $Object.hasOwnProperty.call(message, "pages")) {
+                    if (!$Array.isArray(message.pages))
+                        return "pages: array expected";
+                    for (let i = 0; i < message.pages.length; ++i) {
+                        let error = $root.pulsarity.ui.UIPage.verify(message.pages[i], _depth + 1);
+                        if (error)
+                            return "pages." + error;
+                    }
+                }
+                return null;
+            };
+
+            /**
+             * Creates a UIPages message from a plain object. Also converts values to their respective internal types.
+             * @function fromObject
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {Object.<string,*>} object Plain object
+             * @returns {pulsarity.ui.UIPages} UIPages
+             */
+            UIPages.fromObject = function (object, _depth) {
+                if (object instanceof $root.pulsarity.ui.UIPages)
+                    return object;
+                if (!$util.isObject(object))
+                    throw $TypeError(".pulsarity.ui.UIPages: object expected");
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let message = new $root.pulsarity.ui.UIPages();
+                if (object.pages) {
+                    if (!$Array.isArray(object.pages))
+                        throw $TypeError(".pulsarity.ui.UIPages.pages: array expected");
+                    message.pages = $Array(object.pages.length);
+                    for (let i = 0; i < object.pages.length; ++i) {
+                        if (!$util.isObject(object.pages[i]))
+                            throw $TypeError(".pulsarity.ui.UIPages.pages: object expected");
+                        message.pages[i] = $root.pulsarity.ui.UIPage.fromObject(object.pages[i], _depth + 1);
+                    }
+                }
+                return message;
+            };
+
+            /**
+             * Creates a plain object from a UIPages message. Also converts values to other types if specified.
+             * @function toObject
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {pulsarity.ui.UIPages} message UIPages
+             * @param {$protobuf.IConversionOptions} [options] Conversion options
+             * @returns {Object.<string,*>} Plain object
+             */
+            UIPages.toObject = function (message, options, _depth) {
+                if (!options)
+                    options = {};
+                if (_depth === $undefined)
+                    _depth = 0;
+                if (_depth > $util.recursionLimit)
+                    throw $Error("max depth exceeded");
+                let object = {};
+                if (options.arrays || options.defaults)
+                    object.pages = [];
+                if (message.pages && message.pages.length) {
+                    object.pages = $Array(message.pages.length);
+                    for (let j = 0; j < message.pages.length; ++j)
+                        object.pages[j] = $root.pulsarity.ui.UIPage.toObject(message.pages[j], options, _depth + 1);
+                }
+                return object;
+            };
+
+            /**
+             * Converts this UIPages to JSON.
+             * @function toJSON
+             * @memberof pulsarity.ui.UIPages
+             * @instance
+             * @returns {Object.<string,*>} JSON object
+             */
+            UIPages.prototype.toJSON = function() {
+                return UIPages.toObject(this, $protobuf.util.toJSONOptions);
+            };
+
+            /**
+             * Gets the type url for UIPages
+             * @function getTypeUrl
+             * @memberof pulsarity.ui.UIPages
+             * @static
+             * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
+             * @returns {string} The type url
+             */
+            UIPages.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
+                    prefix = "type.googleapis.com";
+                return prefix + "/pulsarity.ui.UIPages";
+            };
+
+            return UIPages;
+        })();
+
+        return ui;
     })();
 
     pulsarity.ws = (function() {
@@ -6301,6 +12453,7 @@ export const pulsarity = $root.pulsarity = (() => {
          * @property {number} EVENT_STARTUP=3 EVENT_STARTUP value
          * @property {number} EVENT_SHUTDOWN=4 EVENT_SHUTDOWN value
          * @property {number} EVENT_RESTART=5 EVENT_RESTART value
+         * @property {number} EVENT_UI_UPDATE=6 EVENT_UI_UPDATE value
          * @property {number} EVENT_RACE_SCHEDULE=32 EVENT_RACE_SCHEDULE value
          * @property {number} EVENT_RACE_STAGE=33 EVENT_RACE_STAGE value
          * @property {number} EVENT_RACE_START=34 EVENT_RACE_START value
@@ -6313,13 +12466,14 @@ export const pulsarity = $root.pulsarity = (() => {
          * @property {number} EVENT_PILOT_DELETE=66 EVENT_PILOT_DELETE value
          */
         ws.EventID = (function() {
-            const valuesById = {}, values = Object.create(valuesById);
+            const valuesById = $Object.create(null), values = $Object.create(valuesById);
             values[valuesById[0] = "EVENT_UNSPECIFIED"] = 0;
             values[valuesById[1] = "EVENT_HEARTBEAT"] = 1;
             values[valuesById[2] = "EVENT_PERMISSIONS_UPDATE"] = 2;
             values[valuesById[3] = "EVENT_STARTUP"] = 3;
             values[valuesById[4] = "EVENT_SHUTDOWN"] = 4;
             values[valuesById[5] = "EVENT_RESTART"] = 5;
+            values[valuesById[6] = "EVENT_UI_UPDATE"] = 6;
             values[valuesById[32] = "EVENT_RACE_SCHEDULE"] = 32;
             values[valuesById[33] = "EVENT_RACE_STAGE"] = 33;
             values[valuesById[34] = "EVENT_RACE_START"] = 34;
@@ -6339,7 +12493,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a PilotAddData.
              * @typedef {Object} pulsarity.ws.PilotAddData.$Properties
              * @property {number|null} [pilotId] PilotAddData pilotId
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -6361,14 +12515,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a PilotAddData.
              * @constructor
              * @param {pulsarity.ws.PilotAddData.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function PilotAddData(properties) {
+            const PilotAddData = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * PilotAddData pilotId.
@@ -6390,7 +12544,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.ws.PilotAddData.$Properties): pulsarity.ws.PilotAddData;
              * }}
              */
-            PilotAddData.create = function create(properties) {
+            PilotAddData.create = function(properties) {
                 return new PilotAddData(properties);
             };
 
@@ -6403,16 +12557,16 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PilotAddData.encode = function encode(message, writer, _depth) {
+            PilotAddData.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.pilotId != null && Object.hasOwnProperty.call(message, "pilotId"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.pilotId);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                    throw $Error("max depth exceeded");
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId") && message.pilotId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.pilotId);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -6427,8 +12581,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PilotAddData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            PilotAddData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -6442,19 +12596,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PilotAddData.decode = function decode(reader, length, _end, _depth, _target) {
+            PilotAddData.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.ws.PilotAddData(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ws.PilotAddData();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -6462,7 +12626,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.pilotId = value;
                             else
                                 delete message.pilotId;
@@ -6475,8 +12639,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -6490,7 +12659,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PilotAddData.decodeDelimited = function decodeDelimited(reader) {
+            PilotAddData.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -6504,14 +12673,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PilotAddData.verify = function verify(message, _depth) {
+            PilotAddData.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.pilotId != null && message.hasOwnProperty("pilotId"))
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId"))
                     if (!$util.isInteger(message.pilotId))
                         return "pilotId: integer expected";
                 return null;
@@ -6525,19 +12694,19 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.ws.PilotAddData} PilotAddData
              */
-            PilotAddData.fromObject = function fromObject(object, _depth) {
+            PilotAddData.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.ws.PilotAddData)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.ws.PilotAddData: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.ws.PilotAddData: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.ws.PilotAddData();
                 if (object.pilotId != null)
-                    if (Number(object.pilotId) !== 0)
-                        message.pilotId = object.pilotId | 0;
+                    if ($Number(object.pilotId) !== 0)
+                        message.pilotId = object.pilotId >>> 0;
                 return message;
             };
 
@@ -6550,17 +12719,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PilotAddData.toObject = function toObject(message, options, _depth) {
+            PilotAddData.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults)
                     object.pilotId = 0;
-                if (message.pilotId != null && message.hasOwnProperty("pilotId"))
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId"))
                     object.pilotId = message.pilotId;
                 return object;
             };
@@ -6572,8 +12741,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PilotAddData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            PilotAddData.prototype.toJSON = function() {
+                return PilotAddData.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -6584,8 +12753,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PilotAddData.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            PilotAddData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.ws.PilotAddData";
             };
@@ -6599,7 +12768,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a PilotAlterData.
              * @typedef {Object} pulsarity.ws.PilotAlterData.$Properties
              * @property {number|null} [pilotId] PilotAlterData pilotId
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -6621,14 +12790,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a PilotAlterData.
              * @constructor
              * @param {pulsarity.ws.PilotAlterData.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function PilotAlterData(properties) {
+            const PilotAlterData = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * PilotAlterData pilotId.
@@ -6650,7 +12819,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.ws.PilotAlterData.$Properties): pulsarity.ws.PilotAlterData;
              * }}
              */
-            PilotAlterData.create = function create(properties) {
+            PilotAlterData.create = function(properties) {
                 return new PilotAlterData(properties);
             };
 
@@ -6663,16 +12832,16 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PilotAlterData.encode = function encode(message, writer, _depth) {
+            PilotAlterData.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.pilotId != null && Object.hasOwnProperty.call(message, "pilotId"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.pilotId);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                    throw $Error("max depth exceeded");
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId") && message.pilotId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.pilotId);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -6687,8 +12856,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PilotAlterData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            PilotAlterData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -6702,19 +12871,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PilotAlterData.decode = function decode(reader, length, _end, _depth, _target) {
+            PilotAlterData.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.ws.PilotAlterData(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ws.PilotAlterData();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -6722,7 +12901,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.pilotId = value;
                             else
                                 delete message.pilotId;
@@ -6735,8 +12914,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -6750,7 +12934,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PilotAlterData.decodeDelimited = function decodeDelimited(reader) {
+            PilotAlterData.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -6764,14 +12948,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PilotAlterData.verify = function verify(message, _depth) {
+            PilotAlterData.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.pilotId != null && message.hasOwnProperty("pilotId"))
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId"))
                     if (!$util.isInteger(message.pilotId))
                         return "pilotId: integer expected";
                 return null;
@@ -6785,19 +12969,19 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.ws.PilotAlterData} PilotAlterData
              */
-            PilotAlterData.fromObject = function fromObject(object, _depth) {
+            PilotAlterData.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.ws.PilotAlterData)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.ws.PilotAlterData: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.ws.PilotAlterData: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.ws.PilotAlterData();
                 if (object.pilotId != null)
-                    if (Number(object.pilotId) !== 0)
-                        message.pilotId = object.pilotId | 0;
+                    if ($Number(object.pilotId) !== 0)
+                        message.pilotId = object.pilotId >>> 0;
                 return message;
             };
 
@@ -6810,17 +12994,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PilotAlterData.toObject = function toObject(message, options, _depth) {
+            PilotAlterData.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults)
                     object.pilotId = 0;
-                if (message.pilotId != null && message.hasOwnProperty("pilotId"))
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId"))
                     object.pilotId = message.pilotId;
                 return object;
             };
@@ -6832,8 +13016,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PilotAlterData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            PilotAlterData.prototype.toJSON = function() {
+                return PilotAlterData.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -6844,8 +13028,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PilotAlterData.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            PilotAlterData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.ws.PilotAlterData";
             };
@@ -6859,7 +13043,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * Properties of a PilotDeleteData.
              * @typedef {Object} pulsarity.ws.PilotDeleteData.$Properties
              * @property {number|null} [pilotId] PilotDeleteData pilotId
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -6881,14 +13065,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a PilotDeleteData.
              * @constructor
              * @param {pulsarity.ws.PilotDeleteData.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function PilotDeleteData(properties) {
+            const PilotDeleteData = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * PilotDeleteData pilotId.
@@ -6910,7 +13094,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.ws.PilotDeleteData.$Properties): pulsarity.ws.PilotDeleteData;
              * }}
              */
-            PilotDeleteData.create = function create(properties) {
+            PilotDeleteData.create = function(properties) {
                 return new PilotDeleteData(properties);
             };
 
@@ -6923,16 +13107,16 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PilotDeleteData.encode = function encode(message, writer, _depth) {
+            PilotDeleteData.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.pilotId != null && Object.hasOwnProperty.call(message, "pilotId"))
-                    writer.uint32(/* id 1, wireType 0 =*/8).int32(message.pilotId);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                    throw $Error("max depth exceeded");
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId") && message.pilotId !== 0)
+                    writer.uint32(/* id 1, wireType 0 =*/8).uint32(message.pilotId);
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -6947,8 +13131,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            PilotDeleteData.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            PilotDeleteData.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -6962,19 +13146,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PilotDeleteData.decode = function decode(reader, length, _end, _depth, _target) {
+            PilotDeleteData.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.ws.PilotDeleteData(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ws.PilotDeleteData();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -6982,7 +13176,7 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 1: {
                             if (wireType !== 0)
                                 break;
-                            if (value = reader.int32())
+                            if (value = reader.uint32())
                                 message.pilotId = value;
                             else
                                 delete message.pilotId;
@@ -6995,8 +13189,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -7010,7 +13209,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            PilotDeleteData.decodeDelimited = function decodeDelimited(reader) {
+            PilotDeleteData.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -7024,14 +13223,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            PilotDeleteData.verify = function verify(message, _depth) {
+            PilotDeleteData.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.pilotId != null && message.hasOwnProperty("pilotId"))
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId"))
                     if (!$util.isInteger(message.pilotId))
                         return "pilotId: integer expected";
                 return null;
@@ -7045,19 +13244,19 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.ws.PilotDeleteData} PilotDeleteData
              */
-            PilotDeleteData.fromObject = function fromObject(object, _depth) {
+            PilotDeleteData.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.ws.PilotDeleteData)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.ws.PilotDeleteData: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.ws.PilotDeleteData: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.ws.PilotDeleteData();
                 if (object.pilotId != null)
-                    if (Number(object.pilotId) !== 0)
-                        message.pilotId = object.pilotId | 0;
+                    if ($Number(object.pilotId) !== 0)
+                        message.pilotId = object.pilotId >>> 0;
                 return message;
             };
 
@@ -7070,17 +13269,17 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            PilotDeleteData.toObject = function toObject(message, options, _depth) {
+            PilotDeleteData.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults)
                     object.pilotId = 0;
-                if (message.pilotId != null && message.hasOwnProperty("pilotId"))
+                if (message.pilotId != null && $Object.hasOwnProperty.call(message, "pilotId"))
                     object.pilotId = message.pilotId;
                 return object;
             };
@@ -7092,8 +13291,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            PilotDeleteData.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            PilotDeleteData.prototype.toJSON = function() {
+                return PilotDeleteData.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -7104,8 +13303,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            PilotDeleteData.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            PilotDeleteData.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.ws.PilotDeleteData";
             };
@@ -7120,11 +13319,12 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {Object} pulsarity.ws.WebsocketEvent.$Properties
              * @property {Uint8Array|null} [uuid] WebsocketEvent uuid
              * @property {pulsarity.ws.EventID|null} [eventId] WebsocketEvent eventId
+             * @property {pulsarity.ui.UIElementUpdate.$Properties|null} [uiElementUpdate] WebsocketEvent uiElementUpdate
              * @property {pulsarity.ws.PilotAddData.$Properties|null} [pilotAdd] WebsocketEvent pilotAdd
              * @property {pulsarity.ws.PilotAlterData.$Properties|null} [pilotAlter] WebsocketEvent pilotAlter
              * @property {pulsarity.ws.PilotDeleteData.$Properties|null} [pilotDelete] WebsocketEvent pilotDelete
-             * @property {"pilotAdd"|"pilotAlter"|"pilotDelete"} [eventData] WebsocketEvent eventData
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {"uiElementUpdate"|"pilotAdd"|"pilotAlter"|"pilotDelete"} [eventData] WebsocketEvent eventData
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -7140,12 +13340,13 @@ export const pulsarity = $root.pulsarity = (() => {
              * @typedef {{
              *   uuid?: Uint8Array|null;
              *   eventId?: pulsarity.ws.EventID|null;
+             *   uiElementUpdate?: pulsarity.ui.UIElementUpdate.$Shape|null;
              *   pilotAdd?: pulsarity.ws.PilotAddData.$Shape|null;
              *   pilotAlter?: pulsarity.ws.PilotAlterData.$Shape|null;
              *   pilotDelete?: pulsarity.ws.PilotDeleteData.$Shape|null;
              *   $unknowns?: Array.<Uint8Array>;
              * } & (
-             *   ({ eventData?: undefined; pilotAdd?: null; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAdd"; pilotAdd: pulsarity.ws.PilotAddData.$Shape; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAlter"; pilotAdd?: null; pilotAlter: pulsarity.ws.PilotAlterData.$Shape; pilotDelete?: null }|{ eventData?: "pilotDelete"; pilotAdd?: null; pilotAlter?: null; pilotDelete: pulsarity.ws.PilotDeleteData.$Shape })
+             *   ({ eventData?: undefined; uiElementUpdate?: null; pilotAdd?: null; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "uiElementUpdate"; uiElementUpdate: pulsarity.ui.UIElementUpdate.$Shape; pilotAdd?: null; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAdd"; uiElementUpdate?: null; pilotAdd: pulsarity.ws.PilotAddData.$Shape; pilotAlter?: null; pilotDelete?: null }|{ eventData?: "pilotAlter"; uiElementUpdate?: null; pilotAdd?: null; pilotAlter: pulsarity.ws.PilotAlterData.$Shape; pilotDelete?: null }|{ eventData?: "pilotDelete"; uiElementUpdate?: null; pilotAdd?: null; pilotAlter?: null; pilotDelete: pulsarity.ws.PilotDeleteData.$Shape })
              * )} pulsarity.ws.WebsocketEvent.$Shape
              */
 
@@ -7155,14 +13356,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @classdesc Represents a WebsocketEvent.
              * @constructor
              * @param {pulsarity.ws.WebsocketEvent.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function WebsocketEvent(properties) {
+            const WebsocketEvent = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * WebsocketEvent uuid.
@@ -7179,6 +13380,14 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              */
             WebsocketEvent.prototype.eventId = 0;
+
+            /**
+             * WebsocketEvent uiElementUpdate.
+             * @member {pulsarity.ui.UIElementUpdate.$Properties|null|undefined} uiElementUpdate
+             * @memberof pulsarity.ws.WebsocketEvent
+             * @instance
+             */
+            WebsocketEvent.prototype.uiElementUpdate = null;
 
             /**
              * WebsocketEvent pilotAdd.
@@ -7209,12 +13418,12 @@ export const pulsarity = $root.pulsarity = (() => {
 
             /**
              * WebsocketEvent eventData.
-             * @member {"pilotAdd"|"pilotAlter"|"pilotDelete"|undefined} eventData
+             * @member {"uiElementUpdate"|"pilotAdd"|"pilotAlter"|"pilotDelete"|undefined} eventData
              * @memberof pulsarity.ws.WebsocketEvent
              * @instance
              */
-            Object.defineProperty(WebsocketEvent.prototype, "eventData", {
-                get: $util.oneOfGetter($oneOfFields = ["pilotAdd", "pilotAlter", "pilotDelete"]),
+            $Object.defineProperty(WebsocketEvent.prototype, "eventData", {
+                get: $util.oneOfGetter($oneOfFields = ["uiElementUpdate", "pilotAdd", "pilotAlter", "pilotDelete"]),
                 set: $util.oneOfSetter($oneOfFields)
             });
 
@@ -7230,7 +13439,7 @@ export const pulsarity = $root.pulsarity = (() => {
              *   (properties?: pulsarity.ws.WebsocketEvent.$Properties): pulsarity.ws.WebsocketEvent;
              * }}
              */
-            WebsocketEvent.create = function create(properties) {
+            WebsocketEvent.create = function(properties) {
                 return new WebsocketEvent(properties);
             };
 
@@ -7243,24 +13452,26 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            WebsocketEvent.encode = function encode(message, writer, _depth) {
+            WebsocketEvent.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.uuid != null && Object.hasOwnProperty.call(message, "uuid"))
+                    throw $Error("max depth exceeded");
+                if (message.uuid != null && $Object.hasOwnProperty.call(message, "uuid") && message.uuid.length)
                     writer.uint32(/* id 1, wireType 2 =*/10).bytes(message.uuid);
-                if (message.eventId != null && Object.hasOwnProperty.call(message, "eventId"))
+                if (message.eventId != null && $Object.hasOwnProperty.call(message, "eventId") && message.eventId !== 0)
                     writer.uint32(/* id 2, wireType 0 =*/16).int32(message.eventId);
-                if (message.pilotAdd != null && Object.hasOwnProperty.call(message, "pilotAdd"))
+                if (message.uiElementUpdate != null && $Object.hasOwnProperty.call(message, "uiElementUpdate"))
+                    $root.pulsarity.ui.UIElementUpdate.encode(message.uiElementUpdate, writer.uint32(/* id 4, wireType 2 =*/34).fork(), _depth + 1).ldelim();
+                if (message.pilotAdd != null && $Object.hasOwnProperty.call(message, "pilotAdd"))
                     $root.pulsarity.ws.PilotAddData.encode(message.pilotAdd, writer.uint32(/* id 16, wireType 2 =*/130).fork(), _depth + 1).ldelim();
-                if (message.pilotAlter != null && Object.hasOwnProperty.call(message, "pilotAlter"))
+                if (message.pilotAlter != null && $Object.hasOwnProperty.call(message, "pilotAlter"))
                     $root.pulsarity.ws.PilotAlterData.encode(message.pilotAlter, writer.uint32(/* id 17, wireType 2 =*/138).fork(), _depth + 1).ldelim();
-                if (message.pilotDelete != null && Object.hasOwnProperty.call(message, "pilotDelete"))
+                if (message.pilotDelete != null && $Object.hasOwnProperty.call(message, "pilotDelete"))
                     $root.pulsarity.ws.PilotDeleteData.encode(message.pilotDelete, writer.uint32(/* id 18, wireType 2 =*/146).fork(), _depth + 1).ldelim();
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -7275,8 +13486,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            WebsocketEvent.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            WebsocketEvent.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -7290,19 +13501,29 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            WebsocketEvent.decode = function decode(reader, length, _end, _depth, _target) {
+            WebsocketEvent.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.pulsarity.ws.WebsocketEvent(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.pulsarity.ws.WebsocketEvent();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -7325,24 +13546,31 @@ export const pulsarity = $root.pulsarity = (() => {
                                 delete message.eventId;
                             continue;
                         }
+                    case 4: {
+                            if (wireType !== 2)
+                                break;
+                            message.uiElementUpdate = $root.pulsarity.ui.UIElementUpdate.decode(reader, reader.uint32(), $undefined, _depth + 1, message.uiElementUpdate);
+                            message.eventData = "uiElementUpdate";
+                            continue;
+                        }
                     case 16: {
                             if (wireType !== 2)
                                 break;
-                            message.pilotAdd = $root.pulsarity.ws.PilotAddData.decode(reader, reader.uint32(), undefined, _depth + 1, message.pilotAdd);
+                            message.pilotAdd = $root.pulsarity.ws.PilotAddData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.pilotAdd);
                             message.eventData = "pilotAdd";
                             continue;
                         }
                     case 17: {
                             if (wireType !== 2)
                                 break;
-                            message.pilotAlter = $root.pulsarity.ws.PilotAlterData.decode(reader, reader.uint32(), undefined, _depth + 1, message.pilotAlter);
+                            message.pilotAlter = $root.pulsarity.ws.PilotAlterData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.pilotAlter);
                             message.eventData = "pilotAlter";
                             continue;
                         }
                     case 18: {
                             if (wireType !== 2)
                                 break;
-                            message.pilotDelete = $root.pulsarity.ws.PilotDeleteData.decode(reader, reader.uint32(), undefined, _depth + 1, message.pilotDelete);
+                            message.pilotDelete = $root.pulsarity.ws.PilotDeleteData.decode(reader, reader.uint32(), $undefined, _depth + 1, message.pilotDelete);
                             message.eventData = "pilotDelete";
                             continue;
                         }
@@ -7353,8 +13581,13 @@ export const pulsarity = $root.pulsarity = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -7368,7 +13601,7 @@ export const pulsarity = $root.pulsarity = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            WebsocketEvent.decodeDelimited = function decodeDelimited(reader) {
+            WebsocketEvent.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -7382,40 +13615,31 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            WebsocketEvent.verify = function verify(message, _depth) {
+            WebsocketEvent.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
                 let properties = {};
-                if (message.uuid != null && message.hasOwnProperty("uuid"))
+                if (message.uuid != null && $Object.hasOwnProperty.call(message, "uuid"))
                     if (!(message.uuid && typeof message.uuid.length === "number" || $util.isString(message.uuid)))
                         return "uuid: buffer expected";
-                if (message.eventId != null && message.hasOwnProperty("eventId"))
-                    switch (message.eventId) {
-                    default:
+                if (message.eventId != null && $Object.hasOwnProperty.call(message, "eventId"))
+                    if (typeof message.eventId !== "number" || (message.eventId | 0) !== message.eventId)
                         return "eventId: enum value expected";
-                    case 0:
-                    case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
-                    case 32:
-                    case 33:
-                    case 34:
-                    case 35:
-                    case 36:
-                    case 37:
-                    case 38:
-                    case 64:
-                    case 65:
-                    case 66:
-                        break;
+                if (message.uiElementUpdate != null && $Object.hasOwnProperty.call(message, "uiElementUpdate")) {
+                    properties.eventData = 1;
+                    {
+                        let error = $root.pulsarity.ui.UIElementUpdate.verify(message.uiElementUpdate, _depth + 1);
+                        if (error)
+                            return "uiElementUpdate." + error;
                     }
-                if (message.pilotAdd != null && message.hasOwnProperty("pilotAdd")) {
+                }
+                if (message.pilotAdd != null && $Object.hasOwnProperty.call(message, "pilotAdd")) {
+                    if (properties.eventData === 1)
+                        return "eventData: multiple values";
                     properties.eventData = 1;
                     {
                         let error = $root.pulsarity.ws.PilotAddData.verify(message.pilotAdd, _depth + 1);
@@ -7423,7 +13647,7 @@ export const pulsarity = $root.pulsarity = (() => {
                             return "pilotAdd." + error;
                     }
                 }
-                if (message.pilotAlter != null && message.hasOwnProperty("pilotAlter")) {
+                if (message.pilotAlter != null && $Object.hasOwnProperty.call(message, "pilotAlter")) {
                     if (properties.eventData === 1)
                         return "eventData: multiple values";
                     properties.eventData = 1;
@@ -7433,7 +13657,7 @@ export const pulsarity = $root.pulsarity = (() => {
                             return "pilotAlter." + error;
                     }
                 }
-                if (message.pilotDelete != null && message.hasOwnProperty("pilotDelete")) {
+                if (message.pilotDelete != null && $Object.hasOwnProperty.call(message, "pilotDelete")) {
                     if (properties.eventData === 1)
                         return "eventData: multiple values";
                     properties.eventData = 1;
@@ -7454,15 +13678,15 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {pulsarity.ws.WebsocketEvent} WebsocketEvent
              */
-            WebsocketEvent.fromObject = function fromObject(object, _depth) {
+            WebsocketEvent.fromObject = function (object, _depth) {
                 if (object instanceof $root.pulsarity.ws.WebsocketEvent)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".pulsarity.ws.WebsocketEvent: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".pulsarity.ws.WebsocketEvent: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.pulsarity.ws.WebsocketEvent();
                 if (object.uuid != null)
                     if (object.uuid.length)
@@ -7472,12 +13696,6 @@ export const pulsarity = $root.pulsarity = (() => {
                             message.uuid = object.uuid;
                 if (object.eventId !== 0 && (typeof object.eventId !== "string" || $root.pulsarity.ws.EventID[object.eventId] !== 0))
                     switch (object.eventId) {
-                    default:
-                        if (typeof object.eventId === "number") {
-                            message.eventId = object.eventId;
-                            break;
-                        }
-                        break;
                     case "EVENT_UNSPECIFIED":
                     case 0:
                         message.eventId = 0;
@@ -7501,6 +13719,10 @@ export const pulsarity = $root.pulsarity = (() => {
                     case "EVENT_RESTART":
                     case 5:
                         message.eventId = 5;
+                        break;
+                    case "EVENT_UI_UPDATE":
+                    case 6:
+                        message.eventId = 6;
                         break;
                     case "EVENT_RACE_SCHEDULE":
                     case 32:
@@ -7542,20 +13764,28 @@ export const pulsarity = $root.pulsarity = (() => {
                     case 66:
                         message.eventId = 66;
                         break;
+                    default:
+                        if (typeof object.eventId === "number" && (object.eventId | 0) === object.eventId)
+                            message.eventId = object.eventId;
                     }
+                if (object.uiElementUpdate != null) {
+                    if (!$util.isObject(object.uiElementUpdate))
+                        throw $TypeError(".pulsarity.ws.WebsocketEvent.uiElementUpdate: object expected");
+                    message.uiElementUpdate = $root.pulsarity.ui.UIElementUpdate.fromObject(object.uiElementUpdate, _depth + 1);
+                }
                 if (object.pilotAdd != null) {
                     if (!$util.isObject(object.pilotAdd))
-                        throw TypeError(".pulsarity.ws.WebsocketEvent.pilotAdd: object expected");
+                        throw $TypeError(".pulsarity.ws.WebsocketEvent.pilotAdd: object expected");
                     message.pilotAdd = $root.pulsarity.ws.PilotAddData.fromObject(object.pilotAdd, _depth + 1);
                 }
                 if (object.pilotAlter != null) {
                     if (!$util.isObject(object.pilotAlter))
-                        throw TypeError(".pulsarity.ws.WebsocketEvent.pilotAlter: object expected");
+                        throw $TypeError(".pulsarity.ws.WebsocketEvent.pilotAlter: object expected");
                     message.pilotAlter = $root.pulsarity.ws.PilotAlterData.fromObject(object.pilotAlter, _depth + 1);
                 }
                 if (object.pilotDelete != null) {
                     if (!$util.isObject(object.pilotDelete))
-                        throw TypeError(".pulsarity.ws.WebsocketEvent.pilotDelete: object expected");
+                        throw $TypeError(".pulsarity.ws.WebsocketEvent.pilotDelete: object expected");
                     message.pilotDelete = $root.pulsarity.ws.PilotDeleteData.fromObject(object.pilotDelete, _depth + 1);
                 }
                 return message;
@@ -7570,39 +13800,44 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            WebsocketEvent.toObject = function toObject(message, options, _depth) {
+            WebsocketEvent.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults) {
-                    if (options.bytes === String)
+                    if (options.bytes === $String)
                         object.uuid = "";
                     else {
                         object.uuid = [];
-                        if (options.bytes !== Array)
+                        if (options.bytes !== $Array)
                             object.uuid = $util.newBuffer(object.uuid);
                     }
-                    object.eventId = options.enums === String ? "EVENT_UNSPECIFIED" : 0;
+                    object.eventId = options.enums === $String ? "EVENT_UNSPECIFIED" : 0;
                 }
-                if (message.uuid != null && message.hasOwnProperty("uuid"))
-                    object.uuid = options.bytes === String ? $util.base64.encode(message.uuid, 0, message.uuid.length) : options.bytes === Array ? Array.prototype.slice.call(message.uuid) : message.uuid;
-                if (message.eventId != null && message.hasOwnProperty("eventId"))
-                    object.eventId = options.enums === String ? $root.pulsarity.ws.EventID[message.eventId] === undefined ? message.eventId : $root.pulsarity.ws.EventID[message.eventId] : message.eventId;
-                if (message.pilotAdd != null && message.hasOwnProperty("pilotAdd")) {
+                if (message.uuid != null && $Object.hasOwnProperty.call(message, "uuid"))
+                    object.uuid = options.bytes === $String ? $util.base64.encode(message.uuid, 0, message.uuid.length) : options.bytes === $Array ? $Array.prototype.slice.call(message.uuid) : message.uuid;
+                if (message.eventId != null && $Object.hasOwnProperty.call(message, "eventId"))
+                    object.eventId = options.enums === $String ? $root.pulsarity.ws.EventID[message.eventId] === $undefined ? message.eventId : $root.pulsarity.ws.EventID[message.eventId] : message.eventId;
+                if (message.uiElementUpdate != null && $Object.hasOwnProperty.call(message, "uiElementUpdate")) {
+                    object.uiElementUpdate = $root.pulsarity.ui.UIElementUpdate.toObject(message.uiElementUpdate, options, _depth + 1);
+                    if (options.oneofs)
+                        object.eventData = "uiElementUpdate";
+                }
+                if (message.pilotAdd != null && $Object.hasOwnProperty.call(message, "pilotAdd")) {
                     object.pilotAdd = $root.pulsarity.ws.PilotAddData.toObject(message.pilotAdd, options, _depth + 1);
                     if (options.oneofs)
                         object.eventData = "pilotAdd";
                 }
-                if (message.pilotAlter != null && message.hasOwnProperty("pilotAlter")) {
+                if (message.pilotAlter != null && $Object.hasOwnProperty.call(message, "pilotAlter")) {
                     object.pilotAlter = $root.pulsarity.ws.PilotAlterData.toObject(message.pilotAlter, options, _depth + 1);
                     if (options.oneofs)
                         object.eventData = "pilotAlter";
                 }
-                if (message.pilotDelete != null && message.hasOwnProperty("pilotDelete")) {
+                if (message.pilotDelete != null && $Object.hasOwnProperty.call(message, "pilotDelete")) {
                     object.pilotDelete = $root.pulsarity.ws.PilotDeleteData.toObject(message.pilotDelete, options, _depth + 1);
                     if (options.oneofs)
                         object.eventData = "pilotDelete";
@@ -7617,8 +13852,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            WebsocketEvent.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            WebsocketEvent.prototype.toJSON = function() {
+                return WebsocketEvent.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -7629,8 +13864,8 @@ export const pulsarity = $root.pulsarity = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            WebsocketEvent.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            WebsocketEvent.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/pulsarity.ws.WebsocketEvent";
             };
@@ -7669,7 +13904,7 @@ export const google = $root.google = (() => {
              * @typedef {Object} google.protobuf.Timestamp.$Properties
              * @property {number|Long|null} [seconds] Timestamp seconds
              * @property {number|null} [nanos] Timestamp nanos
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
 
             /**
@@ -7691,14 +13926,14 @@ export const google = $root.google = (() => {
              * @classdesc Represents a Timestamp.
              * @constructor
              * @param {google.protobuf.Timestamp.$Properties=} [properties] Properties to set
-             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding
+             * @property {Array.<Uint8Array>} [$unknowns] Unknown fields preserved while decoding when enabled
              */
-            function Timestamp(properties) {
+            const Timestamp = function (properties) {
                 if (properties)
-                    for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
+                    for (let keys = $Object.keys(properties), i = 0; i < keys.length; ++i)
                         if (properties[keys[i]] != null && keys[i] !== "__proto__")
                             this[keys[i]] = properties[keys[i]];
-            }
+            };
 
             /**
              * Timestamp seconds.
@@ -7728,7 +13963,7 @@ export const google = $root.google = (() => {
              *   (properties?: google.protobuf.Timestamp.$Properties): google.protobuf.Timestamp;
              * }}
              */
-            Timestamp.create = function create(properties) {
+            Timestamp.create = function(properties) {
                 return new Timestamp(properties);
             };
 
@@ -7741,18 +13976,18 @@ export const google = $root.google = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Timestamp.encode = function encode(message, writer, _depth) {
+            Timestamp.encode = function (message, writer, _depth) {
                 if (!writer)
                     writer = $Writer.create();
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
-                if (message.seconds != null && Object.hasOwnProperty.call(message, "seconds"))
+                    throw $Error("max depth exceeded");
+                if (message.seconds != null && $Object.hasOwnProperty.call(message, "seconds") && (typeof message.seconds === "object" ? message.seconds.low || message.seconds.high : message.seconds !== 0))
                     writer.uint32(/* id 1, wireType 0 =*/8).int64(message.seconds);
-                if (message.nanos != null && Object.hasOwnProperty.call(message, "nanos"))
+                if (message.nanos != null && $Object.hasOwnProperty.call(message, "nanos") && message.nanos !== 0)
                     writer.uint32(/* id 2, wireType 0 =*/16).int32(message.nanos);
-                if (message.$unknowns != null && Object.hasOwnProperty.call(message, "$unknowns"))
+                if (message.$unknowns != null && $Object.hasOwnProperty.call(message, "$unknowns"))
                     for (let i = 0; i < message.$unknowns.length; ++i)
                         writer.raw(message.$unknowns[i]);
                 return writer;
@@ -7767,8 +14002,8 @@ export const google = $root.google = (() => {
              * @param {$protobuf.Writer} [writer] Writer to encode to
              * @returns {$protobuf.Writer} Writer
              */
-            Timestamp.encodeDelimited = function encodeDelimited(message, writer) {
-                return this.encode(message, writer && writer.len ? writer.fork() : writer).ldelim();
+            Timestamp.encodeDelimited = function(message, writer) {
+                return this.encode(message, (writer || $Writer.create()).fork()).ldelim();
             };
 
             /**
@@ -7782,19 +14017,29 @@ export const google = $root.google = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Timestamp.decode = function decode(reader, length, _end, _depth, _target) {
+            Timestamp.decode = function (reader, length, _end, _depth, _target) {
                 if (!(reader instanceof $Reader))
                     reader = $Reader.create(reader);
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $Reader.recursionLimit)
-                    throw Error("max depth exceeded");
-                let end = length === undefined ? reader.len : reader.pos + length, message = _target || new $root.google.protobuf.Timestamp(), value;
+                    throw $Error("max depth exceeded");
+                let end, message, value;
+                if (length === $undefined)
+                    end = reader.len;
+                else {
+                    end = reader.pos + length;
+                    if (end > reader.len)
+                        throw $RangeError("index out of range");
+                    length = reader.len;
+                    reader.len = end;
+                }
+                message = _target || new $root.google.protobuf.Timestamp();
                 while (reader.pos < end) {
                     let start = reader.pos;
                     let tag = reader.tag();
                     if (tag === _end) {
-                        _end = undefined;
+                        _end = $undefined;
                         break;
                     }
                     let wireType = tag & 7;
@@ -7824,8 +14069,13 @@ export const google = $root.google = (() => {
                         (message.$unknowns || (message.$unknowns = [])).push(reader.raw(start, reader.pos));
                     }
                 }
-                if (_end !== undefined)
-                    throw Error("missing end group");
+                if (length !== $undefined) {
+                    if (reader.pos !== end)
+                        throw $RangeError("index out of range");
+                    reader.len = length;
+                }
+                if (_end !== $undefined)
+                    throw $Error("missing end group");
                 return message;
             };
 
@@ -7839,7 +14089,7 @@ export const google = $root.google = (() => {
              * @throws {Error} If the payload is not a reader or valid buffer
              * @throws {$protobuf.util.ProtocolError} If required fields are missing
              */
-            Timestamp.decodeDelimited = function decodeDelimited(reader) {
+            Timestamp.decodeDelimited = function(reader) {
                 if (!(reader instanceof $Reader))
                     reader = new $Reader(reader);
                 return this.decode(reader, reader.uint32());
@@ -7853,17 +14103,17 @@ export const google = $root.google = (() => {
              * @param {Object.<string,*>} message Plain object to verify
              * @returns {string|null} `null` if valid, otherwise the reason why it is not
              */
-            Timestamp.verify = function verify(message, _depth) {
+            Timestamp.verify = function (message, _depth) {
                 if (typeof message !== "object" || message === null)
                     return "object expected";
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
                     return "max depth exceeded";
-                if (message.seconds != null && message.hasOwnProperty("seconds"))
+                if (message.seconds != null && $Object.hasOwnProperty.call(message, "seconds"))
                     if (!$util.isInteger(message.seconds) && !(message.seconds && $util.isInteger(message.seconds.low) && $util.isInteger(message.seconds.high)))
                         return "seconds: integer|Long expected";
-                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                if (message.nanos != null && $Object.hasOwnProperty.call(message, "nanos"))
                     if (!$util.isInteger(message.nanos))
                         return "nanos: integer expected";
                 return null;
@@ -7877,28 +14127,28 @@ export const google = $root.google = (() => {
              * @param {Object.<string,*>} object Plain object
              * @returns {google.protobuf.Timestamp} Timestamp
              */
-            Timestamp.fromObject = function fromObject(object, _depth) {
+            Timestamp.fromObject = function (object, _depth) {
                 if (object instanceof $root.google.protobuf.Timestamp)
                     return object;
                 if (!$util.isObject(object))
-                    throw TypeError(".google.protobuf.Timestamp: object expected");
-                if (_depth === undefined)
+                    throw $TypeError(".google.protobuf.Timestamp: object expected");
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let message = new $root.google.protobuf.Timestamp();
                 if (object.seconds != null)
-                    if (typeof object.seconds === "object" ? object.seconds.low || object.seconds.high : Number(object.seconds) !== 0)
+                    if (typeof object.seconds === "object" ? object.seconds.low || object.seconds.high : $Number(object.seconds) !== 0)
                         if ($util.Long)
                             message.seconds = $util.Long.fromValue(object.seconds, false);
                         else if (typeof object.seconds === "string")
-                            message.seconds = parseInt(object.seconds, 10);
+                            message.seconds = $parseInt(object.seconds, 10);
                         else if (typeof object.seconds === "number")
                             message.seconds = object.seconds;
                         else if (typeof object.seconds === "object")
                             message.seconds = new $util.LongBits(object.seconds.low >>> 0, object.seconds.high >>> 0).toNumber();
                 if (object.nanos != null)
-                    if (Number(object.nanos) !== 0)
+                    if ($Number(object.nanos) !== 0)
                         message.nanos = object.nanos | 0;
                 return message;
             };
@@ -7912,30 +14162,30 @@ export const google = $root.google = (() => {
              * @param {$protobuf.IConversionOptions} [options] Conversion options
              * @returns {Object.<string,*>} Plain object
              */
-            Timestamp.toObject = function toObject(message, options, _depth) {
+            Timestamp.toObject = function (message, options, _depth) {
                 if (!options)
                     options = {};
-                if (_depth === undefined)
+                if (_depth === $undefined)
                     _depth = 0;
                 if (_depth > $util.recursionLimit)
-                    throw Error("max depth exceeded");
+                    throw $Error("max depth exceeded");
                 let object = {};
                 if (options.defaults) {
                     if ($util.Long) {
                         let long = new $util.Long(0, 0, false);
-                        object.seconds = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
+                        object.seconds = options.longs === $String ? long.toString() : options.longs === $Number ? long.toNumber() : typeof $BigInt !== "undefined" && options.longs === $BigInt ? long.toBigInt() : long;
                     } else
-                        object.seconds = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
+                        object.seconds = options.longs === $String ? "0" : typeof $BigInt !== "undefined" && options.longs === $BigInt ? $BigInt("0") : 0;
                     object.nanos = 0;
                 }
-                if (message.seconds != null && message.hasOwnProperty("seconds"))
-                    if (typeof BigInt !== "undefined" && options.longs === BigInt)
-                        object.seconds = typeof message.seconds === "number" ? BigInt(message.seconds) : $util.Long.fromBits(message.seconds.low >>> 0, message.seconds.high >>> 0, false).toBigInt();
+                if (message.seconds != null && $Object.hasOwnProperty.call(message, "seconds"))
+                    if (typeof $BigInt !== "undefined" && options.longs === $BigInt)
+                        object.seconds = typeof message.seconds === "number" ? $BigInt(message.seconds) : $util.Long.fromBits(message.seconds.low >>> 0, message.seconds.high >>> 0, false).toBigInt();
                     else if (typeof message.seconds === "number")
-                        object.seconds = options.longs === String ? String(message.seconds) : message.seconds;
+                        object.seconds = options.longs === $String ? $String(message.seconds) : message.seconds;
                     else
-                        object.seconds = options.longs === String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
-                if (message.nanos != null && message.hasOwnProperty("nanos"))
+                        object.seconds = options.longs === $String ? $util.Long.prototype.toString.call(message.seconds) : options.longs === $Number ? new $util.LongBits(message.seconds.low >>> 0, message.seconds.high >>> 0).toNumber() : message.seconds;
+                if (message.nanos != null && $Object.hasOwnProperty.call(message, "nanos"))
                     object.nanos = message.nanos;
                 return object;
             };
@@ -7947,8 +14197,8 @@ export const google = $root.google = (() => {
              * @instance
              * @returns {Object.<string,*>} JSON object
              */
-            Timestamp.prototype.toJSON = function toJSON() {
-                return this.constructor.toObject(this, $protobuf.util.toJSONOptions);
+            Timestamp.prototype.toJSON = function() {
+                return Timestamp.toObject(this, $protobuf.util.toJSONOptions);
             };
 
             /**
@@ -7959,8 +14209,8 @@ export const google = $root.google = (() => {
              * @param {string} [prefix] Custom type url prefix, defaults to `"type.googleapis.com"`
              * @returns {string} The type url
              */
-            Timestamp.getTypeUrl = function getTypeUrl(prefix) {
-                if (prefix === undefined)
+            Timestamp.getTypeUrl = function(prefix) {
+                if (prefix === $undefined)
                     prefix = "type.googleapis.com";
                 return prefix + "/google.protobuf.Timestamp";
             };

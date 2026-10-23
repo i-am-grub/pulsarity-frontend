@@ -1,3 +1,5 @@
+<!-- @format -->
+
 # Pulsarity Frontend
 
 This repo is setup as a Vue project that uses Vite as the build tooling. While
@@ -30,7 +32,7 @@ ln -s <path-to-frontend-repo>/pulsarity-frontend/dist <path-to-backend-repo>/src
    folder of this repo.
 
 ```bash
-bun run pbjs -t static-module -w esm -o src/utils/pulsarity_pb.js --dts <path-to-cloned-repo>/src/*.proto
+bun run pbjs -t static-module -w esm -o src/utils/pulsarity_pb.js --dts <path-to-backend-repo>/src/protobuf/*.proto
 ```
 
 3. Generate static typescript files from static javascript files

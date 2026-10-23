@@ -366,3 +366,115 @@ export async function getLocalizationPack(
 	const buffer = await response.arrayBuffer();
 	return pulsarity.http.LocalizationData.decode(new Uint8Array(buffer));
 }
+
+/**
+ * Gets all routes registered as pages
+ */
+export async function getPages(): Promise<pulsarity.ui.UIPages> {
+	const url = "/api/ui-pages";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIPages.decode(new Uint8Array(buffer));
+}
+
+/**
+ * Gets all the route-to-etree mappings
+ */
+export async function getETreeMappings(): Promise<pulsarity.ui.UIETreeMapping> {
+	const url = "/api/etree-mappings";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIETreeMapping.decode(new Uint8Array(buffer));
+}
+
+/**
+ * Get the stored element tree data
+ */
+export async function getETreeData(): Promise<pulsarity.ui.UIElementTrees> {
+	const url = "/api/etrees";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIElementTrees.decode(new Uint8Array(buffer));
+}
+
+/**
+ * Get the stored markdown field data
+ */
+export async function getMarkdownFields(): Promise<pulsarity.ui.UIMarkdownFields> {
+	const url = "/api/markdown-fields";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIMarkdownFields.decode(new Uint8Array(buffer));
+}
+
+/**
+ * Get the stored button field data
+ */
+export async function getButtonFields(): Promise<pulsarity.ui.UIButtonFields> {
+	const url = "/api/button-fields";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIButtonFields.decode(new Uint8Array(buffer));
+}
+
+/**
+ * Get the stored value field data
+ */
+export async function getValueFields(): Promise<pulsarity.ui.UIValueFields> {
+	const url = "/api/value-fields";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIValueFields.decode(new Uint8Array(buffer));
+}
+
+/**
+ * Get the data for all user interface elements
+ */
+export async function getAllUIElements(): Promise<pulsarity.ui.UIData> {
+	const url = "/api/all-elements";
+
+	const response = await fetch(url);
+
+	if (!response.ok) {
+		throw new Error(await response.text());
+	}
+
+	const buffer = await response.arrayBuffer();
+	return pulsarity.ui.UIData.decode(new Uint8Array(buffer));
+}

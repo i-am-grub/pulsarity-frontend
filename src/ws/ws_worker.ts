@@ -1,6 +1,9 @@
 /** @format */
 /// <reference lib="WebWorker" />
 
+// This module is the primary source for managing a single websocket
+// connection between multiple tabs .
+
 import { pulsarity } from "@/utils/pulsarity_pb";
 import {
 	isConnectEventMessage,
