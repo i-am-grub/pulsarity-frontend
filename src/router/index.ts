@@ -99,6 +99,16 @@ const routes = [
 			// },
 		],
 	},
+	// Admin route fallback for dynamic admin pages
+	{
+		path: "/admin/:pathMatch(.*)*",
+		redirect: "/admin",
+	},
+	// General default route fallback
+	{
+		path: "/:pathMatch(.*)*",
+		redirect: "/",
+	},
 ];
 
 const router = createRouter({
